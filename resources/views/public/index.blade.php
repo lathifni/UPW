@@ -6,9 +6,9 @@
             <div class="row align-items-center min-vh-100 py-5">
                 <div class="col-lg-6">
                     <div class="hero-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                        <h1 class="hero-title mb-4">Salurkan Kebaikan, Wujudkan Perubahan Bersama UNAND</h1>
+                        <h1 class="hero-title mb-4 mt-5">Salurkan Kebaikan, Wujudkan Perubahan Bersama UNAND</h1>
                         <p class="hero-subtitle mb-4">Bergabunglah dengan komunitas akademik UNAND dalam mewujudkan
-                            program sosial, zakat, dan dana abadi yang berdampak positif bagi masyarakat luas.</p>
+                            program sosial, wakaf, zakat, dan dana abadi yang berdampak positif bagi masyarakat luas.</p>
                         <div class="hero-buttons">
                             <a href="{{ route('programs.index.public') }}" class="btn btn-success btn-lg me-3">Lihat
                                 Program Donasi</a>
@@ -52,121 +52,102 @@
         </div>
     </section>
 
-    <section class="key-values-section py-5 bg-light">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-12 mb-5">
-                    <h2 class="section-title">Mengapa Memilih Dana Sosial UNAND?</h2>
-                    <p class="section-subtitle">Komitmen kami terhadap transparansi, akuntabilitas, dan kemudahan dalam
-                        berdonasi</p>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="value-card text-center h-100" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="100">
-                        <div class="value-icon mb-4">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <h4 class="value-title mb-3">Transparan</h4>
-                        <p class="value-description">Setiap donasi yang masuk dilaporkan secara real-time dengan
-                            transparansi penuh kepada donatur.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="value-card text-center h-100" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="300">
-                        <div class="value-icon mb-4">
-                            <i class="bi bi-graph-up-arrow"></i>
-                        </div>
-                        <h4 class="value-title mb-3">Akuntabel</h4>
-                        <p class="value-description">Laporan keuangan rutin dan audit independen memastikan penggunaan
-                            dana sesuai tujuan.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="value-card text-center h-100" data-aos="fade-up" data-aos-duration="800"
-                        data-aos-delay="500">
-                        <div class="value-icon mb-4">
-                            <i class="bi bi-lightning-charge"></i>
-                        </div>
-                        <h4 class="value-title mb-3">Mudah</h4>
-                        <p class="value-description">Platform yang user-friendly dengan berbagai metode pembayaran yang
-                            aman dan terpercaya.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="program" class="program-section py-5">
         <div class="container">
+            {{-- Judul Section --}}
             <div class="row text-center mb-5">
                 <div class="col-12">
-                    <h2 class="section-title">Program Kebaikan Terbaru</h2>
-                    <p class="section-subtitle">Pilih program donasi sesuai dengan kepedulian Anda</p>
+                    <h2 class="section-title fw-bold">Program Wakaf</h2>
+                    <p class="section-subtitle text-muted">Pilih program wakaf sesuai dengan kepedulian Anda</p>
                 </div>
             </div>
 
+            {{-- Grid Program --}}
             <div class="row g-4">
                 @forelse ($programs as $program)
                     <div class="col-lg-4 col-md-6">
-                        <div class="program-card h-100" data-aos="fade-up" data-aos-duration="800"
+                        <div class="program-card card h-100 border-0 shadow-sm hover-lift" data-aos="fade-up" 
                             data-aos-delay="{{ $loop->iteration * 100 }}">
-                            <div class="program-image">
-                                <img src="{{ asset('storage/programs/' . $program->image) }}"
-                                    alt="{{ $program->title }}" class="card-img-top">
+                            
+                            {{-- Gambar Program (Dibuat Seragam) --}}
+                            <div class="program-image position-relative overflow-hidden rounded-top-3">
+                                <a href="{{ route('programs.show.public', $program->id) }}">
+                                    <img src="{{ asset('storage/programs/' . $program->image) }}"
+                                        alt="{{ $program->title }}" 
+                                        class="card-img-top"
+                                        style="height: 220px; width: 100%; object-fit: cover;"> {{-- KUNCI BIAR RAPI --}}
+                                </a>
+                                {{-- Badge Kategori (Opsional) --}}
+                                <span class="badge bg-success position-absolute top-0 end-0 m-3 shadow-sm">
+                                    {{ Str::title($program->category) }}
+                                </span>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="program-title">{{ $program->title }}</h5>
-                                <p class="program-description">{{ Str::limit($program->description, 100) }}</p>
+
+                            {{-- Konten Card --}}
+                            <div class="card-body d-flex flex-column p-4">
+                                <h5 class="program-title fw-bold mb-3">
+                                    <a href="{{ route('programs.show.public', $program->id) }}" class="text-decoration-none text-dark stretched-link">
+                                        {{ Str::limit($program->title, 50) }}
+                                    </a>
+                                </h5>
+                                
+                                <p class="program-description text-muted small mb-4">
+                                    {{ Str::limit($program->description, 80) }}
+                                </p>
 
                                 <div class="mt-auto">
+                                    {{-- Progress Bar --}}
                                     <div class="program-progress mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <small class="text-muted">Terkumpul</small>
-                                            <small class="text-muted">{{ $program->progres_persentase }}%</small>
+                                        <div class="d-flex justify-content-between mb-1 small fw-bold">
+                                            <span class="text-success">Terkumpul</span>
+                                            <span class="text-muted">{{ $program->progres_persentase }}%</span>
                                         </div>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar bg-success" role="progressbar"
+                                        <div class="progress rounded-pill bg-success-subtle" style="height: 8px;">
+                                            <div class="progress-bar bg-success rounded-pill" role="progressbar"
                                                 style="width: {{ $program->progres_persentase }}%"></div>
                                         </div>
                                     </div>
 
-                                    <div class="program-stats mb-3">
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <strong class="text-success">Rp
-                                                    {{ $program->formatted_collected_amount }}</strong>
-                                                <div class="small text-muted">Terkumpul</div>
-                                            </div>
-                                            <div class="col-6">
-                                                <strong class="text-success">Rp
-                                                    {{ $program->formatted_target_amount }}</strong>
-                                                <div class="small text-muted">Target</div>
-                                            </div>
+                                    {{-- Statistik Angka --}}
+                                    <div class="row text-center g-0 border rounded-3 py-2 bg-light small mb-3">
+                                        <div class="col-6 border-end">
+                                            <div class="fw-bold text-dark">Rp {{ $program->formatted_collected_amount }}</div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">Terkumpul</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="fw-bold text-dark">Rp {{ $program->formatted_target_amount }}</div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">Target</div>
                                         </div>
                                     </div>
 
+                                    {{-- Tombol --}}
                                     <a href="{{ route('programs.show.public', $program->id) }}"
-                                        class="btn btn-success w-100 mt-auto">Lihat Detail</a>
+                                    class="btn btn-outline-success w-100 fw-bold rounded-pill" style="position: relative; z-index: 2;">
+                                    Donasi Sekarang
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="col-12 text-center">
-                            <p>Belum ada program donasi yang tersedia saat ini.</p>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="alert alert-info text-center py-5">
+                            <i class="bi bi-info-circle fs-1 mb-3 d-block"></i>
+                            <h5>Belum ada program donasi aktif saat ini.</h5>
+                            <p>Nantikan program kebaikan kami selanjutnya.</p>
                         </div>
+                    </div>
                 @endforelse
             </div>
 
-            <div class="text-center mt-5">
-                <a href="{{ route('programs.index.public') }}" class="btn btn-outline-success btn-lg">Lihat Semua
-                    Program</a>
-            </div>
+            {{-- Tombol Lihat Semua --}}
+            @if($programs->count() > 0)
+                <div class="text-center mt-5">
+                    <a href="{{ route('programs.index.public') }}" class="btn btn-success btn-lg px-5 rounded-pill shadow-sm">
+                        Lihat Semua Program <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            @endif
         </div>
     </section>
 
@@ -234,4 +215,17 @@
             </div>
         </div>
     </section>
+
+    <section id="berita" class="program-section py-5">
+        <div class="container">
+            {{-- Judul Section --}}
+            <div class="row text-center mb-5">
+                <div class="col-12">
+                    <h2 class="section-title fw-bold">Berita Terkini</h2>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 </x-layouts.app>

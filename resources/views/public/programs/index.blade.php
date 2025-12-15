@@ -108,18 +108,18 @@
         </style>
     @endpush
 
-    <section class="program-hero" style="padding-top: 150px;">
+    <section class="program-hero" style="padding-top: 100px;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">Program Donasi</h1>
-                    <p class="lead mb-4">Pilih program donasi yang sesuai dengan kepedulian Anda. Bersama kita wujudkan
-                        perubahan yang berarti untuk kemajuan UNAND dan masyarakat.</p>
+                    <h1 class="display-4 fw-bold mb-2">Program Wakaf Melalui Uang</h1>
+                    <p class="lead mb-4">Pilih program wakaf yang sesuai dengan kepedulian Anda. Bersama kita wujudkan
+                        perubahan yang berarti untuk kemajuan UNAND dan masyarakat</p>
                     <div class="hero-stats">
                         <div class="row justify-content-center">
                             <div class="col-4">
                                 <div class="stat-item">
-                                    <h3 class="stat-number text-white">{{ $heroStats['active_programs'] }}+</h3>
+                                    <h3 class="stat-number text-white">{{ $heroStats['active_programs'] -1 }}+</h3>
                                     <p class="stat-label text-white-50">Program Aktif</p>
                                 </div>
                             </div>
@@ -133,8 +133,8 @@
                             <div class="col-4">
                                 <div class="stat-item">
                                     <h3 class="stat-number text-white">
-                                        {{ format_large_number($heroStats['total_donors']) }}</h3>
-                                    <p class="stat-label text-white-50">Donatur</p>
+                                        {{ format_large_number($heroStats['total_wakaf_masuk']) }}</h3>
+                                    <p class="stat-label text-white-50">Wakaf Masuk</p>
                                 </div>
                             </div>
                         </div>

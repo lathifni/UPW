@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
+use App\Models\Program;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DonationController extends Controller
 {
@@ -52,5 +54,54 @@ class DonationController extends Controller
         $donation->load(['user', 'program']);
 
         return view('admin.donations.show', compact('donation'));
+    }
+
+    public function createManual()
+    {
+        // Ambil program yang aktif buat dipilih admin
+        $programs = Program::where('is_active', true)->get();
+        
+        return view('admin.donations.wakaf-cash', compact('programs'));
+    }
+
+    /**
+     * Proses Simpan Donasi Tunai
+     */
+    public function storeManual(Request $request)
+    {
+        $request->validate([
+            'program_id' => 'required|exists:programs,id',
+            'donor_name' => 'required|string|max:255',
+            'donor_email' => 'nullable|email', // Boleh kosong kalau orangnya gak punya email
+            'amount' => 'required|numeric|min:10000',
+        ]);
+
+        // Bikin Order ID Unik khusus Offline
+        $orderId = 'WT' . now()->format('ymdHi') . strtoupper(Str::random(3));
+
+        // Simpan ke Database
+        Donation::create([
+            'program_id' => $request->program_id,
+            // 'user_id' => auth()->id(), // Yang nginput (Admin) tercatat sebagai user_id (opsional)
+            'order_id' => $orderId,
+            'donor_name' => $request->donor_name,
+            'donor_email' => $request->donor_email ?? 'offline@unand.ac.id', // Email dummy kalau kosong
+            'amount' => $request->amount,
+            'status' => 'paid', // LANGSUNG PAID karena uang tunai sudah diterima
+            'payment_type' => 'manual cash', // Penanda kalau ini tunai
+            'donation_type' => 'program',
+        ]);
+
+        $program = Program::find($request->program_id);
+        if ($program) {
+            // Trik: Kalau collected_amount-nya NULL, anggap 0
+            $currentAmount = $program->collected_amount ?? 0; 
+            
+            $program->update([
+                'collected_amount' => $currentAmount + $request->amount
+            ]);
+        }
+
+        return redirect()->route('admin.donations.index')->with('success', 'Wakaf Tunai berhasil dicatat!');
     }
 }

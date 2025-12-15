@@ -4,7 +4,7 @@
         {{-- Kartu navbar yang melayang --}}
         <nav class="navbar navbar-expand-lg navbar-light navbar-floating">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('frontend/img/logo_unand.png') }}" alt="UNAND" height="40" class="me-2" />
+                <img src="{{ asset('frontend/img/logo_unand.png') }}" alt="UNAND" height="40" />
                 <span class="fw-bold text-success">Dana Sosial UNAND</span>
             </a>
 
@@ -18,9 +18,21 @@
                         <a class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}"
                             href="{{ route('home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('programs.*.public') ? 'active' : '' }}"
-                            href="{{ route('programs.index.public') }}">Program</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ Request::routeIs(['public.wakaf-uang', 'programs.index.public']) ? 'active' : '' }}"
+                            href="#" id="navbarDropdownProgram" role="button" data-bs-toggle="dropdown">
+                            Program
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownProgram">
+                            <li><a class="dropdown-item {{ Request::routeIs('public.wakaf-uang') ? 'active' : '' }}"
+                                    href="{{ route('public.wakaf-uang') }}">Wakaf Uang</a></li>
+                            <li><a class="dropdown-item {{ Request::routeIs('programs.index.public') ? 'active' : '' }}"
+                                    href="{{ route('programs.index.public') }}">Wakaf Melalui Uang</a></li>
+                            <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
+                                    href="#">Zakat</a></li>
+                            <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
+                                    href="#">Dana Abadi</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('articles.*.public') ? 'active' : '' }}"
@@ -43,6 +55,14 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('laporan.public') ? 'active' : '' }}"
                             href="{{ route('laporan.public') }}">Laporan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"
+                            href="{{ route('edukasi-wakaf.public') }}">Edukasi Wakaf</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"
+                            href="{{ route('edukasi-wakaf.public') }}">Wakaf Sekarang</a>
                     </li>
                 </ul>
 

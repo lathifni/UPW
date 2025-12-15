@@ -15,7 +15,11 @@ class Donation extends Model
         'order_id',
         'amount',
         'status',
-        'donation_type'
+        'donation_type',
+
+        'donor_name',
+        'donor_email',
+        'payment_type',
     ];
 
     /**

@@ -105,7 +105,7 @@
                         <p class="text-muted mb-3">Sertifikat akan tersedia di sini setelah donasi Anda untuk program
                             tertentu telah dikonfirmasi oleh admin.</p>
                         <a href="{{ route('programs.index.public') }}" class="btn btn-success"><i
-                                class="bi bi-plus-circle me-2"></i>Donasi Sekarang</a>
+                            class="bi bi-plus-circle me-2"></i>Wakaf Sekarang</a>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProgramController extends Controller
 {
@@ -42,6 +43,7 @@ class ProgramController extends Controller
 
         $data = $request->only(['title', 'description', 'category', 'target_amount', 'deadline', 'certificate_type']);
         $data['is_unggulan'] = $request->has('is_unggulan');
+        $data['slug'] = Str::slug($request->title);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');

@@ -45,7 +45,14 @@
             <li class="nav-item {{ Request::routeIs('admin.donations.index') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.donations.index') }}">
                     <i class="fas fa-fw fa-heart"></i>
-                    <span>Manajemen Donasi</span>
+                    <span>Manajemen Wakaf Masuk</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ Request::routeIs('admin.donations.cash.create') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.donations.cash.create') }}">
+                    <i class="fas fa-fw fa-heart"></i>
+                    <span>Input Wakaf Tunai</span>
                 </a>
             </li>
 
@@ -70,12 +77,12 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <!-- <li class="nav-item {{ Request::is('admin/donations*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('managements.index') }}">
                     <i class="fas fa-fw fa-credit-card"></i>
                     <span>Manajemen Transaksi</span>
                 </a>
-            </li>
+            </li> -->
 
             <hr class="sidebar-divider">
 
@@ -97,21 +104,21 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Laporan & Analytics</span>
+           <li class="nav-item {{ Request::routeIs('reports.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('reports.index') }}">
+                    <i class="fas fa-fw fa-file-invoice"></i> {{-- Icon Dokumen --}}
+                    <span>Laporan </span>
                 </a>
             </li>
 
             <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Pengaturan Sistem</span>
                 </a>
-            </li>
+            </li> -->
 
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

@@ -169,7 +169,7 @@
                         <div class="stats-card">
                             <div class="stats-icon"><i class="bi bi-award"></i></div>
                             {{-- Angka ini bersifat informatif, jadi kita biarkan statis --}}
-                            <h3 class="text-success">5+</h3>
+                            <h3 class="text-success">1 tahun+</h3>
                             <p class="text-muted mb-0">Tahun Pengalaman</p>
                         </div>
                     </div>

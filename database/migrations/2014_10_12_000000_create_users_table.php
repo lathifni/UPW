@@ -13,13 +13,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            
+            // --- DATA PRIBADI ---
             $table->string('nama');
             $table->string('nik')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('nomor_hp')->nullable();
+            $table->string('avatar')->nullable(); // Gabungan dari file avatar
+            
+            // --- OTENTIKASI & KEAMANAN ---
+            $table->enum('role', ['admin', 'donatur'])->default('donatur');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'donatur'])->default('donatur');
+            
+            // Gabungan dari file verification code (biasanya buat OTP / Reset Password)
+            $table->string('verification_code')->nullable();
+            $table->timestamp('verification_code_expires_at')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });

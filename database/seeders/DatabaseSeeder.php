@@ -36,7 +36,8 @@ class DatabaseSeeder extends Seeder
 
         // 3. Memanggil seeder lainnya
         $this->call([
-        ManagementSeeder::class,
+            ManagementSeeder::class,
+            WakafUangSeeder::class,
         ]);
     }
 }

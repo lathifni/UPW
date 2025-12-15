@@ -1,4 +1,4 @@
-<footer class="footer bg-dark text-white py-5">
+<footer class="footer bg-dark text-white pt-5 rounded-top-2">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <hr class="footer-divider my-4">
+        <!-- <hr class="footer-divider mb-1"> -->
 
         <div class="row align-items-center">
             <div class="col-md-6">

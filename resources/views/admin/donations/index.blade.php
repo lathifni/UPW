@@ -1,8 +1,8 @@
 <x-layouts.admin>
-    <x-slot:title>Manajemen Donasi</x-slot:title>
+    <x-slot:title>Manajemen Wakaf</x-slot:title>
     <div class="card shadow">
         <div class="card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Semua Donasi</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Semua Wakaf</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -22,7 +22,7 @@
                         @forelse ($donations as $donation)
                             <tr>
                                 <td>{{ $donation->order_id }}</td>
-                                <td>{{ $donation->user->nama ?? 'Donatur Anonim' }}</td>
+                                <td>{{ $donation->user->nama ?? $donation->donor_name }}</td>
                                 <td>{{ $donation->program->title ?? 'Donasi Umum' }}</td>
                                 <td>Rp {{ number_format($donation->amount, 0, ',', '.') }}</td>
                                 <td>

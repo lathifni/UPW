@@ -53,6 +53,30 @@
             }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // 1. Cek apakah ada session bernama 'error' dari Backend?
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: "{{ session('error') }}", // Ini pesan dari Middleware tadi
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Oke'
+            });
+        @endif
+
+        // 2. Sekalian buat pesan sukses (biar lengkap)
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                confirmButtonColor: '#198754',
+            });
+        @endif
+    </script>
     @stack('scripts')
 </body>
 
