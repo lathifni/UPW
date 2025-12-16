@@ -64,7 +64,7 @@ class DonationController extends Controller
                 'donor_email' => $donation->donor_email,
                 'amount'      => "Rp " . number_format($donation->amount, 0, ',', '.'),
                 'terbilang'   => $textTerbilang,
-                'category'    => $donation->program->category,
+                'category' => ($donation->program_id == 1) ? 'Wakaf Uang' : 'Wakaf Melalui Uang',
                 'title'       => $donation->program->title,
                 
                 // Data Pejabat & TTD
