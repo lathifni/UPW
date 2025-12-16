@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WakafPendingMail;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail; // <--- TAMBAHKAN BARIS INI!
 
 class DonationController extends Controller
 {
@@ -35,6 +37,15 @@ class DonationController extends Controller
             'payment_type' => 'transfer',
         ]);
 
+
+        try {
+        // Kita kirim email ke alamat email donatur ($request->donor_email)
+            Mail::to($request->donor_email)->send(new WakafPendingMail($donation));
+        } catch (\Exception $e) {
+            // Opsional: Log error jika email gagal terkirim, 
+            // tapi jangan hentikan proses agar user tetap bisa lanjut.
+            \Log::error('Gagal mengirim email wakaf: ' . $e->getMessage());
+        }
         // 3. TODO: Tempat untuk integrasi Midtrans nanti
         // ==============================================
         // Di sinilah nanti kita akan menempatkan kode untuk:
@@ -45,6 +56,7 @@ class DonationController extends Controller
 
         // 4. Untuk saat ini, kita hanya akan redirect kembali dengan pesan sukses
         // return redirect()->back()->with('success', 'Terima kasih! Data donasi Anda telah kami terima dan menunggu pembayaran.');
+
         return redirect()->route('donations.instruction', ['order_id' => $donation->order_id]);
     }
 
