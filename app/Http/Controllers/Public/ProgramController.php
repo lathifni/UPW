@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Program;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Donation;
 
@@ -14,7 +15,8 @@ class ProgramController extends Controller
     {
         // Ambil 3 program terbaru yang aktif
         $programs = Program::where('is_active', true)->latest()->take(3)->get();
-        return view('public.index', compact('programs'));
+        $articles = Article::latest()->take(3)->get();
+        return view('public.index', compact('programs', 'articles'));
     }
 
     public function index(Request $request)

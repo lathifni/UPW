@@ -9,7 +9,14 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
-   public function index(Request $request)
+    public function home()
+    {
+        // Ambil 3 berita terbaru yang aktif
+        $articles = Article::latest()->take(3)->get();
+        return view('public.index', compact('article'));
+    }
+
+    public function index(Request $request)
     {
         $query = Article::query();
 

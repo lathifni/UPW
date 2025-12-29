@@ -77,7 +77,7 @@
                 </p>
             </div>
             <div class="col-md-6 text-md-end">
-                <p class="powered-by mb-0">Dikembangkan dengan ❤️ untuk kemajuan UNAND oleh dzulaji</p>
+                <!-- <p class="powered-by mb-0">Dikembangkan dengan ❤️ untuk kemajuan UNAND oleh Dzulaji & Icad </p> -->
             </div>
         </div>
     </div>

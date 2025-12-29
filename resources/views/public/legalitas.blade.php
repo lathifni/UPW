@@ -9,7 +9,7 @@
                         rgba(32, 201, 151, 0.9) 100%),
                     url("https://via.placeholder.com/1920x600/198754/ffffff?text=Legalitas+UPW+UNAND") center/cover;
                 color: white;
-                padding: 100px 0;
+                padding: 10px 0;
             }
 
             .legalitas-card {
@@ -100,7 +100,7 @@
         </style>
     @endpush
 
-    <section class="legalitas-hero" style="padding-top: 150px;">
+    <section class="legalitas-hero" style="padding-top: 100px;">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
@@ -111,12 +111,12 @@
                     </p>
                     <div class="hero-stats">
                         <div class="row justify-content-center">
-                            <div class="col-3">
+                            <!-- <div class="col-3">
                                 <div class="stat-item">
                                     <h3 class="stat-number text-white">3</h3>
                                     <p class="stat-label text-white-50">Dokumen Legal</p>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-3">
                                 <div class="stat-item">
                                     <h3 class="stat-number text-white">100%</h3>
@@ -136,52 +136,7 @@
         </div>
     </section>
 
-    <section class="legalitas-stats-section py-0">
-        <div class="container">
-            <div class="legalitas-stats">
-                <div class="row text-center">
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="stats-card">
-                            <div class="stats-icon">
-                                <i class="bi bi-file-earmark-check"></i>
-                            </div>
-                            <h3 class="text-success">SK BWI</h3>
-                            <p class="text-muted mb-0">Pengakuan Nazhir</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="stats-card">
-                            <div class="stats-icon">
-                                <i class="bi bi-building"></i>
-                            </div>
-                            <h3 class="text-success">SK Rektor</h3>
-                            <p class="text-muted mb-0">Struktur Organisasi</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="stats-card">
-                            <div class="stats-icon">
-                                <i class="bi bi-people"></i>
-                            </div>
-                            <h3 class="text-success">SK Rektor</h3>
-                            <p class="text-muted mb-0">Penetapan Pejabat</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="stats-card">
-                            <div class="stats-icon">
-                                <i class="bi bi-shield-check"></i>
-                            </div>
-                            <h3 class="text-success">100%</h3>
-                            <p class="text-muted mb-0">Legal & Akuntabel</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="legalitas-overview-section py-5">
+    <section class="legalitas-overview-section py-2">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
@@ -194,7 +149,7 @@
                             </p>
                         </div>
 
-                        <div class="row g-4">
+                        <div class="row g-4 justify-content-center">
                             <div class="col-lg-4 col-md-6">
                                 <div class="legalitas-card text-center">
                                     <div class="legalitas-icon">
@@ -210,7 +165,7 @@
                                     </div>
                                 </div>
                             </div>
-
+<!-- 
                             <div class="col-lg-4 col-md-6">
                                 <div class="legalitas-card text-center">
                                     <div class="legalitas-icon">
@@ -241,7 +196,7 @@
                                         <span class="badge bg-success">No. 1978/UN16.R/KPT/III/2025</span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -278,7 +233,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <strong>Nomor:</strong>
-                                        <span class="ms-2">70 /BWI/NZ/2025</span>
+                                        <span class="ms-2">70/BWI/NZ/2025</span>
                                     </div>
                                     <div class="mb-3">
                                         <strong>Tanggal:</strong>
@@ -324,11 +279,15 @@
                         </ul>
 
                         <div class="d-flex gap-3 flex-wrap">
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-file-pdf"></i> Download PDF
+                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" 
+                                class="download-btn btn btn-outline-success" 
+                                download> 
+                                    <i class="bi bi-file-pdf"></i> Download PDF
                             </a>
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-eye"></i> Lihat Dokumen
+                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" 
+                                class="download-btn btn btn-outline-success" 
+                                target="_blank">
+                                    <i class="bi bi-eye"></i> Lihat Dokumen
                             </a>
                         </div>
                     </div>
@@ -336,7 +295,7 @@
             </div>
 
             <!-- Document 2: SK Rektor Struktur Organisasi -->
-            <div class="row mb-5">
+            <!-- <div class="row mb-5">
                 <div class="col-12">
                     <div class="document-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="document-header">
@@ -408,10 +367,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Document 3: SK Rektor Pejabat -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12">
                     <div class="document-card" data-aos="fade-up" data-aos-delay="200">
                         <div class="document-header">
@@ -484,7 +443,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -575,8 +534,6 @@
             </div>
         </div>
     </section>
-
-
 
     @push('scripts')
         <script>

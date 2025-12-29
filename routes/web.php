@@ -39,6 +39,8 @@ Route::post('/cek-wakaf', [DonationController::class, 'checkStatusProcess'])->na
 Route::get('/laporan', function() {
     $reports = \App\Models\Report::where('is_active', true)->orderBy('year', 'desc')->get();
     return view('public.laporan', compact('reports'));})->name('laporan.public');
+    // Route untuk proses simpan konfirmasi wakaf publik
+Route::post('/wakaf-kilat/store', [App\Http\Controllers\Public\DonationController::class, 'storeQuickWaqf'])->name('public.wakaf.store');
 
 // --- RUTE UNTUK LUPA PASSWORD ---
 Route::get('/lupa-password', [ForgotPasswordController::class, 'showPhoneRequestForm'])->name('password.phone.request');

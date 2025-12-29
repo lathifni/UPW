@@ -29,7 +29,7 @@
                             <li><a class="dropdown-item {{ Request::routeIs('programs.index.public') ? 'active' : '' }}"
                                     href="{{ route('programs.index.public') }}">Wakaf Melalui Uang</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
-                                    href="#">Zakat</a></li>
+                                    href="http://upz.unand.ac.id/">Zakat</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
                                     href="#">Dana Abadi</a></li>
                         </ul>
@@ -58,12 +58,22 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"
-                            href="{{ route('edukasi-wakaf.public') }}">Edukasi Wakaf</a>
+                            href="{{ route('edukasi-wakaf.public') }}">Edukasi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"
-                            href="{{ route('edukasi-wakaf.public') }}">Wakaf Sekarang</a>
+                        <a class="nav-link fw-bold text-warning " 
+                        href="#" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#wakafUangModal">
+                        Wakaf Sekarang
+                        </a>
                     </li>
+                    <!-- <li class="nav-item">
+                        {{-- Tombol Pemicu Modal --}}
+                        <button type="button" class="btn btn-warning fw-bold rounded-pill px-4 shadow-sm shake-hover" data-bs-toggle="modal" data-bs-target="#wakafUangModal">
+                            <i class="bi bi-qr-code-scan me-2"></i>Wakaf Sekarang
+                        </button>
+                    </li> -->
                 </ul>
 
                 <div class="d-flex gap-2 align-items-center">

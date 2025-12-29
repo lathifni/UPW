@@ -211,7 +211,7 @@
 
     <section class="management-section py-5">
         <div class="container">
-            <div class="row justify-content-center mb-5">
+            <!-- <div class="row justify-content-center mb-5">
                 <div class="col-12 text-center mb-4">
                     <h2 class="section-title">Penanggung Jawab</h2>
                 </div>
@@ -230,7 +230,7 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+            </div> -->
 
             <div class="row justify-content-center mb-5">
                 <div class="col-12 text-center mb-4">
@@ -239,10 +239,10 @@
                 @foreach ($dewan_pengawas as $pengawas)
                     <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
                         <div class="team-card text-center">
-                            <div class="team-image mb-3"><img
+                            <!-- <div class="team-image mb-3"><img
                                     src="{{ $pengawas->image ? asset('storage/managements/' . $pengawas->image) : 'https://via.placeholder.com/120x120/198754/ffffff?text=' . substr($pengawas->name, 5, 1) }}"
                                     alt="{{ $pengawas->name }}" class="rounded-circle" /></div>
-                            <h5 class="team-name">{{ $pengawas->name }}</h5>
+                            <h5 class="team-name">{{ $pengawas->name }}</h5> -->
                             <p class="team-position">{{ $pengawas->position }}</p>
                             <p class="team-role text-muted">{{ $pengawas->role }}</p>
                             @if ($pengawas->description)
@@ -288,7 +288,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="org-chart">
-                        @if ($penanggung_jawab->isNotEmpty())
+                        <!-- @if ($penanggung_jawab->isNotEmpty())
                             <div class="org-level text-center mb-4">
                                 <div class="org-box bg-success text-white mx-auto">
                                     <h5 class="mb-1">{{ $penanggung_jawab->first()->position }}</h5>
@@ -298,7 +298,7 @@
                             <div class="org-connector text-center mb-4">
                                 <div class="connector-line"></div>
                             </div>
-                        @endif
+                        @endif -->
 
                         @if ($dewan_pengawas->isNotEmpty())
                             <div class="org-level text-center mb-4">
@@ -308,7 +308,7 @@
                                         <div class="col-md-6 mb-3">
                                             <div class="org-box bg-white border-success">
                                                 <h6 class="mb-1">{{ $pengawas->position }}</h6>
-                                                <small class="text-muted">{{ $pengawas->name }}</small>
+                                                <!-- <small class="text-muted">{{ $pengawas->name }}</small> -->
                                             </div>
                                         </div>
                                     @endforeach
