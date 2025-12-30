@@ -28,27 +28,42 @@ class DonationController extends Controller
     /**
      * Memperbarui status donasi secara manual (Konfirmasi Pembayaran).
      */
-    public function updateStatus(Request $request, Donation $donation)
+   public function updateStatus(Request $request, Donation $donation)
     {
+        // Validasi input
         $request->validate([
             'status' => 'required|in:paid,failed',
         ]);
 
-        // Simpan status lama
         $oldStatus = $donation->status;
         $newStatus = $request->status;
 
-        // Update status donasi
+        // 1. Update status donasi di database
         $donation->update(['status' => $newStatus]);
 
-        // LOGIKA UTAMA: Jika status berubah jadi PAID
-        if ($oldStatus === 'pending' && $newStatus === 'paid' && $donation->program) {
+        // LOGIKA UTAMA: Jika status berubah dari PENDING ke PAID
+        if ($oldStatus === 'pending' && $newStatus === 'paid') {
             
-            // 1. Tambah Saldo Program
-            $donation->program->increment('collected_amount', $donation->amount);
+            // A. Tambah Saldo Program (Jika ada relasi ke program)
+            if ($donation->program) {
+                $donation->program->increment('collected_amount', $donation->amount);
+            }
 
-            // 2. Persiapan Data PDF (Sama seperti kodemu sebelumnya)
-            $nomorSurat    = "45454";
+            // ============================================================
+            // 🔥 STEP 1: GENERATE NOMOR AKTE (PANGGIL FUNGSI MODEL)
+            // ============================================================
+            // Fungsi ini akan membuat nomor urut baru (misal: 001/WK-UANG/...)
+            // Pastikan fungsi ini sudah ada di App/Models/Donation.php
+            $donation->generateAkteNumber();
+
+            // ============================================================
+            // 🔥 STEP 2: REFRESH MODEL (WAJIB!)
+            // ============================================================
+            // Kita harus me-refresh variabel $donation supaya data 'nomor_akte' 
+            // dan 'tgl_akte' yang baru dibuat di database masuk ke variabel ini.
+            $donation->refresh(); 
+
+            // B. Persiapan Data PDF
             $textTerbilang = ucwords($this->terbilang($donation->amount)) . " Rupiah";
 
             // Path Gambar Tanda Tangan
@@ -58,14 +73,20 @@ class DonationController extends Controller
             $pathSaksi2 = public_path('images/signatures/saksi2.jpg');
 
             $data = [
-                'nomor_surat' => "1316/AIW-U/UPW-UNAND/" . date('Y'),
-                'created_at'  => \Carbon\Carbon::parse($donation->created_at)->locale('id')->translatedFormat('d F Y'),
+                // ========================================================
+                // 🔥 STEP 3: PAKAI NOMOR & TANGGAL DARI DATABASE
+                // ========================================================
+                'nomor_surat' => $donation->nomor_akte, 
+                
+                // Gunakan tgl_akte (kapan nomor dibuat), fallback ke created_at
+                'created_at'  => \Carbon\Carbon::parse($donation->tgl_akte ?? $donation->created_at)->locale('id')->translatedFormat('d F Y'),
+                
                 'donor_name'  => $donation->donor_name,
                 'donor_email' => $donation->donor_email,
                 'amount'      => "Rp " . number_format($donation->amount, 0, ',', '.'),
                 'terbilang'   => $textTerbilang,
-                'category' => ($donation->program_id == 1) ? 'Wakaf Uang' : 'Wakaf Melalui Uang',
-                'title'       => $donation->program->title,
+                'category'    => ($donation->program_id == 1) ? 'Wakaf Uang' : 'Wakaf Melalui Uang',
+                'title'       => $donation->program->title ?? 'Wakaf Tunai',
                 
                 // Data Pejabat & TTD
                 'nazhir_nama'  => 'Dr. Zulkifli N, SE., M.Si',
@@ -73,40 +94,48 @@ class DonationController extends Controller
                 'saksi1_nama'  => 'Dr. Hefrizal Handra, M.Soc. Sc',
                 'saksi2_nama'  => 'Dr. Suhanda, SE., M.Si. Ak',
 
-                'ttd_wakif'  => null,
+                'ttd_wakif'  => null, // Biasanya wakif TTD digital atau dikosongkan
                 'ttd_nazhir' => file_exists($pathNazhir) ? $pathNazhir : null,
                 'ttd_bank'   => file_exists($pathBank) ? $pathBank : null,
                 'ttd_saksi1' => file_exists($pathSaksi1) ? $pathSaksi1 : null,
                 'ttd_saksi2' => file_exists($pathSaksi2) ? $pathSaksi2 : null,
             ];
 
-            // 3. Generate PDF
-            // Gunakan library PDF yang kamu pakai (DomPDF/Barryvdh)
+            // C. Generate PDF
             $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.akta_ikrar', $data);
             $pdf->setPaper('A4', 'portrait');
 
-            // -----------------------------------------------------------
-            // PERUBAHAN DI SINI
-            // -----------------------------------------------------------
+            // ============================================================
+            // 🔥 STEP 4: SIMPAN FILE KE STORAGE (ARSIP SERVER)
+            // ============================================================
+            // Kita simpan file fisiknya biar Admin bisa download nanti.
+            // Nama file aman (slash diganti dash): AKTE_001-WK-UANG...pdf
+            $safeNomor = str_replace('/', '-', $donation->nomor_akte);
+            $fileName = "AKTE_{$safeNomor}_{$donation->id}.pdf";
+            $pdfPath = 'certificates/' . $fileName; // Folder: storage/app/public/certificates/
             
-            // A. Ambil "isi mentah" PDF-nya (Binary String), BUKAN download
+            // Simpan PDF ke Disk Public
+            \Storage::disk('public')->put($pdfPath, $pdf->output());
+
+            // Update path sertifikat di database donation
+            $donation->update(['certificate_path' => $fileName]);
+
+            // D. Kirim Email dengan Lampiran
             $pdfContent = $pdf->output();
 
-            // B. Kirim Email dengan Lampiran
             try {
-                Mail::to($donation->donor_email)
-                    ->send(new WakafSuccessMail($donation, $pdfContent));
+                \Mail::to($donation->donor_email)
+                    ->send(new \App\Mail\WakafSuccessMail($donation, $pdfContent));
             } catch (\Exception $e) {
                 \Log::error('Gagal kirim email sertifikat wakaf: ' . $e->getMessage());
-                // Kita return success tapi kasih notif warning kalau email gagal
-                return redirect()->back()->with('warning', 'Status diupdate, tapi email gagal terkirim. Cek log.');
+                // Jika email gagal, jangan error page, tapi kasih notif warning
+                return redirect()->back()->with('warning', 'Status PAID & Akte berhasil dibuat, namun Email gagal terkirim. Cek Log.');
             }
 
-            // C. Return Redirect (Karena Admin tidak mendownload file)
-            return redirect()->back()->with('success', 'Status berhasil diupdate menjadi PAID dan Akta Wakaf telah dikirim ke email donatur.');
+            return redirect()->back()->with('success', 'Status PAID. Akta Wakaf No: ' . $donation->nomor_akte . ' berhasil diterbitkan dan dikirim.');
         }
 
-        // Jika bukan update ke paid, return biasa
+        // Jika bukan update ke paid (misal ke failed), return biasa
         return redirect()->back()->with('success', 'Status donasi berhasil diperbarui.');
     }
     /**

@@ -42,6 +42,12 @@ return new class extends Migration
             // Link gambar bukti bayar (opsional kalau manual)
             $table->string('receipt_url')->nullable();
 
+            // Nomor Akte (String, Unik, Nullable karena Pending belum punya nomor)
+            $table->string('nomor_akte')->nullable()->unique();
+            
+            // Tanggal Akte (Disimpan terpisah dari created_at biar presisi kapan sah-nya)
+            $table->date('tgl_akte')->nullable();
+
             // Gabungan dari file migration ke-3 tadi
             $table->string('certificate_path')->nullable();
 
