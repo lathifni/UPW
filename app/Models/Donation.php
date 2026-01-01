@@ -72,7 +72,7 @@ class Donation extends Model
             // 7. Format Nomor Cantik
             // Format: 001/WK-UANG/UNAND/2025
             // str_pad(1, 3, '0', STR_PAD_LEFT) -> jadinya "001"
-            $formattedNumber = str_pad($newNumber, 3, '0', STR_PAD_LEFT) . '/AIW-U/UPW-UNAND/VIII' . $currentYear;
+            $formattedNumber = str_pad($newNumber, 3, '0', STR_PAD_LEFT) . '/AIW-U/UPW-UNAND/VIII/' . $currentYear;
 
             // 8. Simpan ke Diri Sendiri (Donation)
             $this->update([
