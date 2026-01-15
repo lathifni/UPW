@@ -21,6 +21,8 @@ class Donation extends Model
         'tgl_akte',
         'donor_name',
         'donor_email',
+        'donor_phone',
+        'donor_nim',
         'payment_type',
     ];
 

@@ -187,7 +187,7 @@
                                                         {{ Str::mask($donor->donor_name, '*', 4) }}
                                                     </h6>
                                                     <small class="text-muted" style="font-size: 0.8rem;">
-                                                        {{ $donor->created_at->diffForHumans() }}
+                                                        {{ $donor->created_at?->diffForHumans() }}
                                                     </small>
                                                 </div>
                                                 <small class="text-muted d-block">
@@ -291,6 +291,22 @@
                                         Bukti pembayaran akan dikirim ke email ini
                                     </div>
                                 </div>
+                                <div class="mb-2">
+                                    <label for="donor_phone" class="form-label fw-bold small">Nomor HP</label>
+                                    <input type="text" class="form-control" id="donor_phone" name="donor_phone" required
+                                        value="{{ auth()->user()->phone ?? '' }}" placeholder="08121234..." maxlenght=14>
+                                    <!-- <div class="form-text" style="font-size: 0.75rem;">
+                                        Bukti pembayaran akan dikirim ke email ini
+                                    </div> -->
+                                </div>
+                                <div class="mb-2">
+                                    <label for="donor_nim" class="form-label fw-bold small">NIM (Opsional)</label>
+                                    <input type="text" class="form-control" id="donor_nim" name="donor_nim" required
+                                        value="{{ auth()->user()->nim ?? '' }}" placeholder="201152..." maxlenght=20>
+                                    <!-- <div class="form-text" style="font-size: 0.75rem;">
+                                        Bukti pembayaran akan dikirim ke email ini
+                                    </div> -->
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-success w-100 btn-lg fw-bold shadow-sm" id="btn-submit">
@@ -298,8 +314,11 @@
                             </button>
                             <div class="text-center pt-2 border-top">
                                 <small class="text-muted d-block mb-2">Sudah pernah berwakaf?</small>
-                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4 mb-2">
                                     <i class="bi bi-search me-1"></i> Cek Status Wakaf
+                                </a>
+                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                    <i class="bi bi-clock-history me-1"></i> Riwayat Wakaf
                                 </a>
                             </div>
                             <div class="text-center mt-2">

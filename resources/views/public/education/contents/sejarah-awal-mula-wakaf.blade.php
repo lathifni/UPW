@@ -1,0 +1,52 @@
+<article class="max-w-4xl mx-auto px-4 py-10">
+
+    <div class="prose max-w-none">
+        <p>
+            Dalam sejarah Islam, wakaf dikenal sejak masa Rasulullah SAW karena wakaf disyariatkan setelah Nabi hijrah ke 
+            Madinah pada tahun kedua Hijriyah. Ada dua pendapat yang berkembang di kalangan ahli yurisprudensi Islam 
+            (fuqaha) tentang siapa yang pertama kali melaksanakan syariat wakaf. Menurut sebagian ulama, yang pertama kali 
+            melaksanakan wakaf adalah Rasulullah SAW, yakni mewakafkan tanah milik Nabi SAW untuk dibangun masjid.
+        </p>
+
+        <p>
+           Pendapat ini berdasarkan hadis yang diriwayatkan oleh Umar bin Syabah dari Amr bin Sa’ad bin Mu’ad, dan 
+           diriwayatkan dari Umar bin Syabah, dari Umar bin Sa’ad bin Muad berkata, Kami bertanya tentang mula-mula wakaf 
+           dalam Islam? Orang Muhajirin menga takan adalah wakaf Umar, sedangkan orang- orang Ansor mengatakan adalah wakaf 
+           Rasulullah SAW.
+        </p>
+
+        <p>
+          Pendapat sebagian ulama yang mengatakan bahwa Sayyidina Umar adalah orang pertama yang melaksanakan syariat wakaf 
+          berdasar pada hadis yang diriwayatkan Ibnu Umar yang berkata, Bahwa sahabat Umar RA, memperoleh sebidang tanah di 
+          Khaibar, kemudian Umar RA, menghadap Rasulullah SAW untuk meminta petunjuk, umar berkata: ‘Hai Rasulullah SAW, 
+          saya mendapat sebi dang tanah di Khaibar, saya belum mendapat harta sebaik itu, maka apakah yang engkau 
+          perintahkan kepadaku?’ Rasulullah SAW bersabda: Bila engkau suka, kau tahan (pokoknya) tanah itu, dan engkau 
+          sedekahkan (hasilnya), tidak dijual, tidak dihibah kan, dan tidak diwariskan.
+        </p>
+
+        <p>
+          Ibnu Umar berkata lagi: Umar menyedekahkannya (hasil pengelolaan tanah) kepada orang-orang fakir, kaum kerabat, 
+          hamba sahaya, sabilillah Ibnu sabil, dan tamu, dan tidak dilarang bagi yang mengelola (nazhir) wakaf makan dari 
+          hasilnya dengan cara yang baik (sepantasnya) atau member makan orang lain dengan tidak bermaksud menumpuk harta.
+        </p>
+
+        <p>
+          Selain Umar, Rasulullah juga mewakafkan tujuh kebun kurma di Madinah di antaranya ialah kebun A’raf Shafiyah, 
+          Dalal, Barqah, dan lainnya. Nabi juga mewakafkan perkebunan Mukhairik, yang telah menjadi milik beliau setelah 
+          terbunuhnya Mukhairik ketika Perang Uhud. Beliau menyisihkan sebagian keuntungan dari perkebunan itu untuk member 
+          nafkah keluarganya selama satu tahun, sedangkan sisanya untuk membeli kuda perang, senjata dan untuk kepentingan 
+          kaum Muslimin. Mayoritas ahli fikih mengatakan bahwa peristiwa ini disebut wakaf.
+        </p>
+    </div>
+
+    @if($post->sumber)
+        <div class="mt-8">
+            <a href="{{ $post->sumber }}"
+               target="_blank"
+               class="text-blue-600 underline">
+                Baca sumber resmi
+            </a>
+        </div>
+    @endif
+
+</article>

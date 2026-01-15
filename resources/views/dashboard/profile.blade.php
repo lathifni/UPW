@@ -174,7 +174,7 @@
                                 <span>Donasi ke {{ Str::limit($donation->program->title, 25) }}</span>
                             </div>
                             <small
-                                class="text-muted flex-shrink-0 ms-2">{{ $donation->created_at->diffForHumans() }}</small>
+                                class="text-muted flex-shrink-0 ms-2">{{ $donation->created_at?->diffForHumans() }}</small>
                         </a>
                     @empty
                         <div class="list-group-item text-center text-muted px-0">

@@ -4,6 +4,7 @@ namespace App\Providers;
 use App\Models\Program;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\Paginator;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
             // Ambil program ringkas aja (id & title) biar ringan
             $programsNav = Program::where('is_active', true)->select('id', 'title')->get();
             $view->with('programsNav', $programsNav);
+            Paginator::useBootstrapFive();
         });
     }
 }

@@ -125,15 +125,23 @@
                             </div>
                             <div class="col-4">
                                 <div class="stat-item">
-                                    <h3 class="stat-number text-white">
-                                        {{ format_large_number($heroStats['total_collected']) }}</h3>
+                                   
+                                   <h3 class="stat-number text-white"
+                                        data-target="{{ $heroStats['total_collected_raw'] }}"
+                                        data-format="{{ $heroStats['total_collected_fmt'] }}">
+                                        0
+                                    </h3>
                                     <p class="stat-label text-white-50">Terkumpul</p>
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="stat-item">
-                                    <h3 class="stat-number text-white">
-                                        {{ format_large_number($heroStats['total_wakaf_masuk']) }}</h3>
+                                    
+                                    <h3 class="stat-number text-white"
+                                        data-target="{{ $heroStats['total_wakaf_masuk_raw'] }}"
+                                        data-format="{{ $heroStats['total_wakaf_masuk_fmt'] }}">
+                                        0
+                                    </h3>
                                     <p class="stat-label text-white-50">Wakaf Masuk</p>
                                 </div>
                             </div>

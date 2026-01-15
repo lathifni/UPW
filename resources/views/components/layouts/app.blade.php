@@ -163,7 +163,7 @@
             </div>
         </div>
     </div> -->
-    <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered"> {{-- Hapus modal-lg biar lebih ramping --}}
             <div class="modal-content rounded-4 border-0 shadow-lg">
                 
@@ -175,7 +175,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body p-4">
+                <div class="modal-body px-4">
                     {{-- Form diarahkan ke Route Donasi Online (Midtrans) --}}
                     {{-- Ganti 'donations.store' dengan route yang kamu pakai di halaman detail program --}}
                     <form action="{{ route('donations.store') }}" method="POST">
@@ -226,9 +226,14 @@
                             <input type="number" name="donor_phone" class="form-control" 
                                 placeholder="0812..." required>
                         </div>
+                        <div class=" mb-1">
+                            <label class="form-label fw-bold small">NIM (Opsional)</label>
+                            <input type="string" name="donor_nim" class="form-control" 
+                                placeholder="201152...." required>
+                        </div>
                         
                         {{-- Tombol Submit --}}
-                        <div class="d-grid mt-2">
+                        <div class="d-grid mt-1">
                             <button type="submit" class="btn btn-success fw-bold py-2 rounded-pill">
                                 Lanjut Pembayaran <i class="bi bi-arrow-right-circle ms-2"></i>
                             </button>
@@ -239,9 +244,130 @@
                                 <i class="bi bi-lock-fill me-1"></i>Pembayaran aman
                             </small>
                         </div>
+                        <div class="text-center pt-1">
+                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+                                    <i class="bi bi-search me-1"></i> Cek Status Wakaf
+                                </a>
+                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+                                    <i class="bi-journal-text me-1"></i> Riwayat Wakaf Saya
+                                </a>
+                            </div>
 
                     </form>
                 </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> {{-- Pakai modal-lg biar kolomnya muat --}}
+        <div class="modal-content rounded-4 border-0 shadow-lg">
+            
+            {{-- Header --}}
+            <div class="modal-header bg-success text-white px-4 py-3">
+                <h5 class="modal-title fw-bold" id="wakafUangModalLabel">
+                    <i class="bi bi-heart-fill me-2"></i>Formulir Wakaf Cepat
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body px-4 py-4">
+                <form action="{{ route('donations.store') }}" method="POST">
+                    @csrf
+                    
+                    {{-- 1. TUJUAN WAKAF --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Tujuan Wakaf <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="program_id" class="form-select" required>
+                                <option value="">-- Pilih Program --</option>
+                                @foreach($programsNav ?? [] as $p)
+                                    <option value="{{ $p->id }}">{{ $p->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- 2. NOMINAL --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Nominal (Rp) <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light fw-bold">Rp</span>
+                                <input type="number" name="amount" class="form-control fw-bold text-success" 
+                                       placeholder="Min. 10.000" min="10000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 border-light">
+
+                    {{-- 3. NAMA LENGKAP --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Nama Lengkap <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="donor_name" class="form-control" 
+                                   placeholder="Nama atau Hamba Allah" 
+                                   value="{{ auth()->check() ? auth()->user()->nama : '' }}" required>
+                        </div>
+                    </div>
+
+                    {{-- 4. EMAIL --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Email <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="email" name="donor_email" class="form-control" 
+                                   placeholder="email@anda.com" 
+                                   value="{{ auth()->check() ? auth()->user()->email : '' }}" required>
+                        </div>
+                    </div>
+
+                    {{-- 5. NO HP/WA --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">No. HP / WA <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <input type="number" name="donor_phone" class="form-control" 
+                                   placeholder="0812xxxx" maxlength="20" required>
+                        </div>
+                    </div>
+
+                    {{-- 6. NIM (OPSIONAL) --}}
+                    <div class="row mb-4 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">NIM / NIP <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <div class="col-sm-8">
+                            <input type="text" name="donor_nim" class="form-control" 
+                                   placeholder="Khusus Civitas Akademika UNAND" maxlength="20" >
+                        </div>
+                    </div>
+                    
+                    {{-- TOMBOL SUBMIT --}}
+                    <div class="row">
+                        <div class="col-sm-8 offset-sm-4">
+                            <button type="submit" class="btn btn-success w-100 fw-bold py-2 rounded-pill shadow-sm">
+                                Lanjut Pembayaran <i class="bi bi-arrow-right-circle ms-2"></i>
+                            </button>
+                            <div class="text-center mt-2">
+                                <small class="text-muted" style="font-size: 0.75rem;">
+                                    <i class="bi bi-shield-check me-1"></i>Transaksi aman & terverifikasi
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- TOMBOL ALTERNATIF --}}
+                    <div class="row mt-4 pt-3 border-top">
+                        <div class="col-12 text-center">
+                            <div class="d-flex gap-2 justify-content-center flex-wrap">
+                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                                    <i class="bi bi-search me-1"></i> Cek Status
+                                </a>
+                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                    <i class="bi bi-clock-history me-1"></i> Riwayat Wakaf
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>

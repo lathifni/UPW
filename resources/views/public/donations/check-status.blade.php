@@ -6,7 +6,7 @@
             <div class="col-md-8 col-lg-6">
                 
                 <div class="text-center">
-                    <h2 class="fw-bold text-success">Lacak Riwayat Wakaf Anda</h2>
+                    <h2 class="fw-bold text-success">Lihat Status Wakaf Anda</h2>
                     <p class="text-muted">Masukkan Order ID yang Anda dapatkan setelah mengisi formulir</p>
                 </div>
 

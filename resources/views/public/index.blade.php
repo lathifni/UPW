@@ -20,20 +20,20 @@
                             <div class="row">
                                 <div class="col-4">
                                     <div class="stat-item">
-                                        <h4 class="stat-number">1.250+</h4>
-                                        <p class="stat-label">Donatur</p>
+                                        <h4 class="stat-number">{{ $stats['transactions'] }}+</h4>
+                                        <p class="stat-label">Transaksi Wakaf</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="stat-item">
-                                        <h4 class="stat-number">65+</h4>
-                                        <p class="stat-label">Program</p>
+                                        <h4 class="stat-number">{{ $stats['distributions'] }}+</h4>
+                                        <p class="stat-label">Penyaluran Manfaat</p>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="stat-item">
-                                        <h4 class="stat-number">8.5M+</h4>
-                                        <p class="stat-label">Terkumpul</p>
+                                        <h4 class="stat-number">{{ $stats['funds'] }}+</h4>
+                                        <p class="stat-label">Wakaf Terkumpul</p>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                     <div class="hero-image text-center" data-aos="fade-left" data-aos-duration="1000"
                         data-aos-delay="400">
                         {{-- Ganti dengan gambar yang relevan dari folder public/frontend/img Anda --}}
-                        <img src="{{ asset('frontend/img/rektorat.jpg') }}" alt="Kampus UNAND"
+                        <img src="{{ asset('frontend/img/rektorat2.png') }}" alt="Kampus UNAND"
                             class="img-fluid rounded-3 shadow-lg">
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                         <div class="col-md-7 d-flex align-items-center bg-white">
                             <div class="card-body p-4 p-lg-5">
                                 <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
-                                <h3 class="fw-bold mb-3">Wakaf Uang Abadi UNAND</h3>
+                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
                                 <p class="text-muted mb-4">
                                     Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
                                     dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
@@ -222,7 +222,7 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-12">
-                    <h2 class="section-title">Kata Mereka Tentang Dana Sosial UNAND</h2>
+                    <h2 class="section-title">Kata Mereka Tentang Unit Pengelola Wakaf UNAND</h2>
                     <p class="section-subtitle">Testimoni dari para donatur dan penerima manfaat</p>
                 </div>
             </div>
@@ -289,7 +289,7 @@
             {{-- Judul Section --}}
             <div class="row text-center mb-5">
                 <div class="col-12">
-                    <h2 class="section-title fw-bold">Kabar & Berita Terkini</h2>
+                    <h2 class="section-title fw-bold">Berita Terkini</h2>
                     <p class="text-muted">Informasi terbaru seputar kegiatan dan penyaluran dana sosial</p>
                 </div>
             </div>

@@ -182,9 +182,9 @@
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">Berita & Kegiatan</h1>
-                    <p class="lead mb-4">Update terbaru seputar kegiatan, perkembangan program, dan pencapaian Dana
-                        Sosial UNAND</p>
+                    <h1 class="display-4 fw-bold mb-4">Berita</h1>
+                    <p class="lead mb-4">Update terbaru seputar kegiatan, perkembangan program, dan penyaluran Unit Pengelola 
+                        Wakaf UNAND</p>
                     <div class="hero-stats">
                         <div class="row justify-content-center">
                             <div class="col-3">
@@ -314,7 +314,7 @@
                                     <div class="d-flex w-100 justify-content-between">
                                         <h6 class="mb-1">{{ Str::limit($recent->title, 35) }}</h6>
                                         <small
-                                            class="text-muted">{{ $recent->created_at->diffForHumans(null, true) }}</small>
+                                            class="text-muted">{{ $recent->created_at?->diffForHumans(null, true) }}</small>
                                     </div>
                                     <p class="mb-1 text-muted small">{{ Str::limit(strip_tags($recent->content), 50) }}
                                     </p>

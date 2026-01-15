@@ -104,7 +104,7 @@
             <div id="form-wakaf-area" class="col-lg-7 mb-4" style="scroll-margin-top: 100px;">
                 <div class="card border-success shadow-sm">
                     <div class="card-header bg-success text-white text-center py-3">
-                        <h5 class="m-0 fw-bold">Formulir Wakaf Tunai</h5>
+                        <h5 class="m-0 fw-bold">Formulir Wakaf Uang</h5>
                     </div>
                     <div class="card-body p-4">
                         
@@ -162,6 +162,16 @@
                                 <input type="email" name="donor_email" class="form-control" 
                                        value="{{ auth()->user()->email ?? '' }}" required placeholder="email@contoh.com">
                             </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nomor HP</label>
+                                <input type="text" name="donor_phone" class="form-control" 
+                                       value="{{ auth()->user()->phone ?? '' }}" required placeholder="08121234..." maxlenght=14>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">NIM (Opsional)</label>
+                                <input type="text" name="donor_nim" class="form-control" 
+                                       value="{{ auth()->user()->nim ?? '' }}" placeholder="201152..." maxlenght=20>
+                            </div>
 
                             <button type="submit" class="btn btn-success w-100 py-3 fw-bold fs-5">
                                 <i class="bi bi-heart-fill me-2"></i>Lanjutkan Pembayaran Wakaf<i class="bi bi-arrow-right ms-2"></i>
@@ -171,6 +181,9 @@
                                 <small class="text-muted d-block mb-2">Sudah pernah berwakaf?</small>
                                 <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
                                     <i class="bi bi-search me-1"></i> Cek Status Wakaf
+                                </a>
+                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+                                    <i class="bi-journal-text me-1"></i> Riwayat Wakaf Saya
                                 </a>
                             </div>
                         </form>
@@ -206,7 +219,7 @@
                                                 {{ Str::mask($donor->donor_name, '*', 4) }}
                                             </h6>
                                             <small class="text-muted" style="font-size: 0.8rem;">
-                                                {{ $donor->created_at->diffForHumans() }}
+                                                {{ $donor->created_at?->diffForHumans() }}
                                             </small>
                                         </div>
                                         <small class="text-muted d-block">

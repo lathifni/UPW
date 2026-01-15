@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('nomor_hp')->nullable();
             $table->string('avatar')->nullable(); // Gabungan dari file avatar
+            $table->string('nim')->nullable(); // Gabungan dari file avatar
             
             // --- OTENTIKASI & KEAMANAN ---
             $table->enum('role', ['admin', 'donatur'])->default('donatur');

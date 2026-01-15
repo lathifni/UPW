@@ -250,7 +250,7 @@
                             <p class="small text-muted mb-1">Anda telah berdonasi sebesar Rp
                                 {{ number_format($donation->amount, 0, ',', '.') }}</p>
                             <small class="text-muted"><i
-                                    class="bi bi-clock me-1"></i>{{ $donation->created_at->diffForHumans() }}</small>
+                                    class="bi bi-clock me-1"></i>{{ $donation->created_at?->diffForHumans() }}</small>
                         </div>
                     @empty
                         <p class="text-muted small">Belum ada update terbaru.</p>

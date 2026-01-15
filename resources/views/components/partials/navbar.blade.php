@@ -21,7 +21,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {{ Request::routeIs(['public.wakaf-uang', 'programs.index.public']) ? 'active' : '' }}"
                             href="#" id="navbarDropdownProgram" role="button" data-bs-toggle="dropdown">
-                            Program
+                            Jenis
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownProgram">
                             <li><a class="dropdown-item {{ Request::routeIs('public.wakaf-uang') ? 'active' : '' }}"
@@ -54,7 +54,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('laporan.public') ? 'active' : '' }}"
-                            href="{{ route('laporan.public') }}">Laporan</a>
+                            href="{{ route('laporan.public') }}">Laporan</a>cccccccccccccccccccccccccccccccccccc
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"

@@ -97,6 +97,15 @@
                 font-size: 1.5rem;
                 margin-bottom: 1.5rem;
             }
+            .icon-circle-box {
+                width: 64px;           /* Lebar fix */
+                height: 64px;          /* Tinggi fix (harus sama) */
+                border-radius: 50%;    /* Lengkungan bulat */
+                display: flex;         /* Biar ikon di tengah */
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;        /* Biar gak gepeng kalau layar kecil */
+            }
         </style>
     @endpush
 
@@ -149,7 +158,7 @@
         </div>
     </section>
 
-    <section class="py-5 mb-5">
+    <!-- <section class="py-5 mb-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -235,6 +244,216 @@
                 </div>
             </div>
         </div>
+    </section> -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-success">Pusat Informasi Wakaf</h2>
+                <p class="text-muted">Klik pada pertanyaan di bawah untuk melihat penjelasan lengkap</p>
+            </div>
+
+            <div class="row g-3">
+                
+                {{-- 1. Apa Itu Wakaf? --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'pengertian-wakaf') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-success-subtle text-success rounded-circle  me-3">
+                                <i class="bi bi-question-lg fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Apa Itu Wakaf?</h5>
+                                <p class="text-muted small mb-0">Pengertian wakaf secara umum dan menurut istilah.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 2. Perbedaan Wakaf, Zakat, Infak (Sesuai slug kamu: 'perbedaan') --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'perbedaan') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-warning-subtle text-warning rounded-circle  me-3">
+                                <i class="bi bi-shuffle fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Apa Beda Wakaf, Zakat & Infak?</h5>
+                                <p class="text-muted small mb-0">Penjelasan perbedaan mendasar antar ketiganya.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 3. Sejarah Wakaf --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'sejarah-awal-mula-wakaf') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-info-subtle text-info rounded-circle  me-3">
+                                <i class="bi bi-clock-history fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Bagaimana Sejarah Awal Wakaf?</h5>
+                                <p class="text-muted small mb-0">Asal mula disyariatkannya wakaf dalam Islam.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 4. Kisah Abu Thalhah --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'kisah-abu-thalhah') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class ="icon-circle-box flex-shrink-0 bg-danger-subtle text-danger rounded-circle  me-3">
+                                <i class="bi bi-heart-pulse fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Kisah Inspiratif Wakaf Sahabat?</h5>
+                                <p class="text-muted small mb-0">Belajar dari kedermawanan Abu Thalhah.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 5. Apa Itu Wakaf Uang --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'wakaf-uang') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-primary-subtle text-primary rounded-circle  me-3">
+                                <i class="bi bi-cash-coin fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Apa Itu Wakaf Uang (Tunai)?</h5>
+                                <p class="text-muted small mb-0">Bolehkah berwakaf menggunakan uang?</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 6. Cara Wakaf Uang --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'cara-wakaf-uang') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-success-subtle text-success rounded-circle  me-3">
+                                <i class="bi bi-phone-vibrate fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Bagaimana Cara Wakaf Uang?</h5>
+                                <p class="text-muted small mb-0">Panduan praktis berwakaf uang di UNAND.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 7. Beda Wakaf Uang vs Melalui Uang --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'perbedaan-wakaf-uang-wakaf-melalui-uang') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-info-subtle text-info rounded-circle me-3">
+                                <i class="bi bi-arrow-left-right fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Wakaf Uang vs Melalui Uang?</h5>
+                                <p class="text-muted small mb-0">Serupa tapi tak sama, apa bedanya?</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 8. Perkembangan Wakaf --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'perkembangan-wakaf') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-secondary-subtle text-secondary rounded-circle me-3">
+                                <i class="bi bi-graph-up-arrow fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Sejarah Perkembangan Wakaf?</h5>
+                                <p class="text-muted small mb-0">Dinamika pengelolaan wakaf dari masa ke masa.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 9. Wakaf Produktif Zaman Nabi --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'wakaf-produktif') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-success-subtle text-success rounded-circle me-3">
+                                <i class="bi bi-tree fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Wakaf Produktif Zaman Nabi?</h5>
+                                <p class="text-muted small mb-0">Contoh pengelolaan aset wakaf para sahabat.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 10. Wakaf Sumur Utsman --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'wakaf-sumur') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-primary-subtle text-primary rounded-circle me-3">
+                                <i class="bi bi-droplet-fill fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Kisah Wakaf Sumur Utsman?</h5>
+                                <p class="text-muted small mb-0">Legenda sumur yang pahalanya mengalir abadi.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- 11. Wakaf Uang di Indonesia --}}
+                <div class="col-md-6">
+                    <a href="{{ route('public.education.show', 'wakaf-uang-di-indonesia') }}" class="card card-hover border-0 shadow-sm h-100 text-decoration-none">
+                        <div class="card-body d-flex align-items-center p-4">
+                            <div class="icon-circle-box flex-shrink-0 bg-danger-subtle text-danger rounded-circle me-3">
+                                <i class="bi bi-geo-alt fs-4"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Wakaf Uang di Indonesia?</h5>
+                                <p class="text-muted small mb-0">Potensi dan regulasi wakaf uang tanah air.</p>
+                            </div>
+                            <div class="ms-auto">
+                                <i class="bi bi-chevron-right text-muted"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </section>
 
     <section class="py-5 bg-success-subtle text-center">
@@ -246,5 +465,32 @@
             </a>
         </div>
     </section>
+
+    {{-- CSS Tambahan Biar Ada Efek Hover --}}
+    @push('styles')
+    <style>
+        .card-hover {
+            /* TRICKNYA DI SINI: */
+            /* Kita kasih border 1px dari awal, tapi warnanya transparan (bening) */
+            border: 1px solid transparent !important; 
+            
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+            
+            /* Pas di-hover, kita CUMA ganti warnanya aja (ukurannya tetap 1px) */
+            /* Jadi gak bakal gerak-gerak lagi */
+            border-color: #198754 !important; 
+        }
+
+        /* Opsional: Biar teksnya jadi ijo juga pas dihover */
+        .card-hover:hover .text-dark {
+            color: #198754 !important;
+        }
+    </style>
+    @endpush
 
 </x-layouts.app>

@@ -17,7 +17,9 @@ class DonationController extends Controller
             'amount' => 'required|numeric|min:10000', // Minimal donasi Rp 10.000
             'donor_name' => 'required|string|max:255',
             'donor_email' => 'required|email|max:255',
-            'program_id' => 'required|exists:programs,id'
+            'donor_phone' => 'required|string|max:20',
+            'program_id' => 'required|exists:programs,id',
+            'donor_nim'   => 'nullable|string|max:20',
         ], [
             'amount.min' => 'Maaf Bapak/Ibu, minimal donasi mulai dari Rp10.000',
             'amount.required' => 'Nominal donasi belum diisi.',
@@ -34,6 +36,8 @@ class DonationController extends Controller
 
             'donor_name'  => $request->donor_name,
             'donor_email' => $request->donor_email,
+            'donor_phone' => $request->donor_phone,
+            'donor_nim' => $request->donor_nim,
             'payment_type' => 'transfer',
         ]);
 
@@ -96,5 +100,48 @@ class DonationController extends Controller
 
         // 4. Kalau ketemu, balikin ke view yang sama TAPI bawa datanya
         return view('public.donations.check-status', compact('donation'));
+    }
+
+    public function history(Request $request)
+    {
+
+        $donations = [];
+
+        $keyword = $request->input('keyword');
+
+
+
+        if ($keyword) {
+
+            // Cari data yang statusnya PAID saja (biar rapi)
+
+            // Dan cari cocokkan keyword ke Email ATAU No HP ATAU NIM
+
+            $donations = Donation::where('status', 'paid')
+
+                ->where(function($query) use ($keyword) {
+
+                    $query->where('donor_email', $keyword)
+
+                        ->orWhere('donor_phone', $keyword)
+
+                        ->orWhere('donor_nim', $keyword)
+
+                        // Uncomment bawah ini kalau di tabel donations ada kolom 'donor_nim'
+
+                        ;
+
+                })
+
+                ->latest()
+
+                ->get();
+
+        }
+
+
+
+        return view('public.history', compact('donations', 'keyword'));
+
     }
 }

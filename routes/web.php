@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\AdminReportController;
+use App\Http\Controllers\Public\EducationController;
 
 
 // Rute Publik
@@ -41,6 +42,10 @@ Route::get('/laporan', function() {
     return view('public.laporan', compact('reports'));})->name('laporan.public');
     // Route untuk proses simpan konfirmasi wakaf publik
 Route::post('/wakaf-kilat/store', [App\Http\Controllers\Public\DonationController::class, 'storeQuickWaqf'])->name('public.wakaf.store');
+Route::get('/cek-riwayat', [DonationController::class, 'history'])
+    ->name('public.wakaf.history');
+Route::get('/edukasi', [EducationController::class, 'index'])->name('public.education.index');
+Route::get('/edukasi/{slug}', [EducationController::class, 'show'])->name('public.education.show');
 
 // --- RUTE UNTUK LUPA PASSWORD ---
 Route::get('/lupa-password', [ForgotPasswordController::class, 'showPhoneRequestForm'])->name('password.phone.request');

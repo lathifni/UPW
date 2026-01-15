@@ -24,6 +24,8 @@ return new class extends Migration
             // Kalau guest, ini wajib diisi via controller.
             $table->string('donor_name')->nullable();
             $table->string('donor_email')->nullable();
+            $table->string('donor_phone')->nullable();
+            $table->string('donor_nim')->nullable();    
 
             $table->enum('donation_type', ['program', 'zakat', 'wakaf', 'dana_abadi']);
             

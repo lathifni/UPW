@@ -7,6 +7,7 @@ use App\Models\Program;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Donation;
+use Illuminate\Support\Facades\DB;
 
 class ProgramController extends Controller
 {
@@ -16,7 +17,19 @@ class ProgramController extends Controller
         // Ambil 3 program terbaru yang aktif
         $programs = Program::where('is_active', true)->latest()->take(3)->get();
         $articles = Article::latest()->take(3)->get();
-        return view('public.index', compact('programs', 'articles'));
+
+        $totalTransactions = Donation::where('status', 'paid')->count();
+        $totalDistributions = 56;
+        $totalFunds = Donation::where('status', 'paid')->sum('amount');
+        $stats = [
+            // 'transactions' => $totalTransactions,
+            // 'distributions' => $totalDistributions,
+            // 'funds' => $totalFunds
+            'transactions' => $this->formatNumber($totalTransactions),
+            'distributions' => $this->formatNumber($totalDistributions),
+            'funds' => $this->formatNumber($totalFunds)
+        ];
+        return view('public.index', compact('programs', 'articles', 'stats'));
     }
 
     public function index(Request $request)
@@ -31,11 +44,28 @@ class ProgramController extends Controller
         $programs = $query->latest()->paginate(9);
 
         $categories = Program::select('category')->where('id', '!=', 1)->distinct()->pluck('category');
+        $totalCollected = Donation::where('status', 'paid')
+            ->where('program_id', '!=', 1)
+            ->sum('amount');
+
+        $totalWakafMasuk = Donation::where('status', 'paid')
+            ->where('program_id', '!=', 1)
+            ->count();
+
 
         $heroStats = [
-            'active_programs' => Program::where('is_active', true)->count(),
-            'total_collected' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->sum('amount'),
-            'total_wakaf_masuk' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->count(),
+            // 'active_programs' => Program::where('is_active', true)->count(),
+            // 'total_collected' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->sum('amount'),
+            // 'total_wakaf_masuk' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->count(),
+            'active_programs'        => Program::where('is_active', true)->count(),
+
+            // RAW (buat animasi)
+            'total_collected_raw'    => $totalCollected,
+            'total_wakaf_masuk_raw'  => $totalWakafMasuk,
+
+            // FORMAT (buat tampilan akhir)
+            'total_collected_fmt'   => format_large_number($totalCollected),
+            'total_wakaf_masuk_fmt' => format_large_number($totalWakafMasuk),
         ];
 
         return view('public.programs.index', compact('unggulan_programs', 'programs', 'categories', 'heroStats'));
@@ -70,56 +100,77 @@ class ProgramController extends Controller
 
     public function showWakafUang()
     {
-        // 1. Ambil Program Master
-        $program = \App\Models\Program::findOrFail(1);
+        // 1. Program Wakaf Uang
+        $program = Program::findOrFail(1);
 
-        // 2. Hitung Total Saat Ini (Grand Total buat di Header)
-        $totalFunds = \App\Models\Donation::where('program_id', 1)
-                        ->where('status', 'success')
-                        ->sum('amount');
+        // 2. Total Dana Terkelola (Grand Total)
+        $totalFunds = Donation::where('program_id', 1)
+            ->where('status', 'paid')
+            ->sum('amount');
 
-        // 3. LOGIC BARU: Chart Per Tahun (2024, 2025, 2026)
-        
-        // Tentukan range tahun yang mau ditampilkan
-        $years = [2024, 2025, 2026]; 
-        
-        // Siapkan array kosong buat nampung data
-        $labels = [];
-        $totals = [];
-        
-        // Hitung saldo awal (jika ada donasi SEBELUM 2024)
-        // Biar hitungan akumulasinya akurat
-        $runningTotal = \App\Models\Donation::where('program_id', 1)
-                        ->where('status', 'success')
-                        ->whereYear('created_at', '<', 2024)
-                        ->sum('amount');
-        
-        $latestDonors = Donation::where('program_id', 1)
-            ->where('status', 'paid') // Hanya yang sukses bayar
-            ->latest() // Urutkan dari yang terbaru
-            ->take(5)  // Ambil 5 saja
-            ->get();
+        // 3. Ambil tahun paling awal & tahun sekarang
+        $firstYear = Donation::where('program_id', 1)
+            ->where('status', 'paid')
+            ->min(DB::raw('YEAR(created_at)'));
 
-        foreach ($years as $year) {
-            // Ambil total donasi DI TAHUN TERSEBUT
-            $yearlySum = \App\Models\Donation::where('program_id', 1)
-                            ->where('status', 'success')
-                            ->whereYear('created_at', $year)
-                            ->sum('amount');
-            
-            // Tambahkan ke saldo berjalan (Akumulasi)
-            $runningTotal += $yearlySum;
-
-            // Masukkan ke array buat dikirim ke Chart.js
-            $labels = ['Tahun 2024', 'Tahun 2025', 'Tahun 2026'];
-            $totals = [
-                0,              // 2024: Kosong
-                1500000000,     // 2025: 1.5 Miliar (Posisi Sekarang)
-                4200000000      // 2026: 4.2 Miliar (Target/Proyeksi)
-            ];
-            $totalFunds = 1500000000;
+        // Kalau belum ada data sama sekali
+        if (!$firstYear) {
+            $firstYear = now()->year;
         }
 
-        return view('public.wakaf-uang.index', compact('program', 'totalFunds', 'labels', 'totals', 'latestDonors'));
+        $currentYear = now()->year;
+
+        // 4. Siapkan array chart
+        $labels = [];
+        $totals = [];
+
+        // 5. Saldo sebelum tahun pertama (biasanya 0, tapi tetap aman)
+        $runningTotal = 0;
+
+        // 6. Loop otomatis per tahun (AKUMULATIF)
+        for ($year = $firstYear; $year <= $currentYear; $year++) {
+
+            $yearlySum = Donation::where('program_id', 1)
+                ->where('status', 'paid')
+                ->whereYear('created_at', $year)
+                ->sum('amount');
+
+            $runningTotal += $yearlySum;
+
+            $labels[] = $year;
+            $totals[] = $runningTotal;
+        }
+
+        // 7. Wakif Terbaru
+        $latestDonors = Donation::where('program_id', 1)
+            ->where('status', 'paid')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view(
+            'public.wakaf-uang.index',
+            compact('program', 'totalFunds', 'labels', 'totals', 'latestDonors')
+        );
+    }
+
+   
+    private function formatNumber($num)
+    {
+        $num = (int) $num;
+
+        if ($num >= 1000000000) {
+            return floor($num / 1000000000) . 'M';
+        }
+
+        if ($num >= 1000000) {
+            return floor($num / 1000000) . 'Jt';
+        }
+
+        if ($num >= 1000) {
+            return floor($num / 1000) . 'Rb';
+        }
+
+        return number_format($num, 0, ',', '.');
     }
 }

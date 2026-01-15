@@ -143,9 +143,46 @@ function initializeProgressBars() {
 }
 
 // ===== COUNTER ANIMATIONS =====
+// function initializeCounters() {
+//     const counters = document.querySelectorAll('.stat-number');
+    
+//     const observer = new IntersectionObserver((entries) => {
+//         entries.forEach(entry => {
+//             if (entry.isIntersecting) {
+//                 animateCounter(entry.target);
+//                 observer.unobserve(entry.target);
+//             }
+//         });
+//     }, {
+//         threshold: 0.5
+//     });
+    
+//     counters.forEach(counter => {
+//         observer.observe(counter);
+//     });
+    
+//     function animateCounter(element) {
+//         const target = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+//         const suffix = element.textContent.replace(/[0-9]/g, '');
+//         const duration = 2000;
+//         const step = target / (duration / 16);
+        
+//         let current = 0;
+        
+//         const timer = setInterval(() => {
+//             current += step;
+//             if (current >= target) {
+//                 element.textContent = target + suffix;
+//                 clearInterval(timer);
+//             } else {
+//                 element.textContent = Math.floor(current) + suffix;
+//             }
+//         }, 16);
+//     }
+// }
 function initializeCounters() {
     const counters = document.querySelectorAll('.stat-number');
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -153,33 +190,44 @@ function initializeCounters() {
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        threshold: 0.5
-    });
-    
-    counters.forEach(counter => {
-        observer.observe(counter);
-    });
-    
+    }, { threshold: 0.5 });
+
+    counters.forEach(counter => observer.observe(counter));
+
     function animateCounter(element) {
-        const target = parseInt(element.textContent.replace(/[^0-9]/g, ''));
-        const suffix = element.textContent.replace(/[0-9]/g, '');
+        let target;
+        let finalText;
+
+        // 1️⃣ PAKAI data-target kalau ada
+        if (element.dataset.target) {
+            target = parseInt(element.dataset.target, 10);
+            finalText = element.dataset.format ?? element.textContent;
+        } 
+        // 2️⃣ FALLBACK: ambil dari text
+        else {
+            const text = element.textContent.trim();
+            target = parseInt(text.replace(/[^0-9]/g, ''), 10) || 0;
+            finalText = text;
+        }
+
         const duration = 2000;
-        const step = target / (duration / 16);
-        
+        const frameRate = 16;
+        const step = Math.max(1, Math.ceil(target / (duration / frameRate)));
+
         let current = 0;
-        
+
         const timer = setInterval(() => {
             current += step;
             if (current >= target) {
-                element.textContent = target + suffix;
+                element.textContent = finalText;
                 clearInterval(timer);
             } else {
-                element.textContent = Math.floor(current) + suffix;
+                element.textContent = current.toLocaleString('id-ID');
             }
-        }, 16);
+        }, frameRate);
     }
 }
+
 
 // ===== MODAL FUNCTIONALITY =====
 function showDonationModal(programId, programName) {
