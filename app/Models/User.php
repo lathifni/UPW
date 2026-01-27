@@ -26,6 +26,9 @@ class User extends Authenticatable
         'verification_code',
         'avatar',
         'verification_code_expires_at',
+        'kategori',
+        'nomor_induk',
+        'kategorim',
     ];
 
     /**

@@ -7,6 +7,7 @@ use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail; // <--- TAMBAHKAN BARIS INI!
+use Illuminate\Support\Facades\Log;
 
 class DonationController extends Controller
 {
@@ -19,7 +20,8 @@ class DonationController extends Controller
             'donor_email' => 'required|email|max:255',
             'donor_phone' => 'required|string|max:20',
             'program_id' => 'required|exists:programs,id',
-            'donor_nim'   => 'nullable|string|max:20',
+            'donor_nomor_induk'   => 'nullable|string|max:20',
+            'donor_category' => 'required|string'
         ], [
             'amount.min' => 'Maaf Bapak/Ibu, minimal donasi mulai dari Rp10.000',
             'amount.required' => 'Nominal donasi belum diisi.',
@@ -37,7 +39,8 @@ class DonationController extends Controller
             'donor_name'  => $request->donor_name,
             'donor_email' => $request->donor_email,
             'donor_phone' => $request->donor_phone,
-            'donor_nim' => $request->donor_nim,
+            'donor_nomor_induk' => $request->donor_nomor_induk,
+            'donor_category' => $request->donor_category,
             'payment_type' => 'transfer',
         ]);
 
@@ -48,7 +51,7 @@ class DonationController extends Controller
         } catch (\Exception $e) {
             // Opsional: Log error jika email gagal terkirim, 
             // tapi jangan hentikan proses agar user tetap bisa lanjut.
-            \Log::error('Gagal mengirim email wakaf: ' . $e->getMessage());
+            Log::error('Gagal mengirim email wakaf: ' . $e->getMessage());
         }
         // 3. TODO: Tempat untuk integrasi Midtrans nanti
         // ==============================================
@@ -125,7 +128,7 @@ class DonationController extends Controller
 
                         ->orWhere('donor_phone', $keyword)
 
-                        ->orWhere('donor_nim', $keyword)
+                        ->orWhere('donor_nomor_induk', $keyword)
 
                         // Uncomment bawah ini kalau di tabel donations ada kolom 'donor_nim'
 

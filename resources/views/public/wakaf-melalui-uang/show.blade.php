@@ -345,14 +345,14 @@
                         {{-- Kita gunakan lagi kode kartu program yang sudah kita sempurnakan --}}
                         <div class="program-card h-100" data-aos="fade-up">
                             <div class="program-image">
-                                <a href="{{ route('programs.show.public', $related->id) }}">
+                                <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}">
                                     <img src="{{ asset('storage/programs/' . $related->image) }}"
                                         alt="{{ $related->title }}" class="card-img-top">
                                 </a>
                             </div>
                             <div class="card-body d-flex flex-column">
                                 <h5 class="program-title">
-                                    <a href="{{ route('programs.show.public', $related->id) }}"
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}"
                                         class="text-decoration-none text-dark">{{ $related->title }}</a>
                                 </h5>
                                 <p class="program-description">{{ Str::limit($related->description, 90) }}</p>
@@ -378,7 +378,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('programs.show.public', $related->id) }}"
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}"
                                         class="btn btn-success w-100">Lihat Detail</a>
                                 </div>
                             </div>

@@ -22,8 +22,9 @@ class Donation extends Model
         'donor_name',
         'donor_email',
         'donor_phone',
-        'donor_nim',
+        'donor_nomor_induk',
         'payment_type',
+        'donor_category'
     ];
 
     /**

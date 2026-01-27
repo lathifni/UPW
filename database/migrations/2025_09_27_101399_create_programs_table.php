@@ -18,7 +18,13 @@ return new class extends Migration
             $table->text('description');
             
             // Kategori (Wakaf Uang / Project / Zakat)
-            $table->string('category')->nullable();
+            $table->enum('category', [
+                'Wakaf Uang', 
+                'Wakaf Melalui Uang', 
+                'Dana Abadi', 
+                'Zakat'
+            ]);
+            // $table->string('category')->nullable();
             
             $table->string('image')->nullable();
             
@@ -36,6 +42,11 @@ return new class extends Migration
             $table->date('deadline')->nullable();
             
             $table->string('certificate_type')->default('none');
+
+            $table->foreignId('rekening_id')
+                  ->nullable()                // Boleh kosong (opsional)
+                  ->constrained('rekenings')  // Terhubung ke tabel 'rekenings'
+                  ->onDelete('set null');
             
             $table->timestamps();
         });

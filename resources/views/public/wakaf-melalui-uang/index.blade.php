@@ -112,8 +112,8 @@
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-2">Wakaf Uang</h1>
-                    <p class="lead mb-4">Pilih program wakaf uang yang sesuai dengan kepedulian Anda. Bersama kita wujudkan
+                    <h1 class="display-4 fw-bold mb-2">Wakaf Melalui Uang</h1>
+                    <p class="lead mb-4">Pilih program Wakaf Melalui Uang yang sesuai dengan kepedulian Anda. Bersama kita wujudkan
                         perubahan yang berarti untuk kemajuan UNAND dan masyarakat</p>
                     <div class="hero-stats">
                         <div class="row justify-content-center">
@@ -158,7 +158,7 @@
                 <div class="row align-items-center">
                     <div class="col-lg-4">
                         <div class="search-box">
-                            <input type="text" class="form-control" placeholder="Cari Wakaf Uang..." />
+                            <input type="text" class="form-control" placeholder="Cari program wakaf melalui uang..." />
                             <i class="bi bi-search search-icon"></i>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                             <div class="col-12" data-aos="fade-up">
                                 <div class="program-card-horizontal">
                                     <div class="program-image d-none d-md-block">
-                                        <a href="{{ route('wakaf-uang.show.public', $program->slug) }}">
+                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}">
                                             <img src="{{ asset('storage/programs/' . $program->image) }}"
                                                 alt="{{ $program->title }}"
                                                 style="width: 300px; height: 100%; object-fit: cover;">
@@ -189,7 +189,7 @@
                                     <div class="program-content d-flex flex-column flex-grow-1">
                                         <div class="d-flex justify-content-between align-items-start">
                                             <h4 class="program-title"><a
-                                                    href="{{ route('wakaf-uang.show.public', $program->slug) }}"
+                                                    href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
                                                     class="text-decoration-none text-dark">{{ $program->title }}</a>
                                             </h4>
                                             <span
@@ -197,9 +197,38 @@
                                         </div>
                                         <p class="program-description my-3">
                                             {{ Str::limit($program->description, 150) }}</p>
+                                        <div class="program-progress mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <small class="text-muted">Terkumpul <strong>Rp
+                                                        {{ $program->formatted_collected_amount }}</strong></small>
+                                                <small class="text-muted">Target <strong>Rp
+                                                        {{ $program->formatted_target_amount }}</strong></small>
+                                            </div>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: {{ $program->progres_persentase }}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="program-stats border rounded p-3 mb-4">
+                                            <div class="row text-center">
+                                                <div class="col-4">
+                                                    <strong>{{ $program->progres_persentase }}%</strong>
+                                                    <div class="small text-muted">Progress</div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <strong>{{ $program->deadline ? \Carbon\Carbon::parse($program->deadline)->diffForHumans(null, true) : '∞' }}</strong>
+                                                    <div class="small text-muted">Tersisa</div>
+                                                </div>
+                                                <div class="col-4"><strong>{{ $program->donations->count() }}</strong>
+                                                    <div class="small text-muted">Donatur</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="d-flex gap-2 mt-auto">
-                                            <a href="{{ route('wakaf-uang.show.public', $program->slug) }}"
+                                            <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
                                                 class="btn btn-success flex-fill">Lihat Detail</a>
+                                            <a href="#" class="btn btn-outline-success"><i
+                                                    class="bi bi-heart"></i> Donasi</a>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +242,7 @@
             <div class="program-category">
                 @if ($unggulan_programs->isNotEmpty())
                     <div class="category-header">
-                        <h3 class="text-success mb-2">Program Wakaf Uang Lainnya</h3>
+                        <h3 class="text-success mb-2">Program Lainnya</h3>
                         <p class="text-muted">Jelajahi program kebaikan lainnya yang bisa Anda dukung.</p>
                     </div>
                 @endif
@@ -222,16 +251,38 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="program-card h-100" data-aos="fade-up">
                                 <div class="program-image"><a
-                                        href="{{ route('wakaf-uang.show.public', $program->slug) }}"><img
-                                        src="{{ asset('storage/programs/' . $program->image) }}"
-                                        alt="{{ $program->title }}" class="card-img-top"></a></div>
+                                        href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"><img
+                                            src="{{ asset('storage/programs/' . $program->image) }}"
+                                            alt="{{ $program->title }}" class="card-img-top"></a></div>
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="program-title"><a
-                                        href="{{ route('wakaf-uang.show.public', $program->slug) }}"
-                                        class="text-decoration-none text-dark">{{ $program->title }}</href=></h5>
+                                            href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
+                                            class="text-decoration-none text-dark">{{ $program->title }}</a></h5>
                                     <p class="program-description">{{ Str::limit($program->description, 90) }}</p>
                                     <div class="mt-auto">
-                                        <a href="{{ route('wakaf-uang.show.public', $program->slug) }}"
+                                        <div class="program-progress mb-3">
+                                            <div class="d-flex justify-content-between mb-1"><small
+                                                    class="text-muted">Terkumpul</small><small
+                                                    class="text-muted">{{ $program->progres_persentase }}%</small>
+                                            </div>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: {{ $program->progres_persentase }}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="program-stats mb-3">
+                                            <div class="row text-center">
+                                                <div class="col-6"><strong class="text-success">Rp
+                                                        {{ $program->formatted_collected_amount }}</strong>
+                                                    <div class="small text-muted">Terkumpul</div>
+                                                </div>
+                                                <div class="col-6"><strong class="text-success">Rp
+                                                        {{ $program->formatted_target_amount }}</strong>
+                                                    <div class="small text-muted">Target</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
                                             class="btn btn-success w-100">Lihat Detail</a>
                                     </div>
                                 </div>
@@ -239,7 +290,7 @@
                         </div>
                     @empty
                         <div class="col-12">
-                            <div class="alert alert-info text-center">Tidak ada Wakaf Uang yang ditemukan untuk
+                            <div class="alert alert-info text-center">Tidak ada Wakaf Melalui Uang yang ditemukan untuk
                                 saat ini.</div>
                         </div>
                     @endforelse

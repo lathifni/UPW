@@ -20,8 +20,8 @@ use App\Http\Controllers\Public\EducationController;
 
 // Rute Publik
 Route::get('/', [PublicProgramController::class, 'home'])->name('home');
-Route::get('/programs', [PublicProgramController::class, 'index'])->name('programs.index.public');
-Route::get('/programs/{program}', [PublicProgramController::class, 'show'])->name('programs.show.public');
+Route::get('/wakaf-melalui-uang', [PublicProgramController::class, 'indexWakafMelaluiUang'])->name('wakaf-melalui-uang.index.public');
+Route::get('/wakaf-melalui-uang/{slug}', [PublicProgramController::class, 'showWakafMelaluiUang'])->name('wakaf-melalui-uang.show.public');
 // Route::post('/donations', [DonationController::class, 'store'])->name('donations.store')->middleware('verified.custom');
 Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
 Route::get('/berita', [PublicArticleController::class, 'index'])->name('articles.index.public');
@@ -32,7 +32,9 @@ Route::get('/kepengurusan', [PublicManagementController::class, 'index'])->name(
 Route::get('/email/verify', function () {return view('auth.verify');})->name('verification.notice');
 Route::get('/laporan', function () {return view('public.laporan');})->name('laporan.public');
 Route::get('/edukasi-wakaf', function () {return view('public.edukasi-wakaf');})->name('edukasi-wakaf.public');
-Route::get('/wakaf-uang', [PublicProgramController::class, 'showWakafUang'])->name('public.wakaf-uang');
+Route::get('/wakaf-uang', [PublicProgramController::class, 'indexWakafUang'])->name('public.wakaf-uang');
+Route::get('/wakaf-uang/{slug}', [PublicProgramController::class, 'showWakafUang'])
+    ->name('wakaf-uang.show.public');
 Route::get('/payment-instruction/{order_id}', [DonationController::class, 'instruction'])->name('donations.instruction');
 Route::get('/cek-wakaf', [DonationController::class, 'checkStatusIndex'])->name('donations.check');
 // Proses Pencarian Data (saat tombol diklik)

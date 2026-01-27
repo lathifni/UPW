@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('donor_name')->nullable();
             $table->string('donor_email')->nullable();
             $table->string('donor_phone')->nullable();
-            $table->string('donor_nim')->nullable();    
+            $table->string('donor_nomor_induk')->nullable();
+            $table->enum('donor_category', ['mahasiswa', 'alumni', 'dosen', 'tenaga_pendidik', 'umum'])->default('umum'); 
 
             $table->enum('donation_type', ['program', 'zakat', 'wakaf', 'dana_abadi']);
             

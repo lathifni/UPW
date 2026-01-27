@@ -19,15 +19,15 @@
                             href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ Request::routeIs(['public.wakaf-uang', 'programs.index.public']) ? 'active' : '' }}"
+                        <a class="nav-link dropdown-toggle {{ Request::routeIs(['public.wakaf-uang', 'wakaf-melalui-uang.index.public']) ? 'active' : '' }}"
                             href="#" id="navbarDropdownProgram" role="button" data-bs-toggle="dropdown">
                             Jenis
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownProgram">
                             <li><a class="dropdown-item {{ Request::routeIs('public.wakaf-uang') ? 'active' : '' }}"
                                     href="{{ route('public.wakaf-uang') }}">Wakaf Uang</a></li>
-                            <li><a class="dropdown-item {{ Request::routeIs('programs.index.public') ? 'active' : '' }}"
-                                    href="{{ route('programs.index.public') }}">Wakaf Melalui Uang</a></li>
+                            <li><a class="dropdown-item {{ Request::routeIs('wakaf-melalui-uang.index.public') ? 'active' : '' }}"
+                                    href="{{ route('wakaf-melalui-uang.index.public') }}">Wakaf Melalui Uang</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
                                     href="http://upz.unand.ac.id/">Zakat</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
@@ -54,7 +54,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('laporan.public') ? 'active' : '' }}"
-                            href="{{ route('laporan.public') }}">Laporan</a>cccccccccccccccccccccccccccccccccccc
+                            href="{{ route('laporan.public') }}">Laporan</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::routeIs('edukasi-wakaf.public') ? 'active' : '' }}"

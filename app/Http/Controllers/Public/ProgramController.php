@@ -8,6 +8,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Models\Donation;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProgramController extends Controller
 {
@@ -32,24 +33,28 @@ class ProgramController extends Controller
         return view('public.index', compact('programs', 'articles', 'stats'));
     }
 
-    public function index(Request $request)
+    public function indexWakafMelaluiUang(Request $request)
     {
-        $unggulan_programs = Program::where('is_active', true)->where('id', '!=', 1)->where('is_unggulan', true)->latest()->get();
+        $unggulan_programs = Program::where('is_active', true)->where('category', '=', 'Wakaf Melalui Uang')->where('is_unggulan', true)->latest()->get();
 
         // Ambil program biasa (bukan unggulan) dengan filter dan paginasi
-        $query = Program::where('is_active', true)->where('id', '!=', 1)->where('is_unggulan', false);
+        $query = Program::where('is_active', true)->where('category', '=', 'Wakaf Melalui Uang')->where('is_unggulan', false);
         if ($request->has('category') && $request->category != 'all') {
             $query->where('category', 'like', '%' . $request->category . '%');
         }
         $programs = $query->latest()->paginate(9);
 
-        $categories = Program::select('category')->where('id', '!=', 1)->distinct()->pluck('category');
+        $categories = Program::select('category')->where('category', '=', 'Wakaf Melalui Uang')->distinct()->pluck('category');
         $totalCollected = Donation::where('status', 'paid')
-            ->where('program_id', '!=', 1)
+            ->whereHas('program', function (Builder $q) {
+                $q->where('category', 'Wakaf Melalui Uang'); // Sesuaikan string-nya (Spasi/Strip)
+            })
             ->sum('amount');
 
         $totalWakafMasuk = Donation::where('status', 'paid')
-            ->where('program_id', '!=', 1)
+            ->whereHas('program', function (Builder $q) {
+                    $q->where('category', 'Wakaf Melalui Uang'); // Sesuaikan string-nya (Spasi/Strip)
+                })
             ->count();
 
 
@@ -57,7 +62,7 @@ class ProgramController extends Controller
             // 'active_programs' => Program::where('is_active', true)->count(),
             // 'total_collected' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->sum('amount'),
             // 'total_wakaf_masuk' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->count(),
-            'active_programs'        => Program::where('is_active', true)->count(),
+            'active_programs'        => Program::where('category', '=', 'Wakaf Melalui Uang')->count(),
 
             // RAW (buat animasi)
             'total_collected_raw'    => $totalCollected,
@@ -68,18 +73,18 @@ class ProgramController extends Controller
             'total_wakaf_masuk_fmt' => format_large_number($totalWakafMasuk),
         ];
 
-        return view('public.programs.index', compact('unggulan_programs', 'programs', 'categories', 'heroStats'));
+        return view('public.wakaf-melalui-uang.index', compact('unggulan_programs', 'programs', 'categories', 'heroStats'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Program $program)
+    public function showWakafMelaluiUang(Program $program)
     {
         // Ambil 3 program lain yang aktif, selain program yang sedang dilihat
         $related_programs = Program::where('is_active', true)
-            ->where('id', '!=', $program->id) // Jangan tampilkan program yang sama
-            ->where('id', '!=', 1)
+            ->where('id', '!=', $program->slug) // Jangan tampilkan program yang sama
+            ->where('category', '=', 'Wakaf Melalui Uang')
             ->latest()
             ->take(3)
             ->get();
@@ -95,10 +100,10 @@ class ProgramController extends Controller
             ->take(5)  // Ambil 5 saja
             ->get();
 
-        return view('public.programs.show', compact('program', 'related_programs', 'donor_count', 'latestDonors'));
+        return view('public.wakaf-melalui-uang.show', compact('program', 'related_programs', 'donor_count', 'latestDonors'));
     }
 
-    public function showWakafUang()
+    public function showWakafUanglama()
     {
         // 1. Program Wakaf Uang
         $program = Program::findOrFail(1);
@@ -154,6 +159,129 @@ class ProgramController extends Controller
         );
     }
 
+    public function indexWakafUang(Request $request)
+    {
+        $unggulan_programs = Program::where('is_active', true)->where('category', '=', 'Wakaf Uang')->where('is_unggulan', true)->latest()->get();
+
+        // Ambil program biasa (bukan unggulan) dengan filter dan paginasi
+        $query = Program::where('is_active', true)->where('category', '=', 'Wakaf Uang')->where('is_unggulan', false);
+        if ($request->has('category') && $request->category != 'all') {
+            $query->where('category', 'like', '%' . $request->category . '%');
+        }
+        $programs = $query->latest()->paginate(9);
+
+        $categories = Program::select('category')->where('category', '=', 'Wakaf Uang')->distinct()->pluck('category');
+        $totalCollected = Donation::where('status', 'paid')
+            ->whereHas('program', function (Builder $q) {
+                $q->where('category', 'Wakaf Uang'); // Sesuaikan string-nya (Spasi/Strip)
+            })
+            ->sum('amount');
+
+        $totalWakafMasuk = Donation::where('status', 'paid')
+            ->whereHas('program', function (Builder $q) {
+                    $q->where('category', 'Wakaf Uang'); // Sesuaikan string-nya (Spasi/Strip)
+                })
+            ->count();
+
+
+        $heroStats = [
+            // 'active_programs' => Program::where('is_active', true)->count(),
+            // 'total_collected' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->sum('amount'),
+            // 'total_wakaf_masuk' => Donation::where('status', 'paid')->where('program_id', '!=', 1)->count(),
+            'active_programs'        => Program::where('is_active', true)->where('category', '=', 'Wakaf Uang')->count() ,
+
+            // RAW (buat animasi)
+            'total_collected_raw'    => $totalCollected,
+            'total_wakaf_masuk_raw'  => $totalWakafMasuk,
+
+            // FORMAT (buat tampilan akhir)
+            'total_collected_fmt'   => format_large_number($totalCollected),
+            'total_wakaf_masuk_fmt' => format_large_number($totalWakafMasuk),
+        ];
+
+        return view('public.wakaf-uang.index', compact('unggulan_programs', 'programs', 'categories', 'heroStats'));
+    }
+   
+    public function showWakafUang($slug)
+    {
+        // 1. Cari Program berdasarkan Slug (Bukan ID 1 lagi, tapi dinamis)
+        // Pastikan cuma nampilin kategori Wakaf Uang agar aman
+        $program = Program::where('slug', $slug)
+            ->where('is_active', true)
+            ->where('category', 'Wakaf Uang') 
+            ->firstOrFail();
+
+        // --- BAGIAN 1: LOGIKA CHART & STATISTIK (DARI KODE LAMA) ---
+
+        // A. Total Dana Terkumpul Program INI
+        $totalFunds = Donation::where('program_id', $program->id) // 👈 Ganti 1 jadi $program->id
+            ->where('status', 'paid')
+            ->sum('amount');
+
+        // B. Cari Tahun Pertama Donasi Program INI
+        $firstYear = Donation::where('program_id', $program->id) // 👈 Ganti 1 jadi $program->id
+            ->where('status', 'paid')
+            ->min(DB::raw('YEAR(created_at)'));
+
+        if (!$firstYear) {
+            $firstYear = now()->year;
+        }
+
+        $currentYear = now()->year;
+
+        // C. Siapkan Array Chart
+        $labels = [];
+        $totals = [];
+        $runningTotal = 0; // Saldo akumulasi
+
+        // D. Loop dari tahun pertama sampai sekarang
+        for ($year = $firstYear; $year <= $currentYear; $year++) {
+            // Hitung donasi per tahun untuk program INI
+            $yearlySum = Donation::where('program_id', $program->id) // 👈 Ganti 1 jadi $program->id
+                ->where('status', 'paid')
+                ->whereYear('created_at', $year)
+                ->sum('amount');
+
+            $runningTotal += $yearlySum; // Tambahkan ke saldo akumulasi
+
+            $labels[] = $year;          // Masukkan tahun ke label X
+            $totals[] = $runningTotal;  // Masukkan total ke data Y
+        }
+
+
+        // --- BAGIAN 2: LOGIKA TAMBAHAN (DARI KODE BARU) ---
+
+        // E. Ambil Program Lain (Related)
+        $related_programs = Program::where('is_active', true)
+            ->where('category', 'Wakaf Uang') // Pastikan sesama Wakaf Uang
+            ->where('id', '!=', $program->id) // Jangan tampilkan diri sendiri
+            ->latest()
+            ->take(3)
+            ->get();
+
+        // F. Hitung Jumlah Donatur Unik
+        $donor_count = Donation::where('program_id', $program->id)
+            ->where('status', 'paid')
+            ->count();
+
+        // G. List Donatur Terakhir (5 Orang)
+        $latestDonors = Donation::where('program_id', $program->id)
+            ->where('status', 'paid')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // --- BAGIAN 3: RETURN VIEW ---
+        return view('public.wakaf-uang.show', compact(
+            'program', 
+            'totalFunds', 
+            'labels', 
+            'totals', 
+            'related_programs', 
+            'donor_count', 
+            'latestDonors'
+        ));
+    }
    
     private function formatNumber($num)
     {

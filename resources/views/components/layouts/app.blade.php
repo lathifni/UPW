@@ -330,12 +330,11 @@
                         </div>
                     </div>
 
-                    {{-- 6. NIM (OPSIONAL) --}}
+                    {{-- 6. Nomor Induk (OPSIONAL) --}}
                     <div class="row mb-4 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">NIM / NIP <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">NIM/NIP/NIKU<span class="text-muted fw-normal">(Opsional)</span></label>
                         <div class="col-sm-8">
-                            <input type="text" name="donor_nim" class="form-control" 
-                                   placeholder="Khusus Civitas Akademika UNAND" maxlength="20" >
+                            <input type="text" name="donor_nomor_induk" class="form-control" maxlength="20" >
                         </div>
                     </div>
                     

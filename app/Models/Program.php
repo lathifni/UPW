@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Rekening;
 
 class Program extends Model
 {
@@ -22,6 +23,7 @@ class Program extends Model
         'deadline',
         'is_unggulan',
         'certificate_type',
+        'rekening_id',
     ];
 
     /**
@@ -96,6 +98,12 @@ class Program extends Model
     public function donations()
     {
         return $this->hasMany(Donation::class);
+    }
+
+    public function rekening()
+    {
+        // Artinya: Program ini "Milik" (belongsTo) satu Rekening
+        return $this->belongsTo(Rekening::class);
     }
 
     /**

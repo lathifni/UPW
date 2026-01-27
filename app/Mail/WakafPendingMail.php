@@ -14,13 +14,15 @@ class WakafPendingMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $donation;
+
     /**
      * Create a new message instance.
      */
-    public $donation;
     public function __construct(Donation $donation)
     {
-        $this->donation = $donation;
+        // Kita load relasi program & rekening biar datanya lengkap pas dikirim ke view
+        $this->donation = $donation->load('program.rekening');
     }
 
     /**
@@ -29,7 +31,8 @@ class WakafPendingMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Terima Kasih atas Wakaf Anda - Menunggu Verifikasi',
+            // Subject bisa dinamis juga, misal nyebutin ID Order
+            subject: 'Menunggu Pembayaran Wakaf #' . $this->donation->order_id,
         );
     }
 
@@ -38,27 +41,49 @@ class WakafPendingMail extends Mailable
      */
     public function content(): Content
     {
-        if ($this->donation->program_id == 1) {
-            $namaFile = 'up-wakaf-unand.jpeg';
-        } else {
-            $namaFile = 'wakaf-unand(bank-nagari).jpeg';
+        // 1. Ambil Data Rekening dari Relasi Database
+        // Logic: Donation -> Program -> Rekening
+        $rekening = $this->donation->program->rekening;
+
+        // 2. Tentukan Path Gambar QRIS
+        // Default: kosong (kalau gak ada rekening/gambar)
+        $qrisPath = null; 
+        
+        if ($rekening && $rekening->qris_image) {
+            // Cek apakah file ada di folder public/frontend/img/ (Sesuai requestmu)
+            // ATAU kalau nanti pakai storage, ganti jadi public_path('storage/rekenings/'...)
+            $qrisPath = public_path('frontend/img/' . $rekening->qris_image);
+            
+            // Opsional: Cek apakah file fisik beneran ada biar gak error
+            if (!file_exists($qrisPath)) {
+                $qrisPath = null; 
+            }
         }
-        // 2. Ambil Lokasi File Fisik (Gunakan public_path, BUKAN asset)
-        // Pastikan file gambar benar-benar ada di folder public/frontend/img/
-        $fullPath = public_path('frontend/img/' . $namaFile);
+
+        // 3. Tentukan Logo Bank (Optional)
+        $logoPath = null;
+        if ($rekening && $rekening->logo) {
+            $fullPath = public_path('frontend/img/' . $rekening->logo);
+            
+            // 👇 Cek juga di sini, kalau gak ada ya udah biarin null
+            if (file_exists($fullPath)) {
+                $logoPath = $fullPath;
+            }
+        }
+
         return new Content(
             view: 'emails.wakaf_pending',
-            // 3. Kita kirim variabel $pathGambar ke View
             with: [
-                'pathGambar' => $fullPath, 
+                'donation'  => $this->donation,
+                'rekening'  => $rekening,   // Kirim object rekening lengkap (nama bank, norek, an)
+                'pathQris'  => $qrisPath,   // Path fisik QRIS untuk di-embed
+                'pathLogo'  => $logoPath,   // Path fisik Logo Bank
             ],
         );
     }
 
     /**
      * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {

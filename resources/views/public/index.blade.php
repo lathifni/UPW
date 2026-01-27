@@ -10,7 +10,7 @@
                         <p class="hero-subtitle mb-4">Bergabunglah dengan komunitas akademik UNAND dalam mewujudkan
                             program sosial, wakaf, zakat, dan dana abadi yang berdampak positif bagi masyarakat luas.</p>
                         <div class="hero-buttons">
-                            <a href="{{ route('programs.index.public') }}" class="btn btn-success btn-lg me-3">Lihat
+                            <a href="{{ route('wakaf-melalui-uang.index.public') }}" class="btn btn-success btn-lg me-3">Lihat
                                 Program Donasi</a>
                             {{-- Arahkan ke section program di halaman ini --}}
                             <a href="#program" class="btn btn-outline-success btn-lg">Pelajari Lebih Lanjut</a>
@@ -138,7 +138,7 @@
                                 
                                 {{-- Gambar Program --}}
                                 <div class="program-image position-relative overflow-hidden rounded-top-3">
-                                    <a href="{{ route('programs.show.public', $program->id) }}">
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}">
                                         <img src="{{ asset('storage/programs/' . $program->image) }}"
                                             alt="{{ $program->title }}" 
                                             class="card-img-top"
@@ -152,7 +152,7 @@
                                 {{-- Konten Card --}}
                                 <div class="card-body d-flex flex-column p-4">
                                     <h5 class="program-title fw-bold mb-3">
-                                        <a href="{{ route('programs.show.public', $program->id) }}" class="text-decoration-none text-dark stretched-link">
+                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}" class="text-decoration-none text-dark stretched-link">
                                             {{ Str::limit($program->title, 50) }}
                                         </a>
                                     </h5>
@@ -187,7 +187,7 @@
                                         </div>
 
                                         {{-- Tombol --}}
-                                        <a href="{{ route('programs.show.public', $program->id) }}"
+                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}"
                                         class="btn btn-outline-primary w-100 fw-bold rounded-pill" style="position: relative; z-index: 2;">
                                         Ikut Berwakaf
                                         </a>
@@ -208,13 +208,137 @@
                 {{-- Tombol Lihat Semua --}}
                 @if($programs->count() > 0)
                     <div class="text-center mt-5">
-                        <a href="{{ route('programs.index.public') }}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
+                        <a href="{{ route('wakaf-melalui-uang.index.public') }}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
                             Lihat Semua Program Wakaf Melalui Uang <i class="bi bi-arrow-right ms-2"></i>
                         </a>
                     </div>
                 @endif
             </div>
 
+        </div>
+    </section>
+
+    <section id="dana-abadi" class="program-section py-2">
+        <div class="container">
+            {{-- JUDUL UTAMA SECTION --}}
+            <div class="row text-center">
+                <div class="col-12">
+                    <h2 class="section-title fw-bold">Pilih Program Dana Abadi</h2>
+                    <p class="section-subtitle text-muted">Salurkan wakaf terbaik Anda melalui program unggulan kami</p>
+                </div>
+            </div>
+
+            {{-- ========================================================== --}}
+            {{-- SUB-SECTION 1: WAKAF UANG (HIGHLIGHT / DANA ABADI)       --}}
+            {{-- ========================================================== --}}
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="bi bi-cash-coin text-white"></i>
+                    </div>
+                    <h3 class="h4 fw-bold m-0 text-success">Dana Abadi</h3>
+                </div>
+
+                {{-- Card Khusus Wakaf Uang (Desain Banner) --}}
+                <div class="card border-0 shadow overflow-hidden rounded-4" data-aos="fade-up">
+                    <div class="row g-0">
+                        {{-- Kolom Gambar/Ilustrasi --}}
+                        <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
+                            {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
+                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800" 
+                                 class="w-100 h-100 object-fit-cover" 
+                                 alt="Wakaf Uang">
+                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
+                        </div>
+                        
+                        {{-- Kolom Konten --}}
+                        <div class="col-md-7 d-flex align-items-center bg-white">
+                            <div class="card-body p-4 p-lg-5">
+                                <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
+                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
+                                <p class="text-muted mb-4">
+                                    Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
+                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
+                                    Menjadi amal jariyah yang pahalanya terus mengalir.
+                                </p>
+                                
+                                <div class="d-flex gap-3">
+                                    {{-- Link ke Form Wakaf Uang Tunai --}}
+                                    <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
+                                        <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
+                                    </a> -->
+                                    <a href="{{ route('public.wakaf-uang') }}" class="btn btn-outline-success rounded-pill px-4">
+                                        Pelajari Lebih Lanjut
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="zakat" class="program-section py-2">
+        <div class="container">
+             <div class="container">
+            {{-- JUDUL UTAMA SECTION --}}
+            <div class="row text-center">
+                <div class="col-12">
+                    <h2 class="section-title fw-bold">Zakat</h2>
+                    <p class="section-subtitle text-muted">Salurkan zakat terbaik Anda melalui kami</p>
+                </div>
+            </div>
+
+            {{-- ========================================================== --}}
+            {{-- SUB-SECTION 1: WAKAF UANG (HIGHLIGHT / DANA ABADI)       --}}
+            {{-- ========================================================== --}}
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="bi bi-cash-coin text-white"></i>
+                    </div>
+                    <h3 class="h4 fw-bold m-0 text-success">Zakat</h3>
+                </div>
+
+                {{-- Card Khusus Wakaf Uang (Desain Banner) --}}
+                <div class="card border-0 shadow overflow-hidden rounded-4" data-aos="fade-up">
+                    <div class="row g-0">
+                        {{-- Kolom Gambar/Ilustrasi --}}
+                        <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
+                            {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
+                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800" 
+                                 class="w-100 h-100 object-fit-cover" 
+                                 alt="Wakaf Uang">
+                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
+                        </div>
+                        
+                        {{-- Kolom Konten --}}
+                        <div class="col-md-7 d-flex align-items-center bg-white">
+                            <div class="card-body p-4 p-lg-5">
+                                <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
+                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
+                                <p class="text-muted mb-4">
+                                    Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
+                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
+                                    Menjadi amal jariyah yang pahalanya terus mengalir.
+                                </p>
+                                
+                                <div class="d-flex gap-3">
+                                    {{-- Link ke Form Wakaf Uang Tunai --}}
+                                    <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
+                                        <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
+                                    </a> -->
+                                    <a href="{{ route('public.wakaf-uang') }}" class="btn btn-outline-success rounded-pill px-4">
+                                        Pelajari Lebih Lanjut
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </section>
 
