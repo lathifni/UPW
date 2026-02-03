@@ -67,7 +67,7 @@
                             <ul class="list-group list-group-flush text-start mb-4">
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Nama Donatur</span>
-                                    <span class="fw-bold">{{ $donation->donor_name }}</span>
+                                    <span class="fw-bold text-success">{{ $donation->donor_name }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Email Donatur</span>
@@ -75,11 +75,15 @@
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Nominal</span>
-                                    <span class="fw-bold text-success">Rp {{ number_format($donation->amount, 0, ',', '.') }}</span>
+                                    <span class="fw-bold text-success">Rp{{ number_format($donation->amount, 0, ',', '.') }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-muted">Jenis</span>
+                                    <span class="fw-bold">{{ $donation->program->category ?? 'Wakaf' }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Program</span>
-                                    <span class="fw-bold text-end">{{ $donation->program->title ?? 'Umum' }}</span>
+                                    <span class="fw-bold text-success">{{ $donation->program->title ?? 'Umum' }}</span>
                                 </li>
                             </ul>
 

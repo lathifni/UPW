@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Public\EducationController;
+use App\Http\Controllers\Admin\RekeningController; // <--- Jangan lupa import ini di atas
 
 
 // Rute Publik
@@ -72,6 +73,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/programs', ProgramController::class);
     Route::resource('/articles', ArticleController::class);
     Route::resource('/managements',ManagementController::class);
+
+    Route::get('/donations/export', [AdminDonationController::class, 'export'])->name('admin.donations.export');
     Route::get('/donations', [AdminDonationController::class, 'index'])->name('admin.donations.index');
     Route::get('/donations/{donation}', [AdminDonationController::class, 'show'])->name('admin.donations.show');
     Route::post('/donations/{donation}/status', [AdminDonationController::class, 'updateStatus'])->name('admin.donations.status.update');
@@ -79,6 +82,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/donations-cash/store', [AdminDonationController::class, 'storeManual'])->name('admin.donations.cash.store');
     Route::resource('users', AdminUserController::class);
     Route::resource('reports', AdminReportController::class)->only(['index', 'store', 'destroy']);
+    // Route::get('donations/export', [AdminDonationController::class, 'export'])->name('admin.donations.export');
+    Route::resource('rekenings', RekeningController::class);
 });
 
 // Rute untuk Donatur yang sudah login

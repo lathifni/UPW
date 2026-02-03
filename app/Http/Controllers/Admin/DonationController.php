@@ -11,6 +11,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WakafSuccessMail;
+use App\Exports\DonationFilterExport; // Panggil class export yang tadi dibuat
+use Maatwebsite\Excel\Facades\Excel;  // Panggil facade Excel
 
 class DonationController extends Controller
 {
@@ -21,14 +23,24 @@ class DonationController extends Controller
     {
         // Ambil semua donasi, urutkan dari yang terbaru, dan sertakan relasi user & program
         $donations = Donation::with(['user', 'program'])->latest()->paginate(15);
+        $programs = Program::select('id', 'title')->orderBy('title', 'asc')->get();
+        $years = Donation::selectRaw('YEAR(created_at) as year')
+                ->distinct()
+                ->orderBy('year', 'desc')
+                ->pluck('year');
 
-        return view('admin.donations.index', compact('donations'));
+        // Kalau datanya masih kosong (belum ada donasi), defaultkan ke tahun sekarang
+        if ($years->isEmpty()) {
+            $years = [date('Y')];
+        }
+
+        return view('admin.donations.index', compact('donations', 'programs', 'years'));
     }
 
     /**
      * Memperbarui status donasi secara manual (Konfirmasi Pembayaran).
      */
-   public function updateStatus(Request $request, Donation $donation)
+    public function updateStatus(Request $request, Donation $donation)
     {
         // Validasi input
         $request->validate([
@@ -224,5 +236,67 @@ class DonationController extends Controller
             $temp = $this->terbilang($nilai/1000000000000) . " trilyun" . $this->terbilang(fmod($nilai,1000000000000));
         }
         return $temp;
+    }
+
+    public function export(Request $request)
+    {
+        // // 1. Ambil filter dari request (URL)
+        // $bulan = $request->input('bulan');
+        // $tahun = $request->input('tahun');
+        // $programId = $request->input('program_id');
+        // $kategori = $request->input('donor_category');
+
+        // // 2. Bikin nama file yang rapi (ada timestamp biar gak numpuk)
+        // $fileName = 'laporan-donasi-' . date('d-m-Y_H-i') . '.xlsx';
+
+        // // 3. Download file Excel
+        // // Parameter ($bulan, $tahun, dll) ini akan dikirim ke __construct di DonationFilterExport.php
+        // return Excel::download(new DonationFilterExport($bulan, $tahun, $programId, $kategori), $fileName);
+        // 1. Ambil filter dari request
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+        $programId = $request->input('program_id');
+        $kategori = $request->input('donor_category');
+
+        // --- LOGIKA PENAMAAN FILE ---
+
+        // A. Cek Nama Program
+        if ($programId) {
+            // Cari nama program di database berdasarkan ID
+            $program = Program::find($programId);
+            // Kalau ketemu ambil judulnya, kalau gak (misal id ngaco) default ke 'Program-Unknown'
+            $namaProgram = $program ? $program->title : 'Program-Tidak-Ditemukan';
+        } else {
+            $namaProgram = 'Semua-Program';
+        }
+
+        // B. Cek Nama Kategori
+        if ($kategori) {
+            // Ubah 'mahasiswa' jadi 'Mahasiswa' (Kapital depannya)
+            $namaKategori = ucfirst($kategori);
+        } else {
+            $namaKategori = 'Semua-Kategori';
+        }
+
+        // C. Cek Periode (Opsional, biar makin detail)
+        $periode = '';
+        if ($bulan && $tahun) {
+            $periode = date('F', mktime(0, 0, 0, $bulan, 10)) . '-' . $tahun; // Contoh: March-2024
+        } elseif ($tahun) {
+            $periode = $tahun;
+        } else {
+            $periode = 'Semua-Waktu';
+        }
+
+        // 2. Susun Nama File
+        // Str::slug() fungsinya mengubah "Wakaf Sumur & Masjid" menjadi "wakaf-sumur-and-masjid" (aman buat filename)
+        $cleanProgram = Str::slug($namaProgram);
+        $cleanKategori = Str::slug($namaKategori);
+        
+        // Format Akhir: Laporan_Wakaf-Sumur_Mahasiswa_2024_01-02-2025.xlsx
+        $fileName = "Laporan_{$cleanProgram}_{$cleanKategori}_{$periode}_" . date('d-m-Y_His') . '.xlsx';
+
+        // 3. Download file Excel
+        return Excel::download(new DonationFilterExport($bulan, $tahun, $programId, $kategori), $fileName);
     }
 }

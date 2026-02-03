@@ -7,6 +7,7 @@ use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Rekening; // <--- Jangan lupa import model Rekening di paling atas
 
 class ProgramController extends Controller
 {
@@ -24,7 +25,9 @@ class ProgramController extends Controller
      */
     public function create()
     {
-        return view('admin.programs.create');
+        $rekenings = Rekening::where('is_active', true)->get();
+
+        return view('admin.programs.create', compact('rekenings'));
     }
 
     /**
@@ -39,9 +42,10 @@ class ProgramController extends Controller
         'target_amount' => 'required|numeric|min:0',
         'deadline' => 'nullable|date', 
         'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'rekening_id' => 'required|exists:rekenings,id',
         ]);
 
-        $data = $request->only(['title', 'description', 'category', 'target_amount', 'deadline', 'certificate_type']);
+        $data = $request->only(['title', 'description', 'category', 'target_amount', 'deadline', 'certificate_type', 'rekening_id']);
         $data['is_unggulan'] = $request->has('is_unggulan');
         $data['slug'] = Str::slug($request->title);
 
@@ -63,7 +67,8 @@ class ProgramController extends Controller
     public function edit(Program $program)
     {
         // Route-model binding akan otomatis mencari program berdasarkan ID
-        return view('admin.programs.edit', compact('program'));
+        $rekenings = Rekening::where('is_active', true)->get();
+        return view('admin.programs.edit', compact('program', 'rekenings'));
     }
 
     /**
@@ -78,9 +83,10 @@ class ProgramController extends Controller
             'target_amount' => 'required|numeric|min:0',
             'deadline' => 'nullable|date', // <-- Tambah validasi
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'rekening_id' => 'required|exists:rekenings,id',
         ]);
 
-        $data = $request->only(['title', 'description', 'category', 'target_amount', 'deadline', 'certificate_type']);
+        $data = $request->only(['title', 'description', 'category', 'target_amount', 'deadline', 'certificate_type', 'rekening_id']);
         $data['is_unggulan'] = $request->has('is_unggulan'); // <-- Tambahkan baris ini
 
         if ($request->hasFile('image')) {

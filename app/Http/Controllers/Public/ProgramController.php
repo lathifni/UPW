@@ -79,22 +79,27 @@ class ProgramController extends Controller
     /**
      * Display the specified resource.
      */
-    public function showWakafMelaluiUang(Program $program)
+    public function showWakafMelaluiUang($slug)
     {
         // Ambil 3 program lain yang aktif, selain program yang sedang dilihat
+        $program = Program::where('slug', $slug)
+            ->where('is_active', true)
+            ->where('category', 'Wakaf Melalui Uang')
+            ->firstOrFail();
+
         $related_programs = Program::where('is_active', true)
-            ->where('id', '!=', $program->slug) // Jangan tampilkan program yang sama
+            ->where('slug', '!=', $program->slug) // Jangan tampilkan program yang sama
             ->where('category', '=', 'Wakaf Melalui Uang')
             ->latest()
             ->take(3)
             ->get();
 
         // --- HITUNG JUMLAH DONATUR UNIK UNTUK PROGRAM INI ---
-        $donor_count = Donation::where('program_id', $program->id)
+        $donor_count = Donation::where('program_id', $program->slug)
             ->where('status', 'paid')
             ->count();
 
-        $latestDonors = Donation::where('program_id', $program->id)
+        $latestDonors = Donation::where('program_id', $program->slug)
             ->where('status', 'paid') // Hanya yang sukses bayar
             ->latest() // Urutkan dari yang terbaru
             ->take(5)  // Ambil 5 saja

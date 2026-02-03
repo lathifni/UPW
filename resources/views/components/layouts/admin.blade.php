@@ -63,6 +63,13 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ Request::is('admin/rekenings*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('rekenings.index') }}">
+                    <i class="fas fa-fw fa-dollar-sign"></i>
+                    <span>Manajemen Rekening</span>
+                </a>
+            </li>
+
             <li class="nav-item {{ Request::is('admin/users*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <i class="fas fa-fw fa-users"></i>

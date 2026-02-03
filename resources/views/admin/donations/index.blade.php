@@ -5,6 +5,76 @@
             <h6 class="m-0 font-weight-bold text-primary">Daftar Semua Wakaf</h6>
         </div>
         <div class="card-body">
+
+        {{-- === BAGIAN BARU: FORM FILTER & EXPORT === --}}
+            <form action="{{ route('admin.donations.export') }}" method="GET" class="mb-4">
+                <div class="row align-items-end">
+
+                {{-- 1. Filter Program (NEW) --}}
+                    <div class="col-md-4 col-sm-12 mb-2">
+                        <label class="small font-weight-bold text-secondary">Nama Program</label>
+                        <select name="program_id" class="form-control form-control-sm select2"> <option value="">- Semua Program -</option>
+                            @foreach($programs as $prog)
+                                <option value="{{ $prog->id }}" {{ request('program_id') == $prog->id ? 'selected' : '' }}>
+                                    {{ $prog->title }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    {{-- Filter Bulan --}}
+                    <div class="col-md-3 col-sm-6 mb-2">
+                        <label class="small font-weight-bold text-secondary">Bulan</label>
+                        <select name="bulan" class="form-control form-control-sm">
+                            <option value="">- Semua Bulan -</option>
+                            @foreach(range(1, 12) as $m)
+                                <option value="{{ sprintf('%02d', $m) }}" {{ request('bulan') == sprintf('%02d', $m) ? 'selected' : '' }}>
+                                    {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- Filter Tahun --}}
+                    <div class="col-md-2 col-sm-6 mb-2">
+                        <label class="small font-weight-bold text-secondary">Tahun</label>
+                        <select name="tahun" class="form-control form-control-sm">
+                            <option value="">- Semua -</option>
+                            
+                            {{-- LOOPING DINAMIS DARI CONTROLLER --}}
+                            @foreach($years as $y)
+                                <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>
+                                    {{ $y }}
+                                </option>
+                            @endforeach
+                            
+                        </select>
+                    </div>
+
+                    {{-- Filter Kategori Wakif --}}
+                    <div class="col-md-3 col-sm-6 mb-2">
+                        <label class="small font-weight-bold text-secondary">Kategori Wakif</label>
+                        <select name="donor_category" class="form-control form-control-sm">
+                            <option value="">- Semua Kategori -</option>
+                            <option value="umum">Umum</option>
+                            <option value="mahasiswa">Mahasiswa</option>
+                            <option value="alumni">Alumni</option>
+                            <option value="dosen">Dosen</option>
+                            <option value="tenaga_pendidik">Tenaga Pendidik</option>
+                        </select>
+                    </div>
+
+                    {{-- Tombol Export --}}
+                    <div class="col-md-auto mb-2">
+                        <button type="submit" class="btn btn-success btn-sm font-weight-bold shadow-sm">
+                            <i class="fas fa-file-excel mr-1"></i> Export Excel
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            {{-- === END BAGIAN BARU === --}}
+
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0">
                     <thead>

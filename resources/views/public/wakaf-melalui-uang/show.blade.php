@@ -291,6 +291,32 @@
                                         Bukti pembayaran akan dikirim ke email ini
                                     </div>
                                 </div>
+                                {{-- Input Kategori Wakif --}}
+                                <div class="mb-2">
+                                    <label for="donor_category" class="form-label fw-bold small">Kategori Wakif</label>
+                                    <select name="donor_category" id="donor_category" class="form-select" required>
+                                        <option value="" disabled {{ old('donor_category', auth()->user()->kategori ?? '') == '' ? 'selected' : '' }}>
+                                            -- Pilih Kategori --
+                                        </option>
+                                        
+                                        <option value="umum" {{ old('donor_category', auth()->user()->kategori ?? '') == 'umum' ? 'selected' : '' }}>
+                                            Umum
+                                        </option>
+                                        <option value="mahasiswa" {{ old('donor_category', auth()->user()->kategori ?? '') == 'mahasiswa' ? 'selected' : '' }}>
+                                            Mahasiswa
+                                        </option>
+                                        <option value="alumni" {{ old('donor_category', auth()->user()->kategori ?? '') == 'alumni' ? 'selected' : '' }}>
+                                            Alumni
+                                        </option>
+                                        <option value="dosen" {{ old('donor_category', auth()->user()->kategori ?? '') == 'dosen' ? 'selected' : '' }}>
+                                            Dosen
+                                        </option>
+                                        <option value="tenaga_pendidik" {{ old('donor_category', auth()->user()->kategori ?? '') == 'tenaga_pendidik' ? 'selected' : '' }}>
+                                            Tenaga Pendidik
+                                        </option>
+                                    </select>
+                                </div>
+                                {{-- Input No HP --}}
                                 <div class="mb-2">
                                     <label for="donor_phone" class="form-label fw-bold small">Nomor HP</label>
                                     <input type="text" class="form-control" id="donor_phone" name="donor_phone" required
@@ -299,6 +325,7 @@
                                         Bukti pembayaran akan dikirim ke email ini
                                     </div> -->
                                 </div>
+                                {{-- Input NIM/NIP/NIKU --}}
                                 <div class="mb-2">
                                     <label for="donor_nomor_induk" class="form-label fw-bold small">NIM/NIP/NIKU</label>
                                     <input type="text" class="form-control" id="donor_nomor_induk" name="donor_nomor_induk" required

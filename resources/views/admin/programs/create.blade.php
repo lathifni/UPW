@@ -29,26 +29,49 @@
                     @enderror
                 </div>
 
-                {{-- Kategori --}}
-                <div class="form-group">
-                    <label for="category">Kategori</label>
-                    <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
-                        <option value="">-- Pilih Kategori --</option>
-                        <option value="beasiswa" {{ old('category') == 'beasiswa' ? 'selected' : '' }}>Beasiswa</option>
-                        <option value="zakat" {{ old('category') == 'zakat' ? 'selected' : '' }}>Zakat</option>
-                        <option value="dana-abadi" {{ old('category') == 'dana-abadi' ? 'selected' : '' }}>Dana Abadi</option>
-                        <option value="bencana" {{ old('category') == 'bencana' ? 'selected' : '' }}>Bantuan Bencana</option>
-                        <option value="fasilitas" {{ old('category') == 'fasilitas' ? 'selected' : '' }}>Fasilitas Kampus</option>
-                    </select>
-                    @error('category')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    {{-- Kategori --}}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="category">Kategori</label>
+                            <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
+                                <option value="">-- Pilih Kategori --</option>
+                                <option value="Wakaf Uang" {{ old('category') == 'Wakaf Uang' ? 'selected' : '' }}>Wakaf Uang</option>
+                                <option value="Wakaf Melalui Uang" {{ old('category') == 'Wakaf Melalui Uang' ? 'selected' : '' }}>Wakaf Melalui Uang</option>
+                                <option value="Zakat" {{ old('category') == 'Zakat' ? 'selected' : '' }}>Zakat</option>
+                                <option value="Dana Abadi" {{ old('category') == 'Dana Abadi' ? 'selected' : '' }}>Dana Abadi</option>
+                            </select>
+                            @error('category')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    {{-- PILIHAN REKENING (PENTING) --}}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="rekening_id">Rekening Tujuan</label>
+                            <select name="rekening_id" id="rekening_id" class="form-control @error('rekening_id') is-invalid @enderror">
+                                <option value="">-- Pilih Rekening --</option>
+                                {{-- Loop data dari Controller --}}
+                                @foreach($rekenings as $rek)
+                                    <option value="{{ $rek->id }}" {{ old('rekening_id') == $rek->id ? 'selected' : '' }}>
+                                        {{ $rek->nama_bank }} - {{ $rek->nomor_rekening }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <small class="text-muted">Program ini akan masuk ke rekening tersebut.</small>
+                            @error('rekening_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Checkbox Unggulan --}}
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" name="is_unggulan" value="1" id="is_unggulan" {{ old('is_unggulan') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="is_unggulan">
+                    <label class="form-check-label font-weight-bold" for="is_unggulan">
                         Jadikan Program Unggulan?
                     </label>
                 </div>
@@ -88,19 +111,14 @@
                     </div>
                 </div>
 
-                {{-- INPUT GAMBAR DENGAN PREVIEW --}}
+                {{-- Gambar --}}
                 <div class="form-group">
                     <label for="image">Gambar Program</label>
-                    
-                    {{-- Area Preview Gambar --}}
                     <div class="mb-3">
                         <img id="img-preview" class="img-fluid rounded border p-1" style="max-height: 200px; display: none;">
                     </div>
-
-                    {{-- Input File --}}
                     <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image"
                         name="image" onchange="previewImage()">
-                    
                     @error('image')
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
@@ -116,25 +134,20 @@
         </div>
     </div>
 
-    {{-- Script JavaScript untuk Preview Gambar --}}
     @push('scripts')
     <script>
         function previewImage() {
             const image = document.querySelector('#image');
             const imgPreview = document.querySelector('#img-preview');
-
-            // Cek apakah ada file yang dipilih
             if (image.files && image.files[0]) {
                 const oFReader = new FileReader();
                 oFReader.readAsDataURL(image.files[0]);
-
                 oFReader.onload = function(oFREvent) {
-                    imgPreview.style.display = 'block'; // Tampilkan gambar
-                    imgPreview.src = oFREvent.target.result; // Isi src gambar
+                    imgPreview.style.display = 'block';
+                    imgPreview.src = oFREvent.target.result;
                 }
             }
         }
     </script>
     @endpush
-
 </x-layouts.admin>

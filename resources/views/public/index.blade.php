@@ -16,7 +16,7 @@
                             <a href="#program" class="btn btn-outline-success btn-lg">Pelajari Lebih Lanjut</a>
                         </div>
 
-                        <div class="hero-stats mt-5">
+                        <!-- <div class="hero-stats mt-5">
                             <div class="row">
                                 <div class="col-4">
                                     <div class="stat-item">
@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -89,7 +89,6 @@
                         {{-- Kolom Konten --}}
                         <div class="col-md-7 d-flex align-items-center bg-white">
                             <div class="card-body p-4 p-lg-5">
-                                <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
                                 <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
                                 <p class="text-muted mb-4">
                                     Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
@@ -254,12 +253,10 @@
                         {{-- Kolom Konten --}}
                         <div class="col-md-7 d-flex align-items-center bg-white">
                             <div class="card-body p-4 p-lg-5">
-                                <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
-                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
+                                <h3 class="fw-bold mb-3">Dana Abadi UNAND</h3>
                                 <p class="text-muted mb-4">
-                                    Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
-                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
-                                    Menjadi amal jariyah yang pahalanya terus mengalir.
+                                    Dana abadi berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
+                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat.
                                 </p>
                                 
                                 <div class="d-flex gap-3">
@@ -307,7 +304,7 @@
                         {{-- Kolom Gambar/Ilustrasi --}}
                         <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
                             {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
-                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800" 
+                            <img src="http://upz.unand.ac.id/assets/img/logo-outline.png" 
                                  class="w-100 h-100 object-fit-cover" 
                                  alt="Wakaf Uang">
                             <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
@@ -316,12 +313,12 @@
                         {{-- Kolom Konten --}}
                         <div class="col-md-7 d-flex align-items-center bg-white">
                             <div class="card-body p-4 p-lg-5">
-                                <span class="badge bg-warning text-dark mb-2"> <i class="bi bi-star-fill me-1"></i> Program Utama</span>
-                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
+                                <h3 class="fw-bold mb-3">Zakat UNAND</h3>
                                 <p class="text-muted mb-4">
-                                    Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
-                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
-                                    Menjadi amal jariyah yang pahalanya terus mengalir.
+                                    Unit Pengumpul Zakat (UPZ) Univeritas Andalas merupakan unit pengumpul zakat di lingkungan 
+                                    Universitas Andalas. UPZ ini bertujuan untuk mengoptimalkan pengumpulan dan pendistribusian 
+                                    zakat, infaq, dan sedekah dari sivitas akademika Universitas Andalas, serta masyarakat 
+                                    sekitar.
                                 </p>
                                 
                                 <div class="d-flex gap-3">
@@ -329,7 +326,7 @@
                                     <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
                                         <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
                                     </a> -->
-                                    <a href="{{ route('public.wakaf-uang') }}" class="btn btn-outline-success rounded-pill px-4">
+                                    <a href="http://upz.unand.ac.id/" class="btn btn-outline-success rounded-pill px-4">
                                         Pelajari Lebih Lanjut
                                     </a>
                                 </div>

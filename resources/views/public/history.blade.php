@@ -56,7 +56,7 @@
                                                 <th class="py-3">Program Wakaf</th>
                                                 <th class="py-3">Nominal</th>
                                                 <th class="py-3">No. Akte (Jika Ada)</th>
-                                                <th class="py-3 text-end pe-4">Aksi</th>
+                                                <!-- <th class="py-3 text-end pe-4">Aksi</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -83,12 +83,12 @@
                                                             <span class="text-muted small">-</span>
                                                         @endif
                                                     </td>
-                                                    <td class="text-end pe-4">
+                                                    <!-- <td class="text-end pe-4">
                                                         {{-- Tombol Download Sertifikat/Invoice --}}
                                                         <a href="#" class="btn btn-sm btn-outline-secondary rounded-pill">
                                                             <i class="bi bi-download"></i> Bukti
                                                         </a>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                             @endforeach
                                         </tbody>

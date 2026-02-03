@@ -299,8 +299,6 @@
                         </div>
                     </div>
 
-                    <hr class="my-4 border-light">
-
                     {{-- 3. NAMA LENGKAP --}}
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Nama Lengkap <span class="text-danger">*</span></label>
@@ -330,7 +328,35 @@
                         </div>
                     </div>
 
-                    {{-- 6. Nomor Induk (OPSIONAL) --}}
+                    {{-- 6. Kategori Wakif --}}
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Kategori Wakif <span class="text-danger">*</span></label>
+                        <div class="col-sm-8">
+                            <select name="donor_category" id="donor_category" class="form-select" required>
+                                <option value="" disabled {{ old('donor_category', auth()->user()->kategori ?? '') == '' ? 'selected' : '' }}>
+                                    -- Pilih Kategori --
+                                </option>
+                                
+                                <option value="umum" {{ old('donor_category', auth()->user()->kategori ?? '') == 'umum' ? 'selected' : '' }}>
+                                    Umum
+                                </option>
+                                <option value="mahasiswa" {{ old('donor_category', auth()->user()->kategori ?? '') == 'mahasiswa' ? 'selected' : '' }}>
+                                    Mahasiswa
+                                </option>
+                                <option value="alumni" {{ old('donor_category', auth()->user()->kategori ?? '') == 'alumni' ? 'selected' : '' }}>
+                                    Alumni
+                                </option>
+                                <option value="dosen" {{ old('donor_category', auth()->user()->kategori ?? '') == 'dosen' ? 'selected' : '' }}>
+                                    Dosen
+                                </option>
+                                <option value="tenaga_pendidik" {{ old('donor_category', auth()->user()->kategori ?? '') == 'tenaga_pendidik' ? 'selected' : '' }}>
+                                    Tenaga Pendidik
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- 7. Nomor Induk (OPSIONAL) --}}
                     <div class="row mb-4 align-items-center">
                         <label class="col-sm-4 col-form-label fw-bold small text-end-sm">NIM/NIP/NIKU<span class="text-muted fw-normal">(Opsional)</span></label>
                         <div class="col-sm-8">

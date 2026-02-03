@@ -460,8 +460,11 @@
         <div class="container">
             <h3 class="fw-bold text-success mb-3">Sudah Paham tentang Wakaf?</h3>
             <p class="text-muted mb-4">Mari mulai langkah kebaikan Anda hari ini. Harta kekal, pahala mengalir.</p>
-            <a href="{{ route('programs.index.public') }}" class="btn btn-success btn-lg px-5 rounded-pill shadow hover-lift">
-                <i class="bi bi-heart-fill me-2"></i> Mulai Berwakaf
+            <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success btn-lg px-5 rounded-pill shadow hover-lift">
+                <i class="bi bi-heart-fill me-2"></i> Mulai Berwakaf Uang
+            </a>
+            <a href="{{ route('wakaf-melalui-uang.index.public') }}" class="btn btn-success btn-lg px-5 rounded-pill shadow hover-lift">
+                <i class="bi bi-heart-fill me-2"></i> Mulai Berwakaf Melalui Uang
             </a>
         </div>
     </section>
