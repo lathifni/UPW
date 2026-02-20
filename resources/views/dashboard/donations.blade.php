@@ -89,7 +89,7 @@
         @empty
             <div class="donation-card text-center">
                 <p class="text-muted mb-0">Anda belum memiliki riwayat donasi. Mari mulai berdonasi!</p>
-                <a href="{{ route('programs.index.public') }}" class="btn btn-success mt-3">Mulai Donasi</a>
+                <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success mt-3">Mulai Donasi</a>
             </div>
         @endforelse
     </div>

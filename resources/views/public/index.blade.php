@@ -320,6 +320,24 @@
                                     zakat, infaq, dan sedekah dari sivitas akademika Universitas Andalas, serta masyarakat 
                                     sekitar.
                                 </p>
+
+                                {{-- BAGIAN LIST CEKLIS --}}
+                                <ul class="list-unstyled mb-4">
+                                    <li class="d-flex align-items-start mb-3">
+                                        {{-- Ikon Ceklis Ganda --}}
+                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
+                                        <span>Bantuan Pendidikan bagi mahasiswa Universitas Andalas</span>
+                                    </li>
+                                    <li class="d-flex align-items-start mb-3">
+                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
+                                        <span>Bantuan Pendidikan bekerjasama dengan BAZNAS Provinsi Sumatera Barat</span>
+                                    </li>
+                                    <li class="d-flex align-items-start mb-3">
+                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
+                                        <span>Bantuan kegiatan sosial dan kebencanaan</span>
+                                    </li>
+                                </ul>
+                                {{-- AKHIR BAGIAN LIST --}}
                                 
                                 <div class="d-flex gap-3">
                                     {{-- Link ke Form Wakaf Uang Tunai --}}

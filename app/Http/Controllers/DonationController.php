@@ -8,11 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail; // <--- TAMBAHKAN BARIS INI!
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 
 class DonationController extends Controller
 {
     public function store(Request $request)
     {
+
+        $throttleKey = 'donation-attempt:' . $request->ip();
+
+        // Cek: Apakah IP ini sudah mencoba lebih dari 3 kali?
+        if (RateLimiter::tooManyAttempts($throttleKey, 2)) {
+            // Ambil sisa waktu hukuman (dalam detik)
+            $seconds = RateLimiter::availableIn($throttleKey);
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', "Mohon maaf, Anda terlalu sering melakukan request wakaf. Mohon masukkan data yang sebenarnya(Tidak spam). Silakan tunggu $seconds detik lagi sebelum mencoba kembali.");
+        }
+
+        // Kalau belum limit, catat percobaan ini (Hitungan expired dalam 60 detik / 1 menit)
+        RateLimiter::hit($throttleKey, 120);
         // 1. Validasi Input
         $request->validate([
             'amount' => 'required|numeric|min:10000', // Minimal donasi Rp 10.000
@@ -26,6 +42,24 @@ class DonationController extends Controller
             'amount.min' => 'Maaf Bapak/Ibu, minimal donasi mulai dari Rp10.000',
             'amount.required' => 'Nominal donasi belum diisi.',
         ]);
+
+        // Logic cek Pending tolak 
+        $pendingDonation = Donation::where('status', 'pending')
+            ->where(function ($query) use ($request) {
+                $query->where('donor_email', $request->donor_email)
+                      ->orWhere('donor_phone', $request->donor_phone);
+                
+                if ($request->filled('donor_nomor_induk')) {
+                    $query->orWhere('donor_nomor_induk', $request->donor_nomor_induk);
+                }
+            })
+            ->first();
+
+        if ($pendingDonation) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Maaf transaksi wakaf terakhir Anda statusnya masih pending. Silakan menunggu Admin melakukan verifikasi (Order ID: ' . $pendingDonation->order_id . ').');
+        }
 
         // 2. Buat record donasi di database
         $donation = Donation::create([
@@ -146,5 +180,27 @@ class DonationController extends Controller
 
         return view('public.history', compact('donations', 'keyword'));
 
+    }
+
+    public function cancel($order_id)
+    {
+        // 1. Cari donasi berdasarkan Order ID
+        $donation = Donation::where('order_id', $order_id)->firstOrFail();
+
+        // 2. Cek apakah statusnya masih 'pending'?
+        if ($donation->status == 'pending') {
+            
+            $donation->update([
+                'status' => 'cancelled' // Ubah status jadi batal
+            ]);
+
+            // 👇 PERUBAHAN DI SINI
+            // Ganti route('programs.index.public') jadi redirect('/') buat ke Home
+            return redirect('/') 
+                ->with('success', 'Wakaf berhasil dibatalkan. Silakan buat wakaf baru jika berkenan.');
+        }
+
+        // Kalau statusnya bukan pending
+        return back()->with('error', 'Wakaf ini tidak dapat dibatalkan karena statusnya bukan Pending.');
     }
 }

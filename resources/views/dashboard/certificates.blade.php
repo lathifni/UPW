@@ -104,7 +104,7 @@
                         <h5 class="text-muted">Belum Ada Sertifikat</h5>
                         <p class="text-muted mb-3">Sertifikat akan tersedia di sini setelah donasi Anda untuk program
                             tertentu telah dikonfirmasi oleh admin.</p>
-                        <a href="{{ route('programs.index.public') }}" class="btn btn-success"><i
+                        <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success"><i
                             class="bi bi-plus-circle me-2"></i>Wakaf Sekarang</a>
                     </div>
                 </div>

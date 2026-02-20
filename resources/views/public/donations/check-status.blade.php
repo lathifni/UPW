@@ -46,14 +46,43 @@
                                     <span class="badge bg-success fs-5 px-4 py-2 rounded-pill">
                                         <i class="bi bi-check-circle-fill me-2"></i> BERHASIL
                                     </span>
+                                {{-- LOGIC TOMBOL BATALKAN --}}
                                 @elseif($donation->status == 'pending')
-                                   <span class="badge bg-warning text-dark fs-5 px-4 py-2 rounded-pill d-inline-flex align-items-center">
-                                        {{-- Spinner Bawaan Bootstrap (Lingkaran Muter) --}}
-                                        <div class="spinner-border spinner-border-sm me-2" role="status">
-                                            <span class="visually-hidden">Loading...</span>
+                                    
+                                    {{-- Tombol Batal & Bayar (Sejajar) --}}
+                                    <div class="d-flex justify-content-center gap-2 mb-4">
+                                        {{-- FORM CANCEL --}}
+                                        <form action="{{ route('donations.cancel', $donation->order_id) }}" method="POST"
+                                            onsubmit="return confirm('Apakah Anda yakin ingin membatalkan wakaf ini? Status akan berubah menjadi Dibatalkan.');">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-danger px-4 rounded-pill">
+                                                <i class="bi bi-x-circle me-1"></i> Batalkan
+                                            </button>
+                                        </form>
+
+                                        {{-- TOMBOL BAYAR (Opsional, kalau mau arahin ke instruksi lagi) --}}
+                                        <a href="{{ route('donations.instruction', ['order_id' => $donation->order_id]) }}" 
+                                        class="btn btn-success px-4 rounded-pill fw-bold">
+                                            <i class="bi bi-credit-card me-1"></i> Bayar
+                                        </a>
+                                    </div>
+
+                                    <div class="alert alert-warning small text-start border-warning bg-warning-subtle text-dark">
+                                        <div class="d-flex">
+                                            <i class="bi bi-info-circle-fill me-2 fs-5 text-warning-emphasis"></i>
+                                            <div>
+                                                <strong>Menunggu Pembayaran</strong><br>
+                                                Jika Anda sudah transfer, mohon tunggu admin kami memverifikasi mutasi (maksimal 1x24 jam).
+                                                Atau hubungi admin jika mendesak.
+                                            </div>
                                         </div>
-                                        MENUNGGU VERIFIKASI
-                                    </span>
+                                        
+                                        <div class="mt-2 pt-2 border-top border-warning-subtle text-center">
+                                            <a href="https://wa.me/6281234567890" target="_blank" class="text-decoration-none fw-bold text-dark">
+                                                <i class="bi bi-whatsapp text-success"></i> Hubungi Admin
+                                            </a>
+                                        </div>
+                                    </div>
                                 @else
                                     <span class="badge bg-danger fs-5 px-4 py-2 rounded-pill">
                                         <i class="bi bi-x-circle-fill me-2"></i> GAGAL / DIBATALKAN

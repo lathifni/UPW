@@ -119,13 +119,13 @@
                 <p class="text-muted mb-0">Donasi Berhasil</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
+        <!-- <div class="col-md-3 mb-4">
             <div class="stats-card text-center">
                 <div class="stats-icon mx-auto"><i class="bi bi-award"></i></div>
                 <h3 class="text-success mb-2">0</h3> {{-- TODO: Buat ini dinamis dari data sertifikat --}}
                 <p class="text-muted mb-0">Sertifikat</p>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="row">
@@ -135,12 +135,12 @@
                 <canvas id="donationChart" height="250"></canvas>
             </div>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="chart-container">
                 <h5 class="mb-3">Distribusi Donasi</h5>
                 <canvas id="distributionChart" height="250"></canvas>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="row">
@@ -217,11 +217,11 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div class="dashboard-card mb-4">
                 <h5 class="mb-3">Aksi Cepat</h5>
                 <div class="row g-3">
-                    <div class="col-6"><a href="{{ route('programs.index.public') }}"
+                    <div class="col-6"><a href="{{ route('public.wakaf-uang') }}"
                             class="quick-action text-center">
                             <div class="quick-action-icon"><i class="bi bi-plus-circle"></i></div>
                             <h6 class="mb-0 mt-2">Donasi Baru</h6>
@@ -257,9 +257,8 @@
                     @endforelse
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
-
 
     @push('scripts')
         <script>

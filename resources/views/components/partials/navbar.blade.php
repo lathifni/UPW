@@ -85,15 +85,10 @@
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 id="navbarDropdownUser" role="button" data-bs-toggle="dropdown">
-                                @if (Auth::user()->avatar)
-                                    <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" alt="User"
-                                        class="rounded-circle me-2" width="32" height="32"
-                                        style="object-fit: cover;">
-                                @else
-                                    <img src="https://via.placeholder.com/32x32/198754/ffffff?text={{ substr(Auth::user()->nama, 0, 1) }}"
-                                        alt="User" class="rounded-circle me-2" width="32" height="32">
-                                @endif
-                                <span class="text-success fw-medium">{{ Auth::user()->nama }}</span>
+                                
+                                {{-- Menggunakan API UI Avatars: Otomatis ambil inisial & warna hijau --}}
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->nama) }}&background=198754&color=fff&rounded=true" 
+                                    alt="User" class="me-2" width="32" height="32">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard Saya</a></li>

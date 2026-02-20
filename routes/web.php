@@ -25,6 +25,8 @@ Route::get('/wakaf-melalui-uang', [PublicProgramController::class, 'indexWakafMe
 Route::get('/wakaf-melalui-uang/{slug}', [PublicProgramController::class, 'showWakafMelaluiUang'])->name('wakaf-melalui-uang.show.public');
 // Route::post('/donations', [DonationController::class, 'store'])->name('donations.store')->middleware('verified.custom');
 Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+Route::post('/donation/cancel/{order_id}', [DonationController::class, 'cancel'])
+    ->name('donations.cancel');
 Route::get('/berita', [PublicArticleController::class, 'index'])->name('articles.index.public');
 Route::get('/berita/{article:slug}', [PublicArticleController::class, 'show'])->name('articles.show.public');
 Route::get('/sejarah', function () {return view('public.sejarah');})->name('sejarah.public');
