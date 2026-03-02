@@ -4,13 +4,14 @@ namespace App\Mail;
 
 use App\Models\Donation;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment; // <--- Penting untuk lampiran
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WakafSuccessMail extends Mailable
+class WakafSuccessMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -35,7 +36,7 @@ class WakafSuccessMail extends Mailable
     {
         // Pastikan kamu membuat view ini nanti di Langkah 2
         return new Content(
-            view: 'emails.wakaf_success', 
+            view: 'emails.wakaf_success',
         );
     }
 

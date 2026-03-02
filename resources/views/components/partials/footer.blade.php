@@ -71,13 +71,10 @@
         <!-- <hr class="footer-divider mb-1"> -->
 
         <div class="row align-items-center">
-            <div class="col-md-6">
+            <div class="col-12 text-center">
                 <p class="copyright mb-0">
                     &copy; <span id="year"></span> Dana Sosial UNAND. All rights reserved.
                 </p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <!-- <p class="powered-by mb-0">Dikembangkan dengan ❤️ untuk kemajuan UNAND oleh Dzulaji & Icad </p> -->
             </div>
         </div>
     </div>

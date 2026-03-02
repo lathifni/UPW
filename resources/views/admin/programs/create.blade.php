@@ -8,7 +8,7 @@
         <div class="card-body">
             <form action="{{ route('programs.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                
+
                 {{-- Judul --}}
                 <div class="form-group">
                     <label for="title">Judul Program</label>
@@ -34,12 +34,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="category">Kategori</label>
-                            <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
+                            <select name="category" id="category"
+                                class="form-control @error('category') is-invalid @enderror" onchange="checkCategory()">
                                 <option value="">-- Pilih Kategori --</option>
-                                <option value="Wakaf Uang" {{ old('category') == 'Wakaf Uang' ? 'selected' : '' }}>Wakaf Uang</option>
-                                <option value="Wakaf Melalui Uang" {{ old('category') == 'Wakaf Melalui Uang' ? 'selected' : '' }}>Wakaf Melalui Uang</option>
+                                <option value="Wakaf Uang" {{ old('category') == 'Wakaf Uang' ? 'selected' : '' }}>Wakaf
+                                    Uang</option>
+                                <option value="Wakaf Melalui Uang"
+                                    {{ old('category') == 'Wakaf Melalui Uang' ? 'selected' : '' }}>Wakaf Melalui Uang
+                                </option>
                                 <option value="Zakat" {{ old('category') == 'Zakat' ? 'selected' : '' }}>Zakat</option>
-                                <option value="Dana Abadi" {{ old('category') == 'Dana Abadi' ? 'selected' : '' }}>Dana Abadi</option>
+                                <option value="Dana Abadi" {{ old('category') == 'Dana Abadi' ? 'selected' : '' }}>Dana
+                                    Abadi</option>
                             </select>
                             @error('category')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -51,11 +56,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="rekening_id">Rekening Tujuan</label>
-                            <select name="rekening_id" id="rekening_id" class="form-control @error('rekening_id') is-invalid @enderror">
+                            <select name="rekening_id" id="rekening_id"
+                                class="form-control @error('rekening_id') is-invalid @enderror">
                                 <option value="">-- Pilih Rekening --</option>
                                 {{-- Loop data dari Controller --}}
-                                @foreach($rekenings as $rek)
-                                    <option value="{{ $rek->id }}" {{ old('rekening_id') == $rek->id ? 'selected' : '' }}>
+                                @foreach ($rekenings as $rek)
+                                    <option value="{{ $rek->id }}"
+                                        {{ old('rekening_id') == $rek->id ? 'selected' : '' }}>
                                         {{ $rek->nama_bank }} - {{ $rek->nomor_rekening }}
                                     </option>
                                 @endforeach
@@ -70,7 +77,8 @@
 
                 {{-- Checkbox Unggulan --}}
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="is_unggulan" value="1" id="is_unggulan" {{ old('is_unggulan') ? 'checked' : '' }}>
+                    <input class="form-check-input" type="checkbox" name="is_unggulan" value="1" id="is_unggulan"
+                        {{ old('is_unggulan') ? 'checked' : '' }}>
                     <label class="form-check-label font-weight-bold" for="is_unggulan">
                         Jadikan Program Unggulan?
                     </label>
@@ -102,8 +110,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="deadline">Batas Waktu (Opsional)</label>
-                            <input type="date" class="form-control @error('deadline') is-invalid @enderror" id="deadline"
-                                name="deadline" value="{{ old('deadline') }}">
+                            <input type="date" class="form-control @error('deadline') is-invalid @enderror"
+                                id="deadline" name="deadline" value="{{ old('deadline') }}">
                             @error('deadline')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -115,7 +123,8 @@
                 <div class="form-group">
                     <label for="image">Gambar Program</label>
                     <div class="mb-3">
-                        <img id="img-preview" class="img-fluid rounded border p-1" style="max-height: 200px; display: none;">
+                        <img id="img-preview" class="img-fluid rounded border p-1"
+                            style="max-height: 200px; display: none;">
                     </div>
                     <input type="file" class="form-control-file @error('image') is-invalid @enderror" id="image"
                         name="image" onchange="previewImage()">
@@ -135,19 +144,47 @@
     </div>
 
     @push('scripts')
-    <script>
-        function previewImage() {
-            const image = document.querySelector('#image');
-            const imgPreview = document.querySelector('#img-preview');
-            if (image.files && image.files[0]) {
-                const oFReader = new FileReader();
-                oFReader.readAsDataURL(image.files[0]);
-                oFReader.onload = function(oFREvent) {
-                    imgPreview.style.display = 'block';
-                    imgPreview.src = oFREvent.target.result;
+        <script>
+            function previewImage() {
+                const image = document.querySelector('#image');
+                const imgPreview = document.querySelector('#img-preview');
+                if (image.files && image.files[0]) {
+                    const oFReader = new FileReader();
+                    oFReader.readAsDataURL(image.files[0]);
+                    oFReader.onload = function(oFREvent) {
+                        imgPreview.style.display = 'block';
+                        imgPreview.src = oFREvent.target.result;
+                    }
                 }
             }
-        }
-    </script>
+
+            function checkCategory() {
+                const category = document.getElementById('category').value;
+                const targetInput = document.getElementById('target_amount');
+                const deadlineInput = document.getElementById('deadline');
+
+                // Jika Wakaf Uang atau Dana Abadi dipilih
+                if (category === 'Wakaf Uang' || category === 'Dana Abadi') {
+                    targetInput.value = 0;
+                    targetInput.setAttribute('readonly', 'readonly');
+                    // Optional: kasih background abu-abu biar keliatan disable
+                    targetInput.classList.add('bg-light');
+
+                    deadlineInput.value = '';
+                    deadlineInput.setAttribute('readonly', 'readonly');
+                    deadlineInput.classList.add('bg-light');
+                } else {
+                    // Kembalikan ke normal
+                    targetInput.removeAttribute('readonly');
+                    targetInput.classList.remove('bg-light');
+
+                    deadlineInput.removeAttribute('readonly');
+                    deadlineInput.classList.remove('bg-light');
+                }
+            }
+
+            // Panggil fungsi sekali saat halaman dimuat (untuk handle error validation kembali)
+            document.addEventListener('DOMContentLoaded', checkCategory);
+        </script>
     @endpush
 </x-layouts.admin>

@@ -4,8 +4,11 @@
     {{-- Mengisi slot 'hero_content' yang ada di layout dashboard --}}
     <x-slot:hero_content>
         <div class="user-profile" style="padding-top: 70px;">
-            <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://via.placeholder.com/90x90/198754/ffffff?text=' . substr(Auth::user()->nama, 0, 1) }}"
-                alt="{{ Auth::user()->nama }}" class="user-avatar" />
+            <img src="{{ Auth::user()->avatar
+                ? asset('storage/avatars/' . Auth::user()->avatar)
+                : asset('storage/avatars/avatar.png') }}"
+                alt="{{ Auth::user()->nama }}"
+                class="user-avatar {{ Auth::user()->avatar ? 'avatar-cover' : 'avatar-contain' }}" />
             <div class="user-info">
                 <h1 class="h3 mb-1 fw-bold">Halo, {{ Auth::user()->nama }}!</h1>
                 <p class="mb-2 opacity-90">Terima kasih telah menjadi bagian dari perubahan melalui donasi Anda.</p>
@@ -119,13 +122,13 @@
                 <p class="text-muted mb-0">Donasi Berhasil</p>
             </div>
         </div>
-        <!-- <div class="col-md-3 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="stats-card text-center">
                 <div class="stats-icon mx-auto"><i class="bi bi-award"></i></div>
-                <h3 class="text-success mb-2">0</h3> {{-- TODO: Buat ini dinamis dari data sertifikat --}}
+                <h3 class="text-success mb-2">{{ $total_certificates }}</h3>
                 <p class="text-muted mb-0">Sertifikat</p>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <div class="row">
@@ -135,12 +138,12 @@
                 <canvas id="donationChart" height="250"></canvas>
             </div>
         </div>
-        <!-- <div class="col-md-4">
+        <div class="col-md-4">
             <div class="chart-container">
                 <h5 class="mb-3">Distribusi Donasi</h5>
                 <canvas id="distributionChart" height="250"></canvas>
             </div>
-        </div> -->
+        </div>
     </div>
 
     <div class="row">
@@ -148,7 +151,7 @@
             <div class="dashboard-card">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">Donasi Terbaru</h5>
-                    <a href="#" class="btn btn-outline-success btn-sm">Lihat Semua</a>
+                    <a href="{{ route('dashboard.donations') }}" class="btn btn-outline-success btn-sm">Lihat Semua</a>
                 </div>
                 <div class="donation-list">
                     @forelse ($recent_donations as $donation)
@@ -193,17 +196,35 @@
                                     </div>
                                     <p class="card-text small text-muted mb-3">
                                         {{ Str::limit($program->description, 50) }}</p>
-                                    <div class="program-progress mb-3">
-                                        <div class="d-flex justify-content-between mb-1">
-                                            <small class="text-muted">Progress</small>
-                                            <small class="text-muted">{{ $program->progres_persentase }}%</small>
+                                    {{-- LOGIKA BARU: PROGRESS BAR vs DONASI TANPA BATAS --}}
+                                    @if ($program->category == 'Wakaf Melalui Uang')
+                                        <div class="program-progress mb-3">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <small class="text-muted">Progress</small>
+                                                <small class="text-muted">{{ $program->progres_persentase }}%</small>
+                                            </div>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: {{ $program->progres_persentase }}%"></div>
+                                            </div>
                                         </div>
-                                        <div class="progress progress-sm">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: {{ $program->progres_persentase }}%"></div>
+                                    @else
+                                        <div class="mb-3">
+                                            <span class="badge bg-success-subtle text-success mb-1">
+                                                <i class="bi bi-infinity me-1"></i>Wakaf Uang
+                                            </span>
+                                            <div class="small text-muted">Terkumpul: <span class="fw-bold text-dark">Rp
+                                                    {{ number_format($program->collected_amount, 0, ',', '.') }}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <a href="{{ route('programs.show.public', $program->id) }}"
+                                    @endif
+                                    @php
+                                        $routeName =
+                                            $program->category == 'Wakaf Melalui Uang'
+                                                ? 'wakaf-melalui-uang.show.public'
+                                                : 'wakaf-uang.show.public';
+                                    @endphp
+                                    <a href="{{ route($routeName, $program->slug) }}"
                                         class="btn btn-outline-success btn-sm w-100">Lihat Program</a>
                                 </div>
                             </div>
@@ -245,16 +266,16 @@
                 <h5 class="mb-3">Update Terbaru</h5>
                 <div class="update-list">
                     @forelse($recent_donations as $donation)
-                        <div class="update-item">
+<div class="update-item">
                             <h6 class="mb-1 small">Donasi untuk "{{ Str::limit($donation->program->title, 20) }}"</h6>
                             <p class="small text-muted mb-1">Anda telah berdonasi sebesar Rp
                                 {{ number_format($donation->amount, 0, ',', '.') }}</p>
                             <small class="text-muted"><i
                                     class="bi bi-clock me-1"></i>{{ $donation->created_at?->diffForHumans() }}</small>
                         </div>
-                    @empty
+@empty
                         <p class="text-muted small">Belum ada update terbaru.</p>
-                    @endforelse
+@endforelse
                 </div>
             </div>
         </div> -->
@@ -332,7 +353,8 @@
                             datasets: [{
                                 data: distributionData,
                                 backgroundColor: ["#198754", "#20c997", "#ffc107", "#0dcaf0",
-                                    "#6f42c1"],
+                                    "#6f42c1"
+                                ],
                                 borderWidth: 3,
                                 borderColor: "#fff",
                             }],

@@ -8,111 +8,153 @@
 
     @push('styles')
         <style>
-            .certificate-card {
+            /* LIST STYLE DASHBOARD */
+            .certificate-list-item {
                 background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                padding: 1.25rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
                 border: 1px solid #e9ecef;
-                margin-bottom: 1.5rem;
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
+                margin-bottom: 1rem;
+                transition: all 0.2s ease;
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
             }
 
-            .certificate-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            .certificate-list-item:hover {
+                transform: translateX(5px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+                border-color: #198754;
             }
 
-            .certificate-preview {
-                background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-                border: 2px dashed #dee2e6;
-                border-radius: 1rem;
-                padding: 2rem;
-                text-align: center;
-                min-height: 300px;
+            /* Icon area in list */
+            .cert-icon-wrapper {
+                width: 60px;
+                height: 60px;
+                border-radius: 10px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin-bottom: 1.5rem;
+                font-size: 1.75rem;
+                flex-shrink: 0;
             }
 
-            .certificate-badge {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                z-index: 2;
+            /* Main content area */
+            .cert-content {
+                flex-grow: 1;
+                min-width: 0;
+                /* Mencegah overflow pada flex item */
+            }
+
+            /* Action buttons area */
+            .cert-actions {
+                flex-shrink: 0;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            /* Responsiveness for mobile */
+            @media (max-width: 768px) {
+                .certificate-list-item {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 1rem;
+                }
+
+                .cert-actions {
+                    width: 100%;
+                    justify-content: flex-start;
+                }
+
+                .cert-actions .btn {
+                    flex-grow: 1;
+                }
             }
         </style>
     @endpush
 
     <div class="row">
-        {{-- Loop dinamis untuk setiap sertifikat --}}
-        @forelse ($certificates as $donation)
-            <div class="col-md-6 mb-4">
-                <div class="certificate-card h-100">
+        <div class="col-12">
 
-                    {{-- Logika untuk menampilkan Tipe Dokumen --}}
-                    @php
-                        $docType = 'Sertifikat Standar';
-                        $docIcon = 'bi-award-fill text-success';
-                        $docBadge = 'bg-success';
-                        if ($donation->program->certificate_type == 'akta_wakaf') {
-                            $docType = 'Akta Ikrar Wakaf';
-                            $docIcon = 'bi-shield-check text-primary';
-                            $docBadge = 'bg-primary';
-                        } elseif ($donation->program->certificate_type == 'surat_apresiasi') {
-                            $docType = 'Surat Apresiasi';
-                            $docIcon = 'bi-patch-check-fill text-info';
-                            $docBadge = 'bg-info';
-                        }
-                    @endphp
+            {{-- Loop dinamis untuk setiap sertifikat dalam bentuk list --}}
+            @forelse ($certificates as $donation)
+                @php
+                    $docType = 'Sertifikat Standar';
+                    $docIcon = 'bi-award-fill text-success';
+                    $docBg = 'bg-success bg-opacity-10';
+                    $docBadge = 'text-bg-success';
 
-                    <span class="certificate-badge badge {{ $docBadge }}">{{ $docType }}</span>
+                    if ($donation->program->certificate_type == 'akta_wakaf') {
+                        $docType = 'Akta Ikrar Wakaf';
+                        $docIcon = 'bi-shield-check text-primary';
+                        $docBg = 'bg-primary bg-opacity-10';
+                        $docBadge = 'text-bg-primary';
+                    } elseif ($donation->program->certificate_type == 'surat_apresiasi') {
+                        $docType = 'Surat Apresiasi';
+                        $docIcon = 'bi-patch-check-fill text-info';
+                        $docBg = 'bg-info bg-opacity-10';
+                        $docBadge = 'text-bg-info';
+                    }
+                @endphp
 
-                    <div class="certificate-preview mb-3">
-                        <div class="text-center">
-                            <i class="bi {{ $docIcon }} display-1 mb-3"></i>
-                            <h5 class="fw-bold">{{ $docType }}</h5>
-                            <p class="text-muted mb-0">{{ $donation->program->title }}</p>
+                <div class="certificate-list-item">
+                    {{-- 1. Ikon Dokumen --}}
+                    <div class="cert-icon-wrapper {{ $docBg }}">
+                        <i class="bi {{ $docIcon }}"></i>
+                    </div>
+
+                    {{-- 2. Info Dokumen --}}
+                    <div class="cert-content">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <h5 class="mb-0 fw-bold text-truncate" title="{{ $donation->program->title }}">
+                                {{ $donation->program->title }}
+                            </h5>
+                            <span class="badge {{ $docBadge }} small px-2 py-1">{{ $docType }}</span>
                         </div>
+
+                        <p class="text-muted small mb-0">
+                            <i class="bi bi-calendar-check me-1"></i> Diterbitkan:
+                            {{ $donation->created_at->translatedFormat('d F Y') }}
+                            <span class="mx-2 text-black-50">|</span>
+                            <i class="bi bi-cash-coin me-1"></i> Nominal: <strong>Rp
+                                {{ number_format($donation->amount, 0, ',', '.') }}</strong>
+                        </p>
                     </div>
 
-                    <h5 class="mb-2">{{ $donation->program->title }}</h5>
-                    <p class="text-muted mb-3">
-                        Diterbitkan pada {{ $donation->created_at->translatedFormat('d F Y') }} untuk donasi sebesar
-                        <strong>Rp {{ number_format($donation->amount, 0, ',', '.') }}</strong>.
-                    </p>
-                    <div class="d-flex gap-2">
+                    {{-- 3. Tombol Aksi --}}
+                    <div class="cert-actions">
                         <a href="{{ asset('storage/' . $donation->certificate_path) }}" target="_blank"
-                            class="btn btn-success btn-sm flex-fill">
-                            <i class="bi bi-download me-2"></i>Download PDF
+                            class="btn btn-success btn-sm px-3">
+                            <i class="bi bi-download me-1"></i> Unduh
                         </a>
-                        {{-- Tombol share bisa dikembangkan nanti --}}
-                        <button class="btn btn-outline-success btn-sm"><i class="bi bi-share"></i></button>
                     </div>
                 </div>
-            </div>
 
-        @empty
-            {{-- Tampilan jika tidak ada sertifikat sama sekali --}}
-            <div class="col-md-6 mb-4">
-                <div class="certificate-card h-100 d-flex align-items-center justify-content-center text-center">
-                    <div>
-                        <i class="bi bi-award display-1 text-muted mb-3"></i>
-                        <h5 class="text-muted">Belum Ada Sertifikat</h5>
-                        <p class="text-muted mb-3">Sertifikat akan tersedia di sini setelah donasi Anda untuk program
-                            tertentu telah dikonfirmasi oleh admin.</p>
-                        <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success"><i
-                            class="bi bi-plus-circle me-2"></i>Wakaf Sekarang</a>
+            @empty
+                {{-- Tampilan Kosong (Tetap pakai box luas biar kelihatan) --}}
+                <div class="card border-0 shadow-sm rounded-4 mt-3">
+                    <div class="card-body text-center py-5">
+                        <div class="d-inline-block p-4 rounded-circle mb-3 bg-light text-muted">
+                            <i class="bi bi-award display-4"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark">Belum Ada Sertifikat</h5>
+                        <p class="text-muted mb-4 mx-auto" style="max-width: 400px;">
+                            Sertifikat akan tersedia di sini setelah donasi Anda untuk program tertentu telah
+                            dikonfirmasi oleh admin.
+                        </p>
+                        <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success px-4 rounded-pill">
+                            <i class="bi bi-plus-circle me-2"></i>Mulai Berwakaf
+                        </a>
                     </div>
                 </div>
-            </div>
-        @endforelse
+            @endforelse
+
+        </div>
     </div>
 
-    <div class="mt-4">
+    {{-- Paginasi --}}
+    <div class="mt-4 d-flex justify-content-center">
         {{ $certificates->links() }}
     </div>
 

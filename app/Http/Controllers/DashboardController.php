@@ -8,9 +8,11 @@ use App\Models\Donation;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Program;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
@@ -19,12 +21,19 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        // Bikin query dasar
         $successful_donations = Donation::where('user_id', $user->id)->where('status', 'paid');
 
         // --- STATISTIK UTAMA ---
-        $total_donation = $successful_donations->sum('amount');
-        $supported_programs_count = $successful_donations->distinct('program_id')->count();
-        $total_transactions = $successful_donations->count();
+        // (Tips: pakai 'clone' biar query builder-nya gak saling nimpa satu sama lain)
+        $total_donation = (clone $successful_donations)->sum('amount');
+        $supported_programs_count = (clone $successful_donations)->distinct('program_id')->count();
+        $total_transactions = (clone $successful_donations)->count();
+
+        // --- TAMBAHAN: HITUNG TOTAL SERTIFIKAT ---
+        $total_certificates = (clone $successful_donations)->whereNotNull('certificate_path')->count();
+
         $recent_donations = Donation::where('user_id', $user->id)->with('program')->latest()->take(4)->get();
 
         // --- DATA UNTUK CHART AKTIVITAS DONASI (BAR CHART) ---
@@ -60,6 +69,7 @@ class DashboardController extends Controller
             'total_donation',
             'supported_programs_count',
             'total_transactions',
+            'total_certificates', // <-- Jangan lupa masukin ke sini
             'recent_donations',
             'donationChartData',
             'distributionChartData',
@@ -67,27 +77,58 @@ class DashboardController extends Controller
         ));
     }
 
-    public function donations()
+    public function donations(\Illuminate\Http\Request $request)
     {
         $user = Auth::user();
 
-        // Ambil semua donasi yang berhasil (status 'paid')
-        $donations = Donation::where('user_id', $user->id)
-            ->where('status', 'paid')
-            ->with('program') // Eager load relasi program
-            ->latest()
-            ->paginate(10); // Gunakan paginasi
+        // 1. Query dasar tanpa ->where('status', 'paid') supaya SEMUA status (termasuk pending) ketarik
+        $query = Donation::where('user_id', $user->id)->with('program');
+
+        // 2. Filter Status (Jika user milih dropdown status)
+        if ($request->filled('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // 3. Filter Kategori Program (Wakaf Uang / Wakaf Melalui Uang / dll)
+        if ($request->filled('category') && $request->category != 'all') {
+            $query->whereHas('program', function($q) use ($request) {
+                // Cocokin dengan kolom category di tabel programs
+                $q->where('category', $request->category);
+            });
+        }
+
+        // 4. Eksekusi paginasi
+        $donations = $query->latest()->paginate(10);
+        $donations->appends($request->all());
 
         return view('dashboard.donations', compact('donations'));
     }
 
-    public function transactions()
+    public function transactions(\Illuminate\Http\Request $request)
     {
-        // Ambil semua transaksi (tanpa filter status) milik user, urutkan dari yang terbaru
-        $transactions = Donation::where('user_id', Auth::id())
-            ->with('program') // Eager load relasi program
-            ->latest()
-            ->paginate(10);
+        // 1. Mulai query dasar milik user yang login
+        $query = Donation::where('user_id', Auth::id())->with('program');
+
+        // 2. Filter berdasarkan Status
+        if ($request->filled('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // 3. Filter berdasarkan Tanggal Mulai (Start Date)
+        if ($request->filled('start_date')) {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        // 4. Filter berdasarkan Tanggal Akhir (End Date)
+        if ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        // 5. Eksekusi query dengan paginasi
+        $transactions = $query->latest()->paginate(10);
+
+        // Appends agar saat pindah halaman paginasi, filternya tidak hilang
+        $transactions->appends($request->all());
 
         return view('dashboard.transactions', compact('transactions'));
     }
@@ -109,6 +150,7 @@ class DashboardController extends Controller
 
     public function updateProfile(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $request->validate([
@@ -137,6 +179,7 @@ class DashboardController extends Controller
             'avatar' => 'required|image|mimes:jpeg,png,jpg|max:2048' // Maks 2MB
         ]);
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         // Hapus foto lama jika ada
@@ -160,6 +203,7 @@ class DashboardController extends Controller
      */
     public function updatePassword(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         // 1. Validasi input
@@ -207,5 +251,22 @@ class DashboardController extends Controller
             ->paginate(10); // Kita paginasi agar rapi
 
         return view('dashboard.certificates', compact('certificates'));
+    }
+
+    public function downloadInvoice($order_id)
+    {
+        // Cari donasi, pastikan ini milik user yang sedang login biar aman
+        $donation = Donation::where('order_id', $order_id)
+                            ->where('user_id', auth()->id())
+                            ->firstOrFail();
+
+        // Load view HTML dan ubah jadi PDF
+        $pdf = Pdf::loadView('pdf.invoice', compact('donation'));
+
+        // Atur ukuran kertas ke A4
+        $pdf->setPaper('A4', 'portrait');
+
+        // Kembalikan file untuk di-download dengan nama dinamis
+        return $pdf->download('Invoice_Wakaf_' . $donation->order_id . '.pdf');
     }
 }

@@ -23,15 +23,20 @@
                             href="#" id="navbarDropdownProgram" role="button" data-bs-toggle="dropdown">
                             Jenis
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownProgram">
+                        {{-- Tambahkan class 'custom-dropdown' biar gampang distyle --}}
+                        <ul class="dropdown-menu custom-dropdown shadow-sm border-0"
+                            aria-labelledby="navbarDropdownProgram">
                             <li><a class="dropdown-item {{ Request::routeIs('public.wakaf-uang') ? 'active' : '' }}"
                                     href="{{ route('public.wakaf-uang') }}">Wakaf Uang</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('wakaf-melalui-uang.index.public') ? 'active' : '' }}"
                                     href="{{ route('wakaf-melalui-uang.index.public') }}">Wakaf Melalui Uang</a></li>
-                            <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
-                                    href="http://upz.unand.ac.id/">Zakat</a></li>
-                            <li><a class="dropdown-item {{ Request::routeIs('pengurus.public') ? 'active' : '' }}"
-                                    href="#">Dana Abadi</a></li>
+
+                            {{-- Link Zakat Buka Tab Baru --}}
+                            <li><a class="dropdown-item" href="http://upz.unand.ac.id/" target="_blank"
+                                    rel="noopener noreferrer">Zakat <i
+                                        class="bi bi-box-arrow-up-right ms-1 small"></i></a></li>
+
+                            <li><a class="dropdown-item" href="#">Dana Abadi</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -43,7 +48,8 @@
                             href="#" id="navbarDropdownTentang" role="button" data-bs-toggle="dropdown">
                             Tentang
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentang">
+                        <ul class="dropdown-menu custom-dropdown shadow-sm border-0"
+                            aria-labelledby="navbarDropdownTentang">
                             <li><a class="dropdown-item {{ Request::routeIs('sejarah.public') ? 'active' : '' }}"
                                     href="{{ route('sejarah.public') }}">Sejarah</a></li>
                             <li><a class="dropdown-item {{ Request::routeIs('legalitas.public') ? 'active' : '' }}"
@@ -61,43 +67,40 @@
                             href="{{ route('edukasi-wakaf.public') }}">Edukasi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fw-bold text-warning " 
-                        href="#" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#wakafUangModal">
-                        Wakaf Sekarang
+                        <a class="nav-link fw-bold text-warning" href="#" data-bs-toggle="modal"
+                            data-bs-target="#wakafUangModal">
+                            Wakaf Sekarang
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        {{-- Tombol Pemicu Modal --}}
-                        <button type="button" class="btn btn-warning fw-bold rounded-pill px-4 shadow-sm shake-hover" data-bs-toggle="modal" data-bs-target="#wakafUangModal">
-                            <i class="bi bi-qr-code-scan me-2"></i>Wakaf Sekarang
-                        </button>
-                    </li> -->
                 </ul>
 
-                <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2 align-items-center mt-3 mt-lg-0">
                     @guest
-                        <a href="{{ route('login') }}" class="btn btn-primary rounded-pill px-4">Masuk</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary rounded-pill px-4"
+                            style="background-color: #84B179; border-color: #84B179;">Masuk</a>
                     @endguest
 
                     @auth
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 id="navbarDropdownUser" role="button" data-bs-toggle="dropdown">
-                                
-                                {{-- Menggunakan API UI Avatars: Otomatis ambil inisial & warna hijau --}}
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->nama) }}&background=198754&color=fff&rounded=true" 
-                                    alt="User" class="me-2" width="32" height="32">
+                                <img src="{{ Auth::user()->avatar
+                                    ? asset('storage/avatars/' . Auth::user()->avatar)
+                                    : asset('storage/avatars/avatar.png') }}"
+                                    alt="User" class="me-2 rounded-circle border border-success" width="32"
+                                    height="32" style="object-fit: cover;">
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
-                                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard Saya</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end custom-dropdown shadow-sm border-0 mt-2"
+                                aria-labelledby="navbarDropdownUser">
+                                <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i
+                                            class="bi bi-speedometer2 me-2"></i> Dashboard Saya</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                    <a class="dropdown-item text-danger" href="#"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                            class="bi bi-box-arrow-right me-2"></i> Logout</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">@csrf</form>
                                 </li>

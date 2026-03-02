@@ -23,38 +23,59 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // 1. Validasi Dasar
         $request->validate([
             'nama' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'nomor_hp' => 'required|string|max:15',
-            'nik' => 'required|string|max:16|unique:users',
+            'kategori' => 'required|in:mahasiswa,alumni,dosen,tenaga_pendidik,umum',
+            'nomor_identitas' => 'required|string|max:50', // Pengganti validasi NIK lama
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(8)
-                    ->mixedCase() 
+                \Illuminate\Validation\Rules\Password::min(8)
+                    ->mixedCase()
                     ->numbers()
                     ->symbols()
             ],
         ]);
 
+        // 2. Validasi Keunikan NIK khusus untuk Umum & Tenaga Pendidik
+        if (in_array($request->kategori, ['umum', 'tenaga_pendidik'])) {
+            $request->validate([
+                'nomor_identitas' => 'unique:users,nik'
+            ], [
+                'nomor_identitas.unique' => 'NIK ini sudah terdaftar di sistem kami.'
+            ]);
+        }
+
+        // 3. Format Nomor HP
         $phoneNumber = $request->nomor_hp;
         if (str_starts_with($phoneNumber, '0')) {
             $phoneNumber = substr($phoneNumber, 1);
         }
         $formattedPhoneNumber = '+62' . $phoneNumber;
 
+        // 4. Logika Pemisahan NIK vs Nomor Induk
+        $nik = in_array($request->kategori, ['umum', 'tenaga_pendidik']) ? $request->nomor_identitas : null;
+        $nomor_induk = in_array($request->kategori, ['mahasiswa', 'alumni', 'dosen']) ? $request->nomor_identitas : null;
+
+        // 5. Simpan User Baru ke Database
         $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'nomor_hp' => $formattedPhoneNumber,
-            'nik' => $request->nik,
+            'kategori' => $request->kategori, // Simpan kategori
+            'nik' => $nik,                    // Simpan ke NIK jika umum/tendik
+            'nomor_induk' => $nomor_induk,    // Simpan ke NIM/NIP jika mhs/dosen/alumni
             'password' => Hash::make($request->password),
             'verification_code' => random_int(100000, 999999),
             'verification_code_expires_at' => now()->addMinutes(2),
         ]);
 
+        // 6. Kirim Email Verifikasi
         Mail::to($user->email)->send(new RegistrationVerificationMail($user, $user->verification_code));
+
         return redirect()->route('verification.notice')->with('email', $user->email);
     }
 

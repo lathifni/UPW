@@ -49,7 +49,40 @@
     @endpush
 
     <div class="filter-section">
-        {{-- TODO: Fungsikan filter ini nanti --}}
+        <form action="{{ route('dashboard.transactions') }}" method="GET" class="row g-3 align-items-end">
+            {{-- Filter Tanggal Mulai --}}
+            <div class="col-md-3">
+                <label for="start_date" class="form-label text-muted small mb-1">Mulai Tanggal</label>
+                <input type="date" class="form-control form-control-sm" id="start_date" name="start_date"
+                    value="{{ request('start_date') }}" onchange="this.form.submit()">
+            </div>
+
+            {{-- Filter Tanggal Akhir --}}
+            <div class="col-md-3">
+                <label for="end_date" class="form-label text-muted small mb-1">Sampai Tanggal</label>
+                <input type="date" class="form-control form-control-sm" id="end_date" name="end_date"
+                    value="{{ request('end_date') }}" onchange="this.form.submit()">
+            </div>
+
+            {{-- Filter Status --}}
+            <div class="col-md-3">
+                <label for="status" class="form-label text-muted small mb-1">Status Transaksi</label>
+                <select name="status" id="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="all">Semua Status</option>
+                    <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Berhasil</option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                </select>
+            </div>
+
+            {{-- Tombol Reset (Hanya muncul jika ada filter yang aktif) --}}
+            <div class="col-md-3">
+                @if (request('start_date') || request('end_date') || (request('status') && request('status') != 'all'))
+                    <a href="{{ route('dashboard.transactions') }}" class="btn btn-sm btn-outline-danger w-100">
+                        <i class="bi bi-x-circle me-1"></i> Reset Filter
+                    </a>
+                @endif
+            </div>
+        </form>
     </div>
 
     <div class="transaction-list">
@@ -82,16 +115,13 @@
                     </div>
                     <div class="col-md-3 text-end">
                         @if ($transaction->status == 'paid')
-                            <span class="status-badge bg-success">Berhasil</span>
+                            {{-- Tambah text-white --}}
+                            <span class="status-badge bg-success text-white">Berhasil</span>
                         @elseif($transaction->status == 'pending')
-                            <span class="status-badge bg-warning text-dark">Pending</span>
-                        @else
-                            <span class="status-badge bg-danger">Gagal</span>
+                            {{-- Hapus text-dark, ganti jadi text-white --}}
+                            <span class="status-badge bg-warning text-white">Pending</span>
                         @endif
-                        <div class="mt-2">
-                            <button class="btn btn-outline-success btn-sm"><i class="bi bi-receipt"></i>
-                                Invoice</button>
-                        </div>
+
                     </div>
                 </div>
             </div>

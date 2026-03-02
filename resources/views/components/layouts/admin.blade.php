@@ -42,10 +42,20 @@
                 Manajemen Utama
             </div>
 
-            <li class="nav-item {{ Request::routeIs('admin.donations.index') ? 'active' : '' }}">
+            <li class="nav-item {{ Request::routeIs('admin.donations.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.donations.index') }}">
                     <i class="fas fa-fw fa-heart"></i>
                     <span>Manajemen Wakaf Masuk</span>
+
+                    {{-- Trik ngambil jumlah pending langsung di Blade --}}
+                    @php
+                        $pendingCount = \App\Models\Donation::where('status', 'pending')->count();
+                    @endphp
+
+                    @if ($pendingCount > 0)
+                        <span class="badge badge-danger badge-counter"
+                            style="margin-left: 5px;">{{ $pendingCount }}</span>
+                    @endif
                 </a>
             </li>
 
@@ -84,25 +94,18 @@
                 </a>
             </li>
 
-            <!-- <li class="nav-item {{ Request::is('admin/donations*') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('managements.index') }}">
-                    <i class="fas fa-fw fa-credit-card"></i>
-                    <span>Manajemen Transaksi</span>
-                </a>
-            </li> -->
-
             <hr class="sidebar-divider">
 
             <div class="sidebar-heading">
                 Konten & Laporan
             </div>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-award"></i>
                     <span>Sertifikat</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="nav-item {{ Request::is('admin/articles*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('articles.index') }}">
@@ -111,7 +114,7 @@
                 </a>
             </li>
 
-           <li class="nav-item {{ Request::routeIs('reports.*') ? 'active' : '' }}">
+            <li class="nav-item {{ Request::routeIs('reports.*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('reports.index') }}">
                     <i class="fas fa-fw fa-file-invoice"></i> {{-- Icon Dokumen --}}
                     <span>Laporan </span>
@@ -120,17 +123,11 @@
 
             <hr class="sidebar-divider d-none d-md-block">
 
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Pengaturan Sistem</span>
-                </a>
-            </li> -->
-
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
+
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -169,13 +166,11 @@
             </footer>
         </div>
     </div>
+
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
     <script src="{{ asset('admin/js/sb-admin-2.min.js') }}"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- TAMBAHKAN KODE PEMICU DI SINI --}}

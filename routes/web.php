@@ -16,7 +16,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Public\EducationController;
-use App\Http\Controllers\Admin\RekeningController; // <--- Jangan lupa import ini di atas
+use App\Http\Controllers\Admin\RekeningController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 
 // Rute Publik
@@ -71,11 +72,10 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middle
 
 // Rute Admin
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', function() {return view('admin.dashboard');})->name('admin.dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('/programs', ProgramController::class);
     Route::resource('/articles', ArticleController::class);
     Route::resource('/managements',ManagementController::class);
-
     Route::get('/donations/export', [AdminDonationController::class, 'export'])->name('admin.donations.export');
     Route::get('/donations', [AdminDonationController::class, 'index'])->name('admin.donations.index');
     Route::get('/donations/{donation}', [AdminDonationController::class, 'show'])->name('admin.donations.show');
@@ -84,7 +84,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::post('/donations-cash/store', [AdminDonationController::class, 'storeManual'])->name('admin.donations.cash.store');
     Route::resource('users', AdminUserController::class);
     Route::resource('reports', AdminReportController::class)->only(['index', 'store', 'destroy']);
-    // Route::get('donations/export', [AdminDonationController::class, 'export'])->name('admin.donations.export');
     Route::resource('rekenings', RekeningController::class);
 });
 
@@ -92,6 +91,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/donasi-saya', [DashboardController::class, 'donations'])->name('dashboard.donations');
+    Route::get('/dashboard/donations/{order_id}/invoice', [\App\Http\Controllers\DashboardController::class, 'downloadInvoice'])->name('dashboard.donations.invoice');
     Route::get('/dashboard/transaksi', [DashboardController::class, 'transactions'])->name('dashboard.transactions');
     Route::get('/dashboard/sertifikat', [DashboardController::class, 'certificates'])->name('dashboard.certificates');
     Route::get('/dashboard/profil', [DashboardController::class, 'profile'])->name('dashboard.profile');

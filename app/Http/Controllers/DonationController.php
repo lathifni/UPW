@@ -6,7 +6,7 @@ use App\Mail\WakafPendingMail;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail; // <--- TAMBAHKAN BARIS INI!
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -43,12 +43,12 @@ class DonationController extends Controller
             'amount.required' => 'Nominal donasi belum diisi.',
         ]);
 
-        // Logic cek Pending tolak 
+        // Logic cek Pending tolak
         $pendingDonation = Donation::where('status', 'pending')
             ->where(function ($query) use ($request) {
                 $query->where('donor_email', $request->donor_email)
                       ->orWhere('donor_phone', $request->donor_phone);
-                
+
                 if ($request->filled('donor_nomor_induk')) {
                     $query->orWhere('donor_nomor_induk', $request->donor_nomor_induk);
                 }
@@ -79,24 +79,19 @@ class DonationController extends Controller
         ]);
 
 
-        try {
-        // Kita kirim email ke alamat email donatur ($request->donor_email)
+       try {
+            // 1. Kirim email ke Donatur (Antrean 1)
             Mail::to($request->donor_email)->send(new WakafPendingMail($donation));
-        } catch (\Exception $e) {
-            // Opsional: Log error jika email gagal terkirim, 
-            // tapi jangan hentikan proses agar user tetap bisa lanjut.
-            Log::error('Gagal mengirim email wakaf: ' . $e->getMessage());
-        }
-        // 3. TODO: Tempat untuk integrasi Midtrans nanti
-        // ==============================================
-        // Di sinilah nanti kita akan menempatkan kode untuk:
-        // - Menyiapkan data transaksi untuk Midtrans
-        // - Memanggil API Midtrans untuk mendapatkan payment_url
-        // - Mengarahkan (redirect) user ke payment_url tersebut
-        // ==============================================
 
-        // 4. Untuk saat ini, kita hanya akan redirect kembali dengan pesan sukses
-        // return redirect()->back()->with('success', 'Terima kasih! Data donasi Anda telah kami terima dan menunggu pembayaran.');
+            // 2. Kirim notifikasi ke SEMUA ADMIN (Antrean 2)
+            $adminEmails = \App\Models\User::where('role', 'admin')->pluck('email')->toArray();
+            if (!empty($adminEmails)) {
+                Mail::to($adminEmails)->send(new \App\Mail\AdminDonationAlertMail($donation));
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Gagal mengirim email notifikasi wakaf: ' . $e->getMessage());
+        }
 
         return redirect()->route('donations.instruction', ['order_id' => $donation->order_id]);
     }
@@ -104,7 +99,7 @@ class DonationController extends Controller
     public function instruction($order_id)
     {
         $donation = Donation::where('order_id', $order_id)->firstOrFail();
-        
+
         // Kalau user iseng refresh tapi statusnya udah sukses, lempar ke halaman tracking aja
         if($donation->status == 'success') {
             return redirect()->route('donations.check', ['order_id' => $order_id]);
@@ -150,10 +145,6 @@ class DonationController extends Controller
 
         if ($keyword) {
 
-            // Cari data yang statusnya PAID saja (biar rapi)
-
-            // Dan cari cocokkan keyword ke Email ATAU No HP ATAU NIM
-
             $donations = Donation::where('status', 'paid')
 
                 ->where(function($query) use ($keyword) {
@@ -189,14 +180,14 @@ class DonationController extends Controller
 
         // 2. Cek apakah statusnya masih 'pending'?
         if ($donation->status == 'pending') {
-            
+
             $donation->update([
                 'status' => 'cancelled' // Ubah status jadi batal
             ]);
 
             // 👇 PERUBAHAN DI SINI
             // Ganti route('programs.index.public') jadi redirect('/') buat ke Home
-            return redirect('/') 
+            return redirect('/')
                 ->with('success', 'Wakaf berhasil dibatalkan. Silakan buat wakaf baru jika berkenan.');
         }
 

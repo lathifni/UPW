@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\Program;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;// Sesuaikan dengan model Anda
+use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use App\Mail\WakafSuccessMail;
-use App\Exports\DonationFilterExport; // Panggil class export yang tadi dibuat
-use Maatwebsite\Excel\Facades\Excel;  // Panggil facade Excel
+use App\Exports\DonationFilterExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class DonationController extends Controller
 {
@@ -55,7 +58,7 @@ class DonationController extends Controller
 
         // LOGIKA UTAMA: Jika status berubah dari PENDING ke PAID
         if ($oldStatus === 'pending' && $newStatus === 'paid') {
-            
+
             // A. Tambah Saldo Program (Jika ada relasi ke program)
             if ($donation->program) {
                 $donation->program->increment('collected_amount', $donation->amount);
@@ -71,15 +74,15 @@ class DonationController extends Controller
             // ============================================================
             // 🔥 STEP 2: REFRESH MODEL (WAJIB!)
             // ============================================================
-            // Kita harus me-refresh variabel $donation supaya data 'nomor_akte' 
+            // Kita harus me-refresh variabel $donation supaya data 'nomor_akte'
             // dan 'tgl_akte' yang baru dibuat di database masuk ke variabel ini.
-            $donation->refresh(); 
+            $donation->refresh();
 
             // B. Persiapan Data PDF
             $textTerbilang = ucwords($this->terbilang($donation->amount)) . " Rupiah";
 
             // Path Gambar Tanda Tangan
-            $pathNazhir = public_path('images/signatures/nazhir.jpg'); 
+            $pathNazhir = public_path('images/signatures/nazhir.jpg');
             $pathBank   = public_path('images/signatures/bank.jpg');
             $pathSaksi1 = public_path('images/signatures/saksi1.jpg');
             $pathSaksi2 = public_path('images/signatures/saksi2.jpg');
@@ -88,18 +91,18 @@ class DonationController extends Controller
                 // ========================================================
                 // 🔥 STEP 3: PAKAI NOMOR & TANGGAL DARI DATABASE
                 // ========================================================
-                'nomor_surat' => $donation->nomor_akte, 
-                
+                'nomor_surat' => $donation->nomor_akte,
+
                 // Gunakan tgl_akte (kapan nomor dibuat), fallback ke created_at
                 'created_at'  => \Carbon\Carbon::parse($donation->tgl_akte ?? $donation->created_at)->locale('id')->translatedFormat('d F Y'),
-                
+
                 'donor_name'  => $donation->donor_name,
                 'donor_email' => $donation->donor_email,
                 'amount'      => "Rp " . number_format($donation->amount, 0, ',', '.'),
                 'terbilang'   => $textTerbilang,
                 'category'    => ($donation->program_id == 1) ? 'Wakaf Uang' : 'Wakaf Melalui Uang',
                 'title'       => $donation->program->title ?? 'Wakaf Tunai',
-                
+
                 // Data Pejabat & TTD
                 'nazhir_nama'  => 'Dr. Zulkifli N, SE., M.Si',
                 'bank_officer' => 'Rina Safitri',
@@ -125,21 +128,22 @@ class DonationController extends Controller
             $safeNomor = str_replace('/', '-', $donation->nomor_akte);
             $fileName = "AKTE_{$safeNomor}_{$donation->id}.pdf";
             $pdfPath = 'certificates/' . $fileName; // Folder: storage/app/public/certificates/
-            
+
             // Simpan PDF ke Disk Public
-            \Storage::disk('public')->put($pdfPath, $pdf->output());
+            Storage::disk('public')->put($pdfPath, $pdf->output());
 
             // Update path sertifikat di database donation
-            $donation->update(['certificate_path' => $fileName]);
+            $donation->certificate_path = $pdfPath;
+            $donation->save();
 
             // D. Kirim Email dengan Lampiran
             $pdfContent = $pdf->output();
 
             try {
-                \Mail::to($donation->donor_email)
+                Mail::to($donation->donor_email)
                     ->send(new \App\Mail\WakafSuccessMail($donation, $pdfContent));
             } catch (\Exception $e) {
-                \Log::error('Gagal kirim email sertifikat wakaf: ' . $e->getMessage());
+                Log::error('Gagal kirim email sertifikat wakaf: ' . $e->getMessage());
                 // Jika email gagal, jangan error page, tapi kasih notif warning
                 return redirect()->back()->with('warning', 'Status PAID & Akte berhasil dibuat, namun Email gagal terkirim. Cek Log.');
             }
@@ -165,7 +169,7 @@ class DonationController extends Controller
     {
         // Ambil program yang aktif buat dipilih admin
         $programs = Program::where('is_active', true)->get();
-        
+
         return view('admin.donations.wakaf-cash', compact('programs'));
     }
 
@@ -200,8 +204,8 @@ class DonationController extends Controller
         $program = Program::find($request->program_id);
         if ($program) {
             // Trik: Kalau collected_amount-nya NULL, anggap 0
-            $currentAmount = $program->collected_amount ?? 0; 
-            
+            $currentAmount = $program->collected_amount ?? 0;
+
             $program->update([
                 'collected_amount' => $currentAmount + $request->amount
             ]);
@@ -292,7 +296,7 @@ class DonationController extends Controller
         // Str::slug() fungsinya mengubah "Wakaf Sumur & Masjid" menjadi "wakaf-sumur-and-masjid" (aman buat filename)
         $cleanProgram = Str::slug($namaProgram);
         $cleanKategori = Str::slug($namaKategori);
-        
+
         // Format Akhir: Laporan_Wakaf-Sumur_Mahasiswa_2024_01-02-2025.xlsx
         $fileName = "Laporan_{$cleanProgram}_{$cleanKategori}_{$periode}_" . date('d-m-Y_His') . '.xlsx';
 

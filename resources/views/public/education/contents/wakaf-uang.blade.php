@@ -1,58 +1,60 @@
 <article class="max-w-4xl mx-auto px-4 py-10">
 
-    <div class="prose max-w-none">
+    <div class="prose max-w-none text-justify">
+         <p>
+            Sejarah awal mula wakaf dimulai pada masa Rasulullah SAW, yaitu pada tahun kedua Hijriyah setelah Nabi hijrah ke Madinah. Wakaf disyariatkan untuk memberikan manfaat kepada masyarakat secara berkelanjutan. Ada dua pendapat yang berkembang di kalangan ahli yurisprudensi Islam (fuqaha) tentang siapa yang pertama kali melaksanakan syariat wakaf. Menurut sebagian ulama, yang pertama kali melaksanakan wakaf adalah Rasulullah SAW, yakni mewakafkan tanah milik Nabi SAW untuk dibangun masjid.
         <p>
-           Istilah wakaf uang belum dikenal di zaman Rasulullah. Wakaf uang (cash waqf) baru dipraktekkan sejak awal 
-           abad kedua hijriyah. Imam az Zuhri (wafat 124 H) salah seorang ulama terkemuka dan peletak dasar tadwin 
-           al-hadits memfatwakan, dianjurkan wakaf dinar dan dirham untuk pembangunan sarana dakwah, sosial, dan 
+           Istilah wakaf uang belum dikenal di zaman Rasulullah. Wakaf uang (cash waqf) baru dipraktekkan sejak awal
+           abad kedua hijriyah. Imam az Zuhri (wafat 124 H) salah seorang ulama terkemuka dan peletak dasar tadwin
+           al-hadits memfatwakan, dianjurkan wakaf dinar dan dirham untuk pembangunan sarana dakwah, sosial, dan
            pendidikan umat Islam.
         </p>
 
         <p>
-           Di Turki, pada abad ke 15 H. praktek wakaf uang telah menjadi istilah yang familiar di tengah masyarakat. 
-           Wakaf uang biasanya merujuk pada cash deposits di lembaga-lembaga keuangan seperti bank, dimana wakaf uang 
-           tersebut biasanya diinvestasikan pada profitable business activities. Keuntungan dari hasil investasi 
+           Di Turki, pada abad ke 15 H. praktek wakaf uang telah menjadi istilah yang familiar di tengah masyarakat.
+           Wakaf uang biasanya merujuk pada cash deposits di lembaga-lembaga keuangan seperti bank, dimana wakaf uang
+           tersebut biasanya diinvestasikan pada profitable business activities. Keuntungan dari hasil investasi
            tersebut digunakan kepada segala sesuatu yang bermanfaat secara sosial keagamaan.
         </p>
 
         <p>
-          Pada abad ke 20 mulailah muncul berbagai ide untuk meimplementasikan berbagai ide-ide besar Islam dalam 
-          bidang ekonomi, berbagai lembaga keuangan lahir seperti bank, asuransi, pasar modal, institusi zakat, 
-          institusi wakaf, lembaga tabungan haji dll. Lembaga-lembaga keuangan Islam sudah menjadi istilah yang 
+          Pada abad ke 20 mulailah muncul berbagai ide untuk meimplementasikan berbagai ide-ide besar Islam dalam
+          bidang ekonomi, berbagai lembaga keuangan lahir seperti bank, asuransi, pasar modal, institusi zakat,
+          institusi wakaf, lembaga tabungan haji dll. Lembaga-lembaga keuangan Islam sudah menjadi istilah yang
           familiar baik di dunia Islam maupun non Islam.
         </p>
 
         <p>
-          Dalam tahapan inilah lahir ide-ide ulama dan praktisi untuk menjadikan wakaf uang salah satu basis dalam 
-          membangun perkonomian umat. Dari berbagai seminar, yang dilakukan oleh masyarakat Islam, maka ide-ide wakaf 
-          uang ini semakin menggelinding. Negara- negara Islam di Timur Tengah, Afrika, dan Asia Tenggara sendiri 
+          Dalam tahapan inilah lahir ide-ide ulama dan praktisi untuk menjadikan wakaf uang salah satu basis dalam
+          membangun perkonomian umat. Dari berbagai seminar, yang dilakukan oleh masyarakat Islam, maka ide-ide wakaf
+          uang ini semakin menggelinding. Negara- negara Islam di Timur Tengah, Afrika, dan Asia Tenggara sendiri
           memulainya dengan berabagai cara.
         </p>
 
         <p>
-          Di Indonesia, sebelum lahirnya UU No. 41 tahun 2004, Majelis Ulama Indonesia telah mengeluarkan fatwa 
+          Di Indonesia, sebelum lahirnya UU No. 41 tahun 2004, Majelis Ulama Indonesia telah mengeluarkan fatwa
           tentang Wakaf Uang, (11/5/2002).
         </p>
 
         <p>
-          Wakaf Uang (Cash Wakaf/Wagf al-Nuqud) adalah wakaf yang dilakukan seseorang, kelompok orang, lembaga 
+          Wakaf Uang (Cash Wakaf/Wagf al-Nuqud) adalah wakaf yang dilakukan seseorang, kelompok orang, lembaga
           atau badan hukum dalam bentuk uang tunai. Termasuk ke dalam pengertian uang adalah surat-surat berharga.
-          Wakafuang hukumnya jawaz (boleh). Wakaf uang hanya boleh disalurkan dan digunakan untuk hal-hal yang 
-          dibolehkan secara syar’i. Nilai pokok Wakaf Uang harus dijamin kelestariannya, tidak boleh dijual, 
+          Wakafuang hukumnya jawaz (boleh). Wakaf uang hanya boleh disalurkan dan digunakan untuk hal-hal yang
+          dibolehkan secara syar’i. Nilai pokok Wakaf Uang harus dijamin kelestariannya, tidak boleh dijual,
           dihibahkan, dan atau diwariskan.
         </p>
 
         <p>
-          Ihwal diperbolehkannya wakaf jenis ini, ada beberapa pendapat yang memperkuat fatwa tersebut. Pertama, 
-          pendapat Imam al-Zuhri (w. 124H.) bahwa mewakafkan dinas hukumnya boleh, dengan cara menjadikan dinar 
-          tersebut sebagai modal usaha kemudian keuntungannya disalurkan pada mauquf ‘alaih (Abu Su’ud Muhammad. 
-          Risalah fi Jawazi Waqf al-Nuqud, [Beirut: Dar Ibn Hazm, 1997], h. 20-2 1). Kedua, mutaqaddimin dari 
-          ulaman mazhab Hanafi (lihat Wahbah al-Zuhaili, al Fiqh al-Islam wa Adillatuhu, [Damsyiq: Dar al-Fikr, 1985], 
-          juz VIII, h. 162) membolehkan wakaf uang dinar dan dirham sebagai pengecualian, atas dasar Istihsan 
-          bi al-‘Urfi, berdasarkan atsar Abdullah bin Mas’ud r.a: “Apa yang dipandang baik oleh kaum muslimin maka 
-          dalam pandangan Allah adalah baik, dan apa yang dipandang buruk oleh kaum muslimin maka dalam pandangan 
-          Allah pun buruk”. Ketiga, pendapat sebagian ulama mazhab al-Syafi’i: “Abu Tsyar meriwayatkan dari Imam 
-          al-Syafi’i tentang kebolehan wakaf dinar dan dirham (uang)”. (al-Mawardi, al-Hawi al-Kabir, tahqiq 
+          Ihwal diperbolehkannya wakaf jenis ini, ada beberapa pendapat yang memperkuat fatwa tersebut. Pertama,
+          pendapat Imam al-Zuhri (w. 124H.) bahwa mewakafkan dinas hukumnya boleh, dengan cara menjadikan dinar
+          tersebut sebagai modal usaha kemudian keuntungannya disalurkan pada mauquf ‘alaih (Abu Su’ud Muhammad.
+          Risalah fi Jawazi Waqf al-Nuqud, [Beirut: Dar Ibn Hazm, 1997], h. 20-2 1). Kedua, mutaqaddimin dari
+          ulaman mazhab Hanafi (lihat Wahbah al-Zuhaili, al Fiqh al-Islam wa Adillatuhu, [Damsyiq: Dar al-Fikr, 1985],
+          juz VIII, h. 162) membolehkan wakaf uang dinar dan dirham sebagai pengecualian, atas dasar Istihsan
+          bi al-‘Urfi, berdasarkan atsar Abdullah bin Mas’ud r.a: “Apa yang dipandang baik oleh kaum muslimin maka
+          dalam pandangan Allah adalah baik, dan apa yang dipandang buruk oleh kaum muslimin maka dalam pandangan
+          Allah pun buruk”. Ketiga, pendapat sebagian ulama mazhab al-Syafi’i: “Abu Tsyar meriwayatkan dari Imam
+          al-Syafi’i tentang kebolehan wakaf dinar dan dirham (uang)”. (al-Mawardi, al-Hawi al-Kabir, tahqiq
           Dr. Mahmud Mathraji, [Beirut: Dar al-Fikr,1994[, juz IX,m h. 379).
         </p>
     </div>

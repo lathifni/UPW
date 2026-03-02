@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Donation;
 
-class WakafPendingMail extends Mailable
+class WakafPendingMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -47,16 +47,16 @@ class WakafPendingMail extends Mailable
 
         // 2. Tentukan Path Gambar QRIS
         // Default: kosong (kalau gak ada rekening/gambar)
-        $qrisPath = null; 
-        
+        $qrisPath = null;
+
         if ($rekening && $rekening->qris_image) {
             // Cek apakah file ada di folder public/frontend/img/ (Sesuai requestmu)
             // ATAU kalau nanti pakai storage, ganti jadi public_path('storage/rekenings/'...)
             $qrisPath = public_path('frontend/img/' . $rekening->qris_image);
-            
+
             // Opsional: Cek apakah file fisik beneran ada biar gak error
             if (!file_exists($qrisPath)) {
-                $qrisPath = null; 
+                $qrisPath = null;
             }
         }
 
@@ -64,7 +64,7 @@ class WakafPendingMail extends Mailable
         $logoPath = null;
         if ($rekening && $rekening->logo) {
             $fullPath = public_path('frontend/img/' . $rekening->logo);
-            
+
             // 👇 Cek juga di sini, kalau gak ada ya udah biarin null
             if (file_exists($fullPath)) {
                 $logoPath = $fullPath;
