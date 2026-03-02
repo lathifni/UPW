@@ -138,10 +138,24 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
                                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->nama ?? 'Admin' }}</span>
-                                <img class="img-profile rounded-circle" src="https://i.pravatar.cc/60?u=">
+
+                                {{-- Foto Profil Dinamis --}}
+                                <img class="img-profile rounded-circle" style="object-fit: cover;"
+                                    src="{{ auth()->user()->avatar ? asset('storage/avatars/' . auth()->user()->avatar) : asset('storage/avatars/avatar.png') }}">
                             </a>
+
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
+
+                                {{-- MENU PROFILE BARU --}}
+                                <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile Saya
+                                </a>
+
+                                <div class="dropdown-divider"></div>
+
+                                {{-- FORM LOGOUT LAMA --}}
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button class="dropdown-item" type="submit">
@@ -151,7 +165,7 @@
                                 </form>
                             </div>
                         </li>
-                    </ul>
+                        </ul>
                 </nav>
                 <div class="container-fluid">
                     {{ $slot }}

@@ -344,13 +344,34 @@
                                             <i class="bi bi-heart-pulse-fill text-success" style="font-size: 3rem;"></i>
                                         </div>
                                         <h5 class="fw-bolder text-dark mb-2">Alhamdulillah, Terima Kasih!</h5>
-                                        <p class="small text-muted mb-0 mx-auto"
+                                        <p class="small text-muted mb-4 mx-auto"
                                             style="max-width: 400px; line-height: 1.6;">
                                             Wakaf Anda telah berhasil kami verifikasi. <br>
                                             <em>"Semoga Allah SWT menerima amal ibadah Anda, melipatgandakan rezeki, dan
                                                 menjadikannya pemberat timbangan kebaikan di akhirat kelak.
                                                 Aamiin."</em>
                                         </p>
+
+                                        {{-- LOGIKA DOWNLOAD UNTUK GUEST / AUTH --}}
+                                        @if ($donation->certificate_path)
+                                            <div class="mt-2">
+                                                <a href="{{ asset('storage/' . $donation->certificate_path) }}"
+                                                    target="_blank"
+                                                    class="btn btn-success fw-bold px-4 py-2 rounded-pill shadow-sm"
+                                                    style="background: var(--c-main); border:none;">
+                                                    <i class="bi bi-cloud-arrow-down-fill me-2"></i> Unduh Sertifikat /
+                                                    Akta
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="mt-2">
+                                                <span
+                                                    class="badge bg-light text-muted border border-secondary-subtle px-3 py-2 fw-normal">
+                                                    <i class="bi bi-hourglass-split me-1"></i> Sertifikat sedang
+                                                    diproses Admin
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                 @endif
 

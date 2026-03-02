@@ -162,10 +162,11 @@
             <div class="col-lg-9">
                 <div class="meta-glass-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-5"
-                            style="width: 50px; height: 50px; background: var(--c-dark);">
-                            {{ substr($article->user->nama, 0, 1) }}
-                        </div>
+                        {{-- FOTO AVATAR PENULIS --}}
+                        <img src="{{ $article->user->avatar ? asset('storage/avatars/' . $article->user->avatar) : asset('storage/avatars/avatar.png') }}"
+                            alt="{{ $article->user->nama }}" class="rounded-circle shadow-sm"
+                            style="width: 50px; height: 50px; object-fit: cover; border: 2px solid var(--c-light);">
+
                         <div>
                             <h6 class="mb-0 fw-bold" style="color: var(--c-dark);">{{ $article->user->nama }}</h6>
                             <small class="text-muted">{{ $article->created_at->translatedFormat('d F Y') }} • <i
@@ -184,11 +185,6 @@
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank"
                             rel="noopener noreferrer" class="btn-share fb">
                             <i class="bi bi-facebook"></i>
-                        </a>
-
-                        <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
-                            target="_blank" rel="noopener noreferrer" class="btn-share tw">
-                            <i class="bi bi-twitter-x"></i>
                         </a>
 
                         <a href="https://api.whatsapp.com/send?text={{ $shareTitle }}%20{{ $shareUrl }}"

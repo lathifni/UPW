@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AdminReportController;
 use App\Http\Controllers\Public\EducationController;
 use App\Http\Controllers\Admin\RekeningController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\AdminProfileController;
 
 
 // Rute Publik
@@ -85,6 +86,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('users', AdminUserController::class);
     Route::resource('reports', AdminReportController::class)->only(['index', 'store', 'destroy']);
     Route::resource('rekenings', RekeningController::class);
+    Route::get('/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile.index');
+    Route::put('/admin/profile/update', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 });
 
 // Rute untuk Donatur yang sudah login

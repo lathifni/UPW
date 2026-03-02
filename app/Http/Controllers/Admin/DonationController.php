@@ -136,19 +136,21 @@ class DonationController extends Controller
             $donation->certificate_path = $pdfPath;
             $donation->save();
 
-            // D. Kirim Email dengan Lampiran
-            $pdfContent = $pdf->output();
-
+            // D. Kirim Email
             try {
                 Mail::to($donation->donor_email)
-                    ->send(new \App\Mail\WakafSuccessMail($donation, $pdfContent));
+                    ->send(new \App\Mail\WakafSuccessMail($donation));
+
             } catch (\Exception $e) {
-                Log::error('Gagal kirim email sertifikat wakaf: ' . $e->getMessage());
-                // Jika email gagal, jangan error page, tapi kasih notif warning
+                // Catat error di file log Laravel (storage/logs/laravel.log) biar lu bisa cek nanti
+                \Illuminate\Support\Facades\Log::error('Gagal kirim email sertifikat: ' . $e->getMessage());
+
+                // Kasih tau admin kalau status sukses, tapi email gagal terkirim
                 return redirect()->back()->with('warning', 'Status PAID & Akte berhasil dibuat, namun Email gagal terkirim. Cek Log.');
             }
 
-            return redirect()->back()->with('success', 'Status PAID. Akta Wakaf No: ' . $donation->nomor_akte . ' berhasil diterbitkan dan dikirim.');
+            // Kalau semua lancar jaya, kasih pesan sukses sempurna
+            return redirect()->back()->with('success', 'Status PAID. Akta Wakaf No: ' . $donation->nomor_akte . ' berhasil diterbitkan dan dikirim ke email donatur.');
         }
 
         // Jika bukan update ke paid (misal ke failed), return biasa
