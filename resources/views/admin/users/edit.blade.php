@@ -8,26 +8,94 @@
             <form action="{{ route('users.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="form-group"><label>Nama Lengkap</label><input type="text" class="form-control" name="nama"
-                        value="{{ old('nama', $user->nama) }}"></div>
-                <div class="form-group"><label>Email</label><input type="email" class="form-control" name="email"
-                        value="{{ old('email', $user->email) }}" readonly></div>
-                <div class="form-group"><label>NIK</label><input type="text" class="form-control" name="nik"
-                        value="{{ old('nik', $user->nik) }}"></div>
-                <div class="form-group"><label>Nomor HP</label><input type="text" class="form-control"
-                        name="nomor_hp" value="{{ old('nomor_hp', $user->nomor_hp) }}"></div>
-                <div class="form-group"><label>Role</label><select name="role" class="form-control">
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" class="form-control" name="nama" value="{{ old('nama', $user->nama) }}"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ old('email', $user->email) }}"
+                        readonly>
+                </div>
+
+                {{-- Kategori Pengguna --}}
+                <div class="form-group">
+                    <label>Kategori Pengguna</label>
+                    <select name="kategori" id="kategori" class="form-control" onchange="updateLabelIdentitas()"
+                        required>
+                        <option value="umum" {{ old('kategori', $user->kategori) == 'umum' ? 'selected' : '' }}>Umum
+                        </option>
+                        <option value="mahasiswa"
+                            {{ old('kategori', $user->kategori) == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                        <option value="alumni" {{ old('kategori', $user->kategori) == 'alumni' ? 'selected' : '' }}>
+                            Alumni</option>
+                        <option value="dosen" {{ old('kategori', $user->kategori) == 'dosen' ? 'selected' : '' }}>Dosen
+                        </option>
+                        <option value="tenaga_pendidik"
+                            {{ old('kategori', $user->kategori) == 'tenaga_pendidik' ? 'selected' : '' }}>Tenaga
+                            Pendidik</option>
+                    </select>
+                </div>
+
+                {{-- Nomor Identitas Dinamis --}}
+                <div class="form-group">
+                    <label id="label_identitas">NIK</label>
+                    <input type="text" class="form-control" id="nomor_identitas" name="nomor_identitas"
+                        value="{{ old('nomor_identitas', $user->nik ?? $user->nomor_induk) }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor HP</label>
+                    <input type="text" class="form-control" name="nomor_hp"
+                        value="{{ old('nomor_hp', $user->nomor_hp) }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <select name="role" class="form-control" required>
                         <option value="donatur" {{ $user->role == 'donatur' ? 'selected' : '' }}>Donatur</option>
                         <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                    </select></div>
+                    </select>
+                </div>
+
                 <hr>
                 <p class="text-muted">Kosongkan password jika tidak ingin mengubahnya.</p>
-                <div class="form-group"><label>Password Baru</label><input type="password" class="form-control"
-                        name="password"></div>
-                <div class="form-group"><label>Konfirmasi Password Baru</label><input type="password"
-                        class="form-control" name="password_confirmation"></div>
+                <div class="form-group">
+                    <label>Password Baru</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+
+                <div class="form-group">
+                    <label>Konfirmasi Password Baru</label>
+                    <input type="password" class="form-control" name="password_confirmation">
+                </div>
+
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function updateLabelIdentitas() {
+                const kategori = document.getElementById('kategori').value;
+                const label = document.getElementById('label_identitas');
+                const input = document.getElementById('nomor_identitas');
+
+                if (kategori === 'mahasiswa' || kategori === 'alumni') {
+                    label.innerText = 'NIM (Nomor Induk Mahasiswa)';
+                    input.placeholder = 'Masukkan NIM';
+                } else if (kategori === 'dosen') {
+                    label.innerText = 'NIP (Nomor Induk Pegawai)';
+                    input.placeholder = 'Masukkan NIP';
+                } else {
+                    label.innerText = 'NIK (Nomor Induk Kependudukan)';
+                    input.placeholder = 'Masukkan NIK';
+                }
+            }
+            document.addEventListener('DOMContentLoaded', updateLabelIdentitas);
+        </script>
+    @endpush
 </x-layouts.admin>

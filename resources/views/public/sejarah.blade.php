@@ -3,35 +3,90 @@
 
     @push('styles')
         <style>
-            .history-hero {
-                background: linear-gradient(135deg,
-                        rgba(25, 135, 84, 0.9) 0%,
-                        rgba(32, 201, 151, 0.9) 100%),
-                    url("https://via.placeholder.com/1920x600/198754/ffffff?text=Sejarah+UPW+UNAND") center/cover;
-                color: white;
-                padding: 100px 0;
+            :root {
+                --c-main: #84B179;
+                --c-hover: #A2CB8B;
+                --c-light: #C7EABB;
+                --c-pale: #E8F5BD;
+                --c-dark: #1a2e15;
+                --c-darker: #0f1c0c;
+                --c-white-glass: rgba(255, 255, 255, 0.9);
             }
 
+            body {
+                background-color: #f8faf7;
+                overflow-x: hidden;
+            }
+
+            /* HERO SECTION MODERN */
+            .history-hero {
+                background: linear-gradient(135deg, rgba(26, 46, 21, 0.9) 0%, rgba(132, 177, 121, 0.8) 100%),
+                    url("https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1920") center/cover no-repeat;
+                color: white;
+                padding: 160px 0 100px 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero-pattern {
+                position: absolute;
+                inset: 0;
+                opacity: 0.1;
+                background-image: radial-gradient(#fff 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+
+            /* STATS GLASS CARD */
+            .stat-glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 20px;
+                padding: 1.5rem;
+                transition: transform 0.3s;
+                height: 100%;
+            }
+
+            .stat-glass:hover {
+                transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* INTRO CARD MODERN */
+            .intro-card {
+                background: white;
+                border-radius: 24px;
+                padding: 3rem;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+                border: none;
+                margin-top: -60px;
+                position: relative;
+                z-index: 10;
+            }
+
+            /* TIMELINE MODERN */
             .timeline-section {
                 position: relative;
-                padding: 4rem 0;
+                padding: 5rem 0;
             }
 
             .timeline-container {
                 position: relative;
-                max-width: 1200px;
+                max-width: 1000px;
                 margin: 0 auto;
             }
 
             .timeline-container::after {
                 content: "";
                 position: absolute;
-                width: 6px;
-                background: #198754;
+                width: 4px;
+                background: var(--c-pale);
                 top: 0;
                 bottom: 0;
                 left: 50%;
-                margin-left: -3px;
+                transform: translateX(-50%);
+                border-radius: 4px;
             }
 
             .timeline-card {
@@ -39,161 +94,165 @@
                 position: relative;
                 width: 50%;
                 box-sizing: border-box;
+                margin-bottom: 2rem;
             }
 
             .timeline-card::after {
                 content: "";
                 position: absolute;
-                width: 25px;
-                height: 25px;
-                right: -13px;
+                width: 20px;
+                height: 20px;
                 background: white;
-                border: 4px solid #198754;
-                top: 15px;
+                border: 4px solid var(--c-main);
+                top: 30px;
                 border-radius: 50%;
-                z-index: 1;
+                z-index: 2;
+                box-shadow: 0 0 0 4px rgba(132, 177, 121, 0.2);
             }
 
             .left {
                 left: 0;
+                padding-right: 3rem;
             }
 
             .right {
                 left: 50%;
+                padding-left: 3rem;
             }
 
-            .left::before {
-                content: " ";
-                height: 0;
-                position: absolute;
-                top: 22px;
-                width: 0;
-                z-index: 1;
-                right: 30px;
-                border: medium solid white;
-                border-width: 10px 0 10px 10px;
-                border-color: transparent transparent transparent white;
-            }
-
-            .right::before {
-                content: " ";
-                height: 0;
-                position: absolute;
-                top: 22px;
-                width: 0;
-                z-index: 1;
-                left: 30px;
-                border: medium solid white;
-                border-width: 10px 10px 10px 0;
-                border-color: transparent white transparent transparent;
+            .left::after {
+                right: -10px;
             }
 
             .right::after {
-                left: -13px;
+                left: -10px;
             }
 
             .timeline-content {
-                padding: 20px 30px;
+                padding: 2rem;
                 background: white;
                 position: relative;
-                border-radius: 1rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                border: 1px solid #e9ecef;
+                border-radius: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+                border: 1px solid rgba(0, 0, 0, 0.03);
+                transition: all 0.3s ease;
             }
 
+            .timeline-content:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(132, 177, 121, 0.1);
+            }
+
+            /* Panah Timeline */
+            .left .timeline-content::before {
+                content: " ";
+                height: 0;
+                position: absolute;
+                top: 26px;
+                width: 0;
+                z-index: 1;
+                right: -12px;
+                border: medium solid white;
+                border-width: 12px 0 12px 12px;
+                border-color: transparent transparent transparent white;
+            }
+
+            .right .timeline-content::before {
+                content: " ";
+                height: 0;
+                position: absolute;
+                top: 26px;
+                width: 0;
+                z-index: 1;
+                left: -12px;
+                border: medium solid white;
+                border-width: 12px 12px 12px 0;
+                border-color: transparent white transparent transparent;
+            }
+
+            /* INSPIRATION CARD */
             .inspiration-card {
                 background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                border: 1px solid #e9ecef;
+                border-radius: 24px;
+                padding: 3rem;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+                border: none;
                 transition: transform 0.3s ease;
-            }
-
-            .inspiration-card:hover {
-                transform: translateY(-5px);
-            }
-
-            .university-logo {
-                width: 80px;
-                height: 80px;
-                background: #f8f9fa;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 1rem;
-                border: 2px solid #198754;
-            }
-
-            .milestone-card {
-                background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                border-left: 4px solid #198754;
-                margin-bottom: 2rem;
+                border-top: 5px solid var(--c-main);
             }
 
             @media screen and (max-width: 768px) {
                 .timeline-container::after {
-                    left: 31px;
+                    left: 20px;
                 }
 
                 .timeline-card {
                     width: 100%;
-                    padding-left: 70px;
-                    padding-right: 25px;
+                    padding-left: 50px;
+                    padding-right: 0;
                 }
 
-                .timeline-card::before {
-                    left: 60px;
-                    border: medium solid white;
-                    border-width: 10px 10px 10px 0;
-                    border-color: transparent white transparent transparent;
-                }
-
-                .left::after,
-                .right::after {
-                    left: 18px;
+                .timeline-card::after {
+                    left: 10px;
                 }
 
                 .right {
                     left: 0%;
                 }
+
+                .left::after {
+                    left: 10px;
+                    right: auto;
+                }
+
+                .left .timeline-content::before {
+                    left: -12px;
+                    right: auto;
+                    border-width: 12px 12px 12px 0;
+                    border-color: transparent white transparent transparent;
+                }
             }
         </style>
     @endpush
 
-    <!-- History Hero Section -->
-    <section class="history-hero" style="padding-top: 150px;">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">Sejarah UPW UNAND</h1>
-                    <p class="lead mb-4">
-                        Perjalanan panjang menuju kemandirian dan keberlanjutan pendanaan
-                        pendidikan melalui wakaf
+    <section class="history-hero">
+        <div class="hero-pattern"></div>
+        <div class="position-absolute top-0 end-0 opacity-10" style="transform: translate(10%, -10%);">
+            <i class="bi bi-clock-history" style="font-size: 30rem;"></i>
+        </div>
+
+        <div class="container position-relative z-index-1">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start" data-aos="fade-right">
+                    <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Jejak
+                        Langkah</span>
+                    <h1 class="display-4 fw-bolder mb-3">Sejarah UPW UNAND</h1>
+                    <p class="fs-5 text-white-50 mb-0" style="line-height: 1.6;">
+                        Perjalanan panjang Universitas Andalas menuju kemandirian dan keberlanjutan pendanaan pendidikan
+                        melalui instrumen wakaf.
                     </p>
-                    <div class="hero-stats">
-                        <div class="row justify-content-center">
-                            <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">2022</h3>
-                                    <p class="stat-label text-white-50">Awal Persiapan</p>
-                                </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="row justify-content-center justify-content-lg-end g-3">
+                        <div class="col-5 col-md-4">
+                            <div class="stat-glass text-center">
+                                <h2 class="fw-bolder mb-0 text-white">2022</h2>
+                                <small class="text-white-50 text-uppercase fw-bold ls-1" style="font-size: 0.7rem;">Awal
+                                    Ide</small>
                             </div>
-                            <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">4</h3>
-                                    <p class="stat-label text-white-50">Dosen Nazhir</p>
-                                </div>
+                        </div>
+                        <div class="col-5 col-md-4">
+                            <div class="stat-glass text-center">
+                                <h2 class="fw-bolder mb-0 text-white">4</h2>
+                                <small class="text-white-50 text-uppercase fw-bold ls-1"
+                                    style="font-size: 0.7rem;">Dosen Nazhir</small>
                             </div>
-                            <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">2025</h3>
-                                    <p class="stat-label text-white-50">Berdiri Resmi</p>
-                                </div>
+                        </div>
+                        <div class="col-5 col-md-4 d-none d-md-block">
+                            <div class="stat-glass text-center">
+                                <h2 class="fw-bolder mb-0 text-white">2025</h2>
+                                <small class="text-white-50 text-uppercase fw-bold ls-1"
+                                    style="font-size: 0.7rem;">Berdiri Resmi</small>
                             </div>
                         </div>
                     </div>
@@ -202,28 +261,26 @@
         </div>
     </section>
 
-    <!-- Introduction Section -->
-    <section class="introduction-section py-5">
+    <section class="py-0 position-relative z-3">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <div class="milestone-card" data-aos="fade-up">
-                        <h2 class="text-center mb-4">
-                            Unit Pengelola Wakaf Universitas Andalas
-                        </h2>
-                        <p class="lead text-center mb-4">
-                            Unit Pengelola Wakaf (UPW) Universitas Andalas secara
-                            kelembagaan berdiri pada tanggal <strong>19 Maret 2025</strong>.
-                            Persiapannya dimulai sejak tahun 2022 dengan mengirim 4 (empat)
-                            orang dosen mengikuti Pelatihan / Sertifikasi Kompetensi Nazhir
-                            Wakaf dan selanjutnya menjadi nazhir wakaf pada lembaga ini.
+                    <div class="intro-card text-center" data-aos="fade-up" data-aos-delay="100">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-pale-custom text-primary-custom rounded-circle mb-4"
+                            style="width: 70px; height: 70px;">
+                            <i class="bi bi-bank fs-2"></i>
+                        </div>
+                        <h2 class="fw-bolder mb-4" style="color: var(--c-dark);">Unit Pengelola Wakaf Universitas
+                            Andalas</h2>
+                        <p class="fs-5 text-muted mb-4" style="line-height: 1.8;">
+                            Unit Pengelola Wakaf (UPW) Universitas Andalas secara kelembagaan berdiri pada tanggal
+                            <strong>19 Maret 2025</strong>.
+                            Persiapannya dimulai sejak tahun 2022 dengan mengirim 4 (empat) orang dosen mengikuti
+                            Pelatihan dan Sertifikasi Kompetensi Nazhir Wakaf.
                         </p>
-                        <div class="text-center">
-                            <span class="badge bg-success fs-6 p-3">
-                                <i class="bi bi-shield-check me-2"></i>
-                                Terdaftar di Badan Wakaf Indonesia (BWI) sebagai Nazhir Wakaf
-                                Uang Universitas Andalas
-                            </span>
+                        <div
+                            class="d-inline-block bg-light-custom text-primary-custom px-4 py-3 rounded-pill fw-bold fs-6">
+                            <i class="bi bi-patch-check-fill me-2"></i> Resmi Terdaftar di Badan Wakaf Indonesia (BWI)
                         </div>
                     </div>
                 </div>
@@ -231,127 +288,107 @@
         </div>
     </section>
 
-    <!-- Timeline Section -->
-    <section class="timeline-section bg-light">
+    <section class="timeline-section">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="section-title">Garis Waktu Sejarah</h2>
-                    <p class="section-subtitle">
-                        Perjalanan panjang menuju pendirian UPW UNAND
-                    </p>
+            <div class="row mb-5">
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="display-6 fw-bolder" style="color: var(--c-dark);">Garis Waktu Perjalanan</h2>
+                    <p class="text-muted fs-5">Tonggak sejarah penting berdirinya UPW UNAND</p>
                 </div>
             </div>
 
             <div class="timeline-container">
-                <!-- 2022 -->
                 <div class="timeline-card left" data-aos="fade-right">
                     <div class="timeline-content">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success text-white rounded-pill px-3 py-1 me-3">
-                                <strong>2022</strong>
-                            </div>
-                            <h5 class="mb-0">Awal Persiapan</h5>
+                            <span class="badge px-3 py-2 rounded-pill fs-6 me-3"
+                                style="background: var(--c-main); color: white;">2022</span>
+                            <h4 class="mb-0 fw-bold" style="color: var(--c-dark);">Langkah Awal</h4>
                         </div>
-                        <p>
-                            Persiapan dimulai dengan mengirim 4 (empat) orang dosen untuk
-                            mengikuti Pelatihan / Sertifikasi Kompetensi Nazhir Wakaf.
-                            Langkah ini menjadi fondasi penting dalam membangun kapasitas
-                            pengelolaan wakaf yang profesional.
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Persiapan dimulai dengan mengirim 4 (empat) orang dosen untuk mengikuti Pelatihan /
+                            Sertifikasi Kompetensi Nazhir Wakaf. Langkah ini menjadi fondasi penting dalam membangun
+                            kapasitas pengelolaan wakaf yang profesional.
                         </p>
-                        <div class="mt-3">
-                            <span class="badge bg-success">Pelatihan Nazhir</span>
-                            <span class="badge bg-success">Sertifikasi Kompetensi</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-pale-custom text-dark">Pelatihan Nazhir</span>
+                            <span class="badge bg-pale-custom text-dark">Sertifikasi Kompetensi</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2023 -->
                 <div class="timeline-card right" data-aos="fade-left">
                     <div class="timeline-content">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success text-white rounded-pill px-3 py-1 me-3">
-                                <strong>2023</strong>
-                            </div>
-                            <h5 class="mb-0">Studi Banding & Perencanaan</h5>
+                            <span class="badge px-3 py-2 rounded-pill fs-6 me-3"
+                                style="background: var(--c-main); color: white;">2023</span>
+                            <h4 class="mb-0 fw-bold" style="color: var(--c-dark);">Studi Banding</h4>
                         </div>
-                        <p>
-                            Melakukan studi banding ke berbagai perguruan tinggi yang telah
-                            sukses mengelola dana abadi, termasuk Harvard, Yale, Stanford,
-                            Princeton, MIT, serta perguruan tinggi dalam negeri seperti UIN
-                            Jakarta, ITB Bandung, dan Unair Surabaya.
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Melakukan riset dan studi banding ke berbagai perguruan tinggi yang telah sukses mengelola
+                            dana abadi <i>(endowment fund)</i>, termasuk Harvard, Yale, Stanford, MIT, serta kampus
+                            dalam negeri seperti UIN Jakarta dan ITB.
                         </p>
-                        <div class="mt-3">
-                            <span class="badge bg-success">Studi Banding</span>
-                            <span class="badge bg-success">Perencanaan Strategis</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-pale-custom text-dark">Riset Global</span>
+                            <span class="badge bg-pale-custom text-dark">Perencanaan Strategis</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2024 -->
                 <div class="timeline-card left" data-aos="fade-right">
                     <div class="timeline-content">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success text-white rounded-pill px-3 py-1 me-3">
-                                <strong>2024</strong>
-                            </div>
-                            <h5 class="mb-0">Penyusunan Regulasi</h5>
+                            <span class="badge px-3 py-2 rounded-pill fs-6 me-3"
+                                style="background: var(--c-main); color: white;">2024</span>
+                            <h4 class="mb-0 fw-bold" style="color: var(--c-dark);">Penyusunan Regulasi</h4>
                         </div>
-                        <p>
-                            Menyusun dokumen dan regulasi pendirian UPW, termasuk penyiapan
-                            struktur organisasi, sistem pengelolaan, dan mekanisme
-                            operasional. Proses koordinasi intensif dengan Badan Wakaf
-                            Indonesia dan pihak internal universitas.
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Menyusun dokumen dan regulasi pendirian UPW, termasuk penyiapan struktur organisasi, sistem
+                            pengelolaan, dan mekanisme operasional. Proses koordinasi intensif dengan Badan Wakaf
+                            Indonesia dilakukan sepanjang tahun ini.
                         </p>
-                        <div class="mt-3">
-                            <span class="badge bg-success">Regulasi</span>
-                            <span class="badge bg-success">Koordinasi BWI</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-pale-custom text-dark">Drafting Regulasi</span>
+                            <span class="badge bg-pale-custom text-dark">Koordinasi BWI</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Maret 2025 -->
                 <div class="timeline-card right" data-aos="fade-left">
                     <div class="timeline-content">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success text-white rounded-pill px-3 py-1 me-3">
-                                <strong>12 Maret 2025</strong>
-                            </div>
-                            <h5 class="mb-0">Pengakuan BWI</h5>
+                            <span class="badge px-3 py-2 rounded-pill fs-6 me-3"
+                                style="background: var(--c-main); color: white;">12 Mar 2025</span>
+                            <h4 class="mb-0 fw-bold" style="color: var(--c-dark);">Pengakuan Legal</h4>
                         </div>
-                        <p>
-                            Keputusan Badan Pelaksana Badan Wakaf Indonesia No : 70
-                            /BWI/NZ/2025 tentang Penetapan Lembaga Nazhir Wakaf Uang
-                            Universitas Andalas. Ini menjadi landasan hukum formal pengakuan
-                            UPW sebagai nazhir wakaf uang.
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Terbitnya Keputusan Badan Pelaksana Badan Wakaf Indonesia No: 70/BWI/NZ/2025 tentang
+                            Penetapan Lembaga Nazhir Wakaf Uang Universitas Andalas. Ini menjadi landasan hukum formal
+                            pengakuan UPW.
                         </p>
-                        <div class="mt-3">
-                            <span class="badge bg-success">SK BWI</span>
-                            <span class="badge bg-success">Legalitas Formal</span>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-pale-custom text-dark">SK BWI Terbit</span>
+                            <span class="badge bg-pale-custom text-dark">Legalitas Formal</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 19 Maret 2025 -->
                 <div class="timeline-card left" data-aos="fade-right">
                     <div class="timeline-content">
                         <div class="d-flex align-items-center mb-3">
-                            <div class="bg-success text-white rounded-pill px-3 py-1 me-3">
-                                <strong>19 Maret 2025</strong>
-                            </div>
-                            <h5 class="mb-0">Pendirian Resmi</h5>
+                            <span class="badge px-3 py-2 rounded-pill fs-6 me-3"
+                                style="background: var(--c-main); color: white;">19 Mar 2025</span>
+                            <h4 class="mb-0 fw-bold" style="color: var(--c-dark);">Pendirian Resmi</h4>
                         </div>
-                        <p>
-                            Keputusan Rektor Universitas Andalas No.
-                            1977/UN16.R/KPT/III/2025 tentang Penetapan Struktur Organisasi
-                            dan No. 1978/UN16.R/KPT/III/2025 tentang Penetapan Pejabat Unit
-                            Pengelola Wakaf Universitas Andalas. UPW resmi berdiri dan
-                            beroperasi.
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Keputusan Rektor Universitas Andalas No. 1977/UN16.R/KPT/III/2025 tentang Penetapan Struktur
+                            Organisasi dan No. 1978/UN16.R/KPT/III/2025 tentang Penetapan Pejabat. UPW Universitas
+                            Andalas resmi berdiri dan beroperasi penuh.
                         </p>
-                        <div class="mt-3">
+                        <div class="d-flex flex-wrap gap-2">
                             <span class="badge bg-success">SK Rektor</span>
-                            <span class="badge bg-success">Struktur Organisasi</span>
-                            <span class="badge bg-success">Operasional</span>
+                            <span class="badge bg-success">Go Live</span>
                         </div>
                     </div>
                 </div>
@@ -359,55 +396,48 @@
         </div>
     </section>
 
-    <!-- Inspiration Section -->
-    <section class="inspiration-section py-5">
+    <section class="py-5 mb-5">
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="section-title">Inspirasi & Model Keberhasilan</h2>
-                    <p class="section-subtitle">
-                        Belajar dari pengalaman perguruan tinggi terkemuka dunia dan dalam
-                        negeri
-                    </p>
-                </div>
-            </div>
-
-            <div class="row mb-5">
-                <div class="col-12">
-                    <div class="milestone-card">
-                        <h4 class="text-success mb-3">Gagasan Awal</h4>
-                        <p class="mb-4">
-                            Gagasan untuk mendirikan lembaga wakaf di lingkungan Universitas
-                            Andalas berakar dari kesadaran akan pentingnya kemandirian dan
-                            keberlanjutan dukungan terhadap Tri Dharma Perguruan Tinggi
-                            melalui sumber pendanaan alternatif yang mandiri dan
-                            berkelanjutan.
-                        </p>
-
-                        <h5 class="text-success mb-3">Inspirasi Global</h5>
-                        <p>
-                            Kesuksesan beberapa universitas terkemuka di luar negeri seperti
-                            <strong>Harvard, Yale, Stanford, Princeton, dan MIT</strong>
-                            dalam mengelola dana abadi (endowment fund) - istilah yang lebih
-                            universal dari wakaf, menjadi inspirasi dan motivasi dalam
-                            mendirikan UPW.
-                        </p>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="inspiration-card" data-aos="zoom-in">
+                        <div class="row align-items-center">
+                            <div class="col-md-5 text-center mb-4 mb-md-0 border-md-end">
+                                <i class="bi bi-lightbulb text-warning display-1 mb-3"></i>
+                                <h3 class="fw-bold" style="color: var(--c-dark);">Latar Belakang & Inspirasi</h3>
+                            </div>
+                            <div class="col-md-7 ps-md-5">
+                                <h5 class="fw-bold mb-3" style="color: var(--c-main);">Gagasan Awal</h5>
+                                <p class="text-muted mb-4">
+                                    Berakar dari kesadaran akan pentingnya kemandirian pendanaan untuk mendukung Tri
+                                    Dharma Perguruan Tinggi. Universitas membutuhkan sumber pendanaan alternatif yang
+                                    tidak hanya mengandalkan UKT mahasiswa, melainkan dana yang mandiri dan
+                                    berkelanjutan.
+                                </p>
+                                <h5 class="fw-bold mb-3" style="color: var(--c-main);">Inspirasi Global</h5>
+                                <p class="text-muted mb-0">
+                                    Kesuksesan universitas elit dunia seperti <strong>Harvard, Yale, Stanford, dan
+                                        MIT</strong> dalam mengelola <i>Endowment Fund</i> (Dana Abadi) menjadi motivasi
+                                    utama. Konsep Dana Abadi ini sangat sejalan dengan prinsip Wakaf Uang dalam Islam.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 
     @push('scripts')
-        {{-- Salin script inline dari file HTML ke sini --}}
         <script>
-            // Initialize AOS
-            AOS.init({
-                duration: 800,
-                easing: "ease-in-out",
-                once: true,
-            });
+            // AOS Init (Jika belum dipanggil global)
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: "ease-in-out",
+                    once: true,
+                });
+            }
         </script>
     @endpush
 </x-layouts.app>

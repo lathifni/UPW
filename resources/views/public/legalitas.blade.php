@@ -3,131 +3,169 @@
 
     @push('styles')
         <style>
-            .legalitas-hero {
-                background: linear-gradient(135deg,
-                        rgba(25, 135, 84, 0.9) 0%,
-                        rgba(32, 201, 151, 0.9) 100%),
-                    url("https://via.placeholder.com/1920x600/198754/ffffff?text=Legalitas+UPW+UNAND") center/cover;
-                color: white;
-                padding: 10px 0;
+            :root {
+                --c-main: #84B179;
+                --c-hover: #A2CB8B;
+                --c-light: #C7EABB;
+                --c-pale: #E8F5BD;
+                --c-dark: #1a2e15;
+                --c-darker: #0f1c0c;
+                --c-white-glass: rgba(255, 255, 255, 0.9);
             }
 
-            .legalitas-card {
-                background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                border: 1px solid #e9ecef;
-                transition: transform 0.3s ease;
+            body {
+                background-color: #f8faf7;
+                overflow-x: hidden;
+            }
+
+            /* HERO SECTION MODERN */
+            .legalitas-hero {
+                background: linear-gradient(135deg, rgba(26, 46, 21, 0.9) 0%, rgba(132, 177, 121, 0.8) 100%),
+                    url("https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1920") center/cover no-repeat;
+                color: white;
+                padding: 160px 0 100px 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero-pattern {
+                position: absolute;
+                inset: 0;
+                opacity: 0.1;
+                background-image: radial-gradient(#fff 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+
+            /* STATS GLASS CARD */
+            .stat-glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 20px;
+                padding: 1.5rem;
+                transition: transform 0.3s;
                 height: 100%;
             }
 
-            .legalitas-card:hover {
+            .stat-glass:hover {
                 transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.15);
             }
 
-            .legalitas-icon {
-                width: 80px;
-                height: 80px;
-                background: rgba(25, 135, 84, 0.1);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin: 0 auto 1.5rem;
-                color: #198754;
-                font-size: 2rem;
-            }
-
-            .document-card {
+            /* DOCUMENT CARD MODERN */
+            .document-modern-card {
                 background: white;
-                border-radius: 1rem;
+                border-radius: 24px;
+                padding: 3rem;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+                border: none;
+                margin-top: -60px;
+                position: relative;
+                z-index: 10;
+                border-top: 6px solid var(--c-main);
+            }
+
+            .document-details-box {
+                background: var(--c-pale);
+                border-radius: 16px;
                 padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                border-left: 4px solid #198754;
-                margin-bottom: 2rem;
+                margin: 2rem 0;
+                border: 1px solid rgba(132, 177, 121, 0.2);
             }
 
-            .document-header {
-                border-bottom: 1px solid #e9ecef;
-                padding-bottom: 1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .document-badge {
-                background: #198754;
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: 2rem;
-                font-size: 0.875rem;
-                font-weight: 600;
-            }
-
-            .document-details {
-                background: #f8f9fa;
-                border-radius: 0.5rem;
-                padding: 1.5rem;
-                margin: 1.5rem 0;
-            }
-
-            .download-btn {
-                border: 2px solid #198754;
-                color: #198754;
-                padding: 0.75rem 1.5rem;
-                border-radius: 2rem;
-                text-decoration: none;
+            /* BUTTONS */
+            .btn-download-modern {
+                background: white;
+                color: var(--c-main);
+                border: 2px solid var(--c-main);
+                padding: 0.8rem 2rem;
+                border-radius: 50px;
+                font-weight: 700;
                 transition: all 0.3s ease;
                 display: inline-flex;
                 align-items: center;
                 gap: 0.5rem;
-                font-weight: 600;
             }
 
-            .download-btn:hover {
-                background: #198754;
+            .btn-download-modern:hover {
+                background: var(--c-main);
                 color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(132, 177, 121, 0.2);
             }
 
-            .legalitas-stats {
+            /* IMPORTANCE CARD */
+            .importance-card {
                 background: white;
-                border-radius: 1rem;
+                border-radius: 20px;
                 padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                margin-top: -50px;
-                position: relative;
-                z-index: 10;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+                border: 1px solid rgba(0, 0, 0, 0.03);
+                transition: all 0.3s ease;
+                height: 100%;
+            }
+
+            .importance-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(132, 177, 121, 0.1);
+            }
+
+            .icon-wrapper {
+                width: 60px;
+                height: 60px;
+                background: var(--c-pale);
+                color: var(--c-dark);
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+                font-size: 1.5rem;
+            }
+
+            /* ALERT INFO */
+            .alert-modern {
+                background: rgba(132, 177, 121, 0.1);
+                border: 1px solid rgba(132, 177, 121, 0.3);
+                border-radius: 16px;
+                padding: 1.5rem;
+                color: var(--c-dark);
             }
         </style>
     @endpush
 
-    <section class="legalitas-hero" style="padding-top: 100px;">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">Legalitas UPW UNAND</h1>
-                    <p class="lead mb-4">
-                        Dokumen resmi yang menjadi landasan hukum berdirinya dan
-                        beroperasinya Unit Pengelola Wakaf Universitas Andalas
+    <section class="legalitas-hero">
+        <div class="hero-pattern"></div>
+        <div class="position-absolute top-0 end-0 opacity-10" style="transform: translate(10%, -10%);">
+            <i class="bi bi-shield-check" style="font-size: 30rem;"></i>
+        </div>
+
+        <div class="container position-relative z-index-1">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start" data-aos="fade-right">
+                    <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Kepercayaan
+                        & Transparansi</span>
+                    <h1 class="display-4 fw-bolder mb-3">Legalitas UPW UNAND</h1>
+                    <p class="fs-5 text-white-50 mb-0" style="line-height: 1.6;">
+                        Dokumen resmi yang menjadi landasan hukum berdirinya dan beroperasinya Unit Pengelola Wakaf
+                        Universitas Andalas.
                     </p>
-                    <div class="hero-stats">
-                        <div class="row justify-content-center">
-                            <!-- <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">3</h3>
-                                    <p class="stat-label text-white-50">Dokumen Legal</p>
-                                </div>
-                            </div> -->
-                            <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">100%</h3>
-                                    <p class="stat-label text-white-50">Resmi & Sah</p>
-                                </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="row justify-content-center justify-content-lg-end g-3">
+                        <div class="col-5 col-md-4">
+                            <div class="stat-glass text-center">
+                                <h2 class="fw-bolder mb-0 text-white">100%</h2>
+                                <small class="text-white-50 text-uppercase fw-bold ls-1"
+                                    style="font-size: 0.7rem;">Resmi & Sah</small>
                             </div>
-                            <div class="col-3">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">2025</h3>
-                                    <p class="stat-label text-white-50">Tahun Berdiri</p>
-                                </div>
+                        </div>
+                        <div class="col-5 col-md-4">
+                            <div class="stat-glass text-center">
+                                <h2 class="fw-bolder mb-0 text-white">2025</h2>
+                                <small class="text-white-50 text-uppercase fw-bold ls-1"
+                                    style="font-size: 0.7rem;">Tahun Disahkan</small>
                             </div>
                         </div>
                     </div>
@@ -136,67 +174,88 @@
         </div>
     </section>
 
-    <section class="legalitas-overview-section py-2">
+    <section class="py-0 position-relative z-3">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <div class="document-card" data-aos="fade-up">
+                    <div class="document-modern-card" data-aos="fade-up" data-aos-delay="100">
                         <div class="text-center mb-5">
-                            <h2 class="section-title">Dokumen Legalitas UPW UNAND</h2>
-                            <p class="section-subtitle">
-                                Landasan hukum yang menjamin legalitas dan akuntabilitas
-                                pengelolaan wakaf di Universitas Andalas
-                            </p>
+                            <h2 class="fw-bolder" style="color: var(--c-dark);">Dokumen Legalitas Utama</h2>
+                            <p class="text-muted fs-5">Landasan hukum yang menjamin pengelolaan wakaf di Universitas
+                                Andalas.</p>
                         </div>
 
-                        <div class="row g-4 justify-content-center">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="legalitas-card text-center">
-                                    <div class="legalitas-icon">
-                                        <i class="bi bi-file-earmark-check"></i>
-                                    </div>
-                                    <h4>SK BWI</h4>
-                                    <p class="text-muted">
-                                        Pengakuan resmi dari Badan Wakaf Indonesia sebagai Nazhir
-                                        Wakaf Uang
-                                    </p>
-                                    <div class="mt-3">
-                                        <span class="badge bg-success">No. 70/BWI/NZ/2025</span>
-                                    </div>
-                                </div>
+                        <div
+                            class="d-flex flex-column flex-md-row justify-content-between align-items-md-center border-bottom pb-3 mb-4">
+                            <div>
+                                <h3 class="fw-bold mb-1" style="color: var(--c-main);">Keputusan Badan Pelaksana BWI
+                                </h3>
+                                <p class="text-muted mb-0">Tentang Penetapan Lembaga Nazhir Wakaf Uang Universitas
+                                    Andalas</p>
                             </div>
-<!-- 
-                            <div class="col-lg-4 col-md-6">
-                                <div class="legalitas-card text-center">
-                                    <div class="legalitas-icon">
-                                        <i class="bi bi-building"></i>
-                                    </div>
-                                    <h4>SK Rektor</h4>
-                                    <p class="text-muted">
-                                        Penetapan struktur organisasi Unit Pengelola Wakaf
-                                        Universitas Andalas
-                                    </p>
-                                    <div class="mt-3">
-                                        <span class="badge bg-success">No. 1977/UN16.R/KPT/III/2025</span>
-                                    </div>
-                                </div>
+                            <div class="mt-3 mt-md-0">
+                                <span class="badge px-3 py-2 rounded-pill fs-6"
+                                    style="background: var(--c-dark); color: white;">Dokumen Resmi</span>
                             </div>
+                        </div>
 
-                            <div class="col-lg-4 col-md-6">
-                                <div class="legalitas-card text-center">
-                                    <div class="legalitas-icon">
-                                        <i class="bi bi-people"></i>
+                        <div class="document-details-box">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="bi bi-hash text-success fs-5 me-3"></i>
+                                        <div>
+                                            <small class="text-muted d-block text-uppercase fw-bold">Nomor SK</small>
+                                            <span class="fw-bold fs-5 text-dark">70/BWI/NZ/2025</span>
+                                        </div>
                                     </div>
-                                    <h4>SK Rektor</h4>
-                                    <p class="text-muted">
-                                        Penetapan pejabat dan personalia Unit Pengelola Wakaf
-                                        Universitas Andalas
-                                    </p>
-                                    <div class="mt-3">
-                                        <span class="badge bg-success">No. 1978/UN16.R/KPT/III/2025</span>
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-calendar-check text-success fs-5 me-3"></i>
+                                        <div>
+                                            <small class="text-muted d-block text-uppercase fw-bold">Tanggal
+                                                Penetapan</small>
+                                            <span class="fw-bold fs-5 text-dark">12 Maret 2025</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div> -->
+                                <div class="col-md-6 border-md-start ps-md-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="bi bi-building text-success fs-5 me-3"></i>
+                                        <div>
+                                            <small class="text-muted d-block text-uppercase fw-bold">Penerbit</small>
+                                            <span class="fw-bold fs-5 text-dark">Badan Wakaf Indonesia</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-check-circle text-success fs-5 me-3"></i>
+                                        <div>
+                                            <small class="text-muted d-block text-uppercase fw-bold">Status & Masa
+                                                Berlaku</small>
+                                            <span class="badge bg-success me-2">Aktif</span> <span
+                                                class="fw-bold text-dark">Tidak Terbatas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5">
+                            <h5 class="fw-bold mb-3" style="color: var(--c-dark);">Isi Pokok Dokumen:</h5>
+                            <ul class="text-muted fs-5" style="line-height: 1.8;">
+                                <li>Menetapkan Universitas Andalas sebagai Nazhir Wakaf Uang yang sah.</li>
+                                <li>Memberikan kewenangan penuh untuk mengelola dana wakaf uang.</li>
+                                <li>Menetapkan ketentuan dan kewajiban hukum sebagai nazhir wakaf.</li>
+                                <li>Mengatur mekanisme pelaporan dan pertanggungjawaban ke publik dan BWI.</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-md-start">
+                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" class="btn-download-modern" download>
+                                <i class="bi bi-file-earmark-arrow-down-fill"></i> Download PDF
+                            </a>
+                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" class="btn-download-modern" target="_blank">
+                                <i class="bi bi-eye-fill"></i> Lihat Dokumen
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -204,345 +263,81 @@
         </div>
     </section>
 
-    <section class="documents-section py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h2 class="section-title">Detail Dokumen Legalitas</h2>
-                    <p class="section-subtitle">
-                        Informasi lengkap mengenai dokumen-dokumen legalitas UPW UNAND
-                    </p>
-                </div>
-            </div>
-
-            <!-- Document 1: SK BWI -->
+    <section class="py-5 mb-5">
+        <div class="container py-4">
             <div class="row mb-5">
-                <div class="col-12">
-                    <div class="document-card" data-aos="fade-up">
-                        <div class="document-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="text-success mb-0">
-                                    Keputusan Badan Pelaksana Badan Wakaf Indonesia
-                                </h3>
-                                <span class="document-badge">Dokumen Utama</span>
-                            </div>
-                        </div>
+                <div class="col-12 text-center" data-aos="fade-up">
+                    <h2 class="fw-bolder" style="color: var(--c-dark);">Pentingnya Legalitas Wakaf</h2>
+                    <p class="text-muted fs-5">Mengapa status legal formal ini krusial bagi UPW UNAND?</p>
+                </div>
+            </div>
 
-                        <div class="document-details">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Nomor:</strong>
-                                        <span class="ms-2">70/BWI/NZ/2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tanggal:</strong>
-                                        <span class="ms-2">12 Maret 2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tentang:</strong>
-                                        <span class="ms-2">Penetapan Lembaga Nazhir Wakaf Uang Universitas
-                                            Andalas</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Penerbit:</strong>
-                                        <span class="ms-2">Badan Wakaf Indonesia</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Status:</strong>
-                                        <span class="ms-2 badge bg-success">Aktif</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Masa Berlaku:</strong>
-                                        <span class="ms-2">Tidak Terbatas</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mb-3">Isi Pokok Dokumen:</h5>
-                        <ul class="mb-4">
-                            <li class="mb-2">
-                                Menetapkan Universitas Andalas sebagai Nazhir Wakaf Uang
-                            </li>
-                            <li class="mb-2">
-                                Memberikan kewenangan untuk mengelola dana wakaf uang
-                            </li>
-                            <li class="mb-2">
-                                Menetapkan ketentuan dan kewajiban sebagai nazhir wakaf
-                            </li>
-                            <li class="mb-2">
-                                Mengatur mekanisme pelaporan dan pertanggungjawaban
-                            </li>
-                        </ul>
-
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" 
-                                class="download-btn btn btn-outline-success" 
-                                download> 
-                                    <i class="bi bi-file-pdf"></i> Download PDF
-                            </a>
-                            <a href="{{ asset('docs/sk-bwi-2025.pdf') }}" 
-                                class="download-btn btn btn-outline-success" 
-                                target="_blank">
-                                    <i class="bi bi-eye"></i> Lihat Dokumen
-                            </a>
-                        </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="importance-card">
+                        <div class="icon-wrapper"><i class="bi bi-shield-check"></i></div>
+                        <h5 class="fw-bold mb-3" style="color: var(--c-dark);">Akuntabilitas</h5>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Legalitas formal memastikan setiap
+                            rupiah dana wakaf dikelola secara transparan dan dapat dipertanggungjawabkan di mata hukum.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="importance-card">
+                        <div class="icon-wrapper"><i class="bi bi-award"></i></div>
+                        <h5 class="fw-bold mb-3" style="color: var(--c-dark);">Kepercayaan</h5>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Dokumen legalitas dari BWI
+                            membangun kepercayaan penuh wakif (donatur) terhadap profesionalisme lembaga pengelola kami.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="importance-card">
+                        <div class="icon-wrapper"><i class="bi bi-file-earmark-text"></i></div>
+                        <h5 class="fw-bold mb-3" style="color: var(--c-dark);">Kepastian Hukum</h5>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Landasan yang kuat memberikan
+                            kepastian dan perlindungan dalam setiap kegiatan operasional penyaluran program wakaf.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="importance-card">
+                        <div class="icon-wrapper"><i class="bi bi-graph-up-arrow"></i></div>
+                        <h5 class="fw-bold mb-3" style="color: var(--c-dark);">Berkelanjutan</h5>
+                        <p class="text-muted mb-0 small" style="line-height: 1.6;">Memungkinkan pengembangan investasi
+                            instrumen wakaf dalam jangka panjang untuk kemaslahatan umat yang lebih luas.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Document 2: SK Rektor Struktur Organisasi -->
-            <!-- <div class="row mb-5">
-                <div class="col-12">
-                    <div class="document-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="document-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="text-success mb-0">
-                                    Keputusan Rektor Universitas Andalas
-                                </h3>
-                                <span class="document-badge">Struktur Organisasi</span>
-                            </div>
-                        </div>
-
-                        <div class="document-details">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Nomor:</strong>
-                                        <span class="ms-2">1977/UN16.R/KPT/III/2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tanggal:</strong>
-                                        <span class="ms-2">19 Maret 2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tentang:</strong>
-                                        <span class="ms-2">Penetapan Struktur Organisasi Unit Pengelola Wakaf
-                                            Universitas Andalas</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Penerbit:</strong>
-                                        <span class="ms-2">Rektor Universitas Andalas</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Status:</strong>
-                                        <span class="ms-2 badge bg-success">Aktif</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Masa Berlaku:</strong>
-                                        <span class="ms-2">5 Tahun</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mb-3">Isi Pokok Dokumen:</h5>
-                        <ul class="mb-4">
-                            <li class="mb-2">
-                                Menetapkan struktur organisasi Unit Pengelola Wakaf (UPW)
-                            </li>
-                            <li class="mb-2">
-                                Menentukan tugas dan fungsi masing-masing unit dalam struktur
-                            </li>
-                            <li class="mb-2">
-                                Mengatur hubungan kerja antar unit dalam organisasi
-                            </li>
-                            <li class="mb-2">
-                                Menetapkan mekanisme koordinasi dan pengambilan keputusan
-                            </li>
-                        </ul>
-
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-file-pdf"></i> Download PDF
-                            </a>
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-eye"></i> Lihat Dokumen
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!-- Document 3: SK Rektor Pejabat -->
-            <!-- <div class="row">
-                <div class="col-12">
-                    <div class="document-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="document-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h3 class="text-success mb-0">
-                                    Keputusan Rektor Universitas Andalas
-                                </h3>
-                                <span class="document-badge">Penetapan Pejabat</span>
-                            </div>
-                        </div>
-
-                        <div class="document-details">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Nomor:</strong>
-                                        <span class="ms-2">1978/UN16.R/KPT/III/2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tanggal:</strong>
-                                        <span class="ms-2">19 Maret 2025</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Tentang:</strong>
-                                        <span class="ms-2">Penetapan Pejabat Unit Pengelola Wakaf Universitas
-                                            Andalas</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <strong>Penerbit:</strong>
-                                        <span class="ms-2">Rektor Universitas Andalas</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Status:</strong>
-                                        <span class="ms-2 badge bg-success">Aktif</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <strong>Masa Berlaku:</strong>
-                                        <span class="ms-2">5 Tahun</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5 class="mb-3">Isi Pokok Dokumen:</h5>
-                        <ul class="mb-4">
-                            <li class="mb-2">
-                                Menetapkan pejabat struktural Unit Pengelola Wakaf
-                            </li>
-                            <li class="mb-2">
-                                Menentukan tugas, wewenang, dan tanggung jawab masing-masing
-                                pejabat
-                            </li>
-                            <li class="mb-2">
-                                Mengatur mekanisme pengangkatan dan pemberhentian pejabat
-                            </li>
-                            <li class="mb-2">
-                                Menetapkan masa jabatan dan evaluasi kinerja pejabat
-                            </li>
-                        </ul>
-
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-file-pdf"></i> Download PDF
-                            </a>
-                            <a href="#" class="download-btn">
-                                <i class="bi bi-eye"></i> Lihat Dokumen
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        </div>
-    </section>
-
-    <section class="importance-section py-5">
-        <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mt-5" data-aos="zoom-in">
                 <div class="col-lg-10">
-                    <div class="document-card">
-                        <h2 class="text-center mb-4">
-                            Pentingnya Legalitas dalam Pengelolaan Wakaf
-                        </h2>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <i class="bi bi-shield-check text-success" style="font-size: 1.5rem"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Akuntabilitas</h5>
-                                        <p class="text-muted mb-0">
-                                            Legalitas formal memastikan pengelolaan wakaf dilakukan
-                                            secara transparan dan dapat dipertanggungjawabkan.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <i class="bi bi-award text-success" style="font-size: 1.5rem"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Kepercayaan Publik</h5>
-                                        <p class="text-muted mb-0">
-                                            Dokumen legalitas membangun kepercayaan wakif (pemberi
-                                            wakaf) terhadap lembaga pengelola.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <i class="bi bi-file-earmark-text text-success" style="font-size: 1.5rem"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Kepastian Hukum</h5>
-                                        <p class="text-muted mb-0">
-                                            Landasan hukum yang kuat memberikan kepastian dalam
-                                            operasional dan pengembangan program wakaf.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <div class="d-flex align-items-start">
-                                    <div class="me-3">
-                                        <i class="bi bi-graph-up-arrow text-success" style="font-size: 1.5rem"></i>
-                                    </div>
-                                    <div>
-                                        <h5>Pengembangan Berkelanjutan</h5>
-                                        <p class="text-muted mb-0">
-                                            Legalitas memungkinkan pengelolaan wakaf yang
-                                            berkelanjutan untuk kemaslahatan umat.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="alert alert-success mt-4">
-                            <h5>
-                                <i class="bi bi-info-circle me-2"></i>Informasi Penting
-                            </h5>
-                            <p class="mb-2">
-                                Semua dokumen legalitas UPW UNAND telah diverifikasi dan
-                                sesuai dengan peraturan perundang-undangan yang berlaku.
-                                Pengelolaan wakaf dilakukan dengan prinsip kehati-hatian,
-                                transparansi, dan akuntabilitas.
+                    <div class="alert-modern d-flex align-items-center">
+                        <i class="bi bi-info-circle-fill fs-2 me-4" style="color: var(--c-main);"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1">Informasi Penting</h5>
+                            <p class="mb-0 small" style="line-height: 1.6;">
+                                Semua dokumen legalitas UPW UNAND telah diverifikasi dan sesuai dengan peraturan
+                                perundang-undangan yang berlaku. Pengelolaan wakaf dilakukan dengan prinsip
+                                kehati-hatian, transparansi, dan syariah <i>compliance</i>.
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
     @push('scripts')
         <script>
-            // Initialize AOS
-            AOS.init({
-                duration: 800,
-                easing: "ease-in-out",
-                once: true,
-            });
+            // Initialize AOS jika belum ada di layout
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: "ease-in-out",
+                    once: true,
+                });
+            }
         </script>
     @endpush
 </x-layouts.app>

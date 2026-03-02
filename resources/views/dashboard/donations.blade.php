@@ -33,16 +33,30 @@
                 <h5 class="mb-0">Semua Donasi</h5>
             </div>
             <div class="col-md-6">
-                {{-- TODO: Fungsikan filter ini nanti --}}
-                <div class="d-flex gap-2 justify-content-md-end flex-wrap">
-                    <select class="form-select form-select-sm" style="width: auto">
-                        <option>Semua Program</option>
+                <form action="{{ route('dashboard.donations') }}" method="GET"
+                    class="d-flex gap-2 justify-content-md-end flex-wrap">
+
+                    <select name="category" class="form-select form-select-sm" style="width: auto"
+                        onchange="this.form.submit()">
+                        <option value="all">Semua Kategori</option>
+                        <option value="Wakaf Uang" {{ request('category') == 'Wakaf Uang' ? 'selected' : '' }}>Wakaf
+                            Uang</option>
+                        <option value="Wakaf Melalui Uang"
+                            {{ request('category') == 'Wakaf Melalui Uang' ? 'selected' : '' }}>Wakaf Melalui Uang
+                        </option>
+                        <option value="Dana Abadi" {{ request('category') == 'Dana Abadi' ? 'selected' : '' }}>Dana
+                            Abadi</option>
+                        <option value="Zakat" {{ request('category') == 'Zakat' ? 'selected' : '' }}>Zakat</option>
                     </select>
-                    <select class="form-select form-select-sm" style="width: auto">
-                        <option>Semua Status</option>
+
+                    <select name="status" class="form-select form-select-sm" style="width: auto"
+                        onchange="this.form.submit()">
+                        <option value="all">Semua Status</option>
+                        <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Berhasil</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                     </select>
-                    <button class="btn btn-outline-success btn-sm"><i class="bi bi-funnel"></i> Filter</button>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -52,9 +66,18 @@
             <div class="donation-card">
                 <div class="row align-items-center">
                     <div class="col-md-2 text-center">
-                        <div class="bg-success bg-opacity-10 rounded p-3">
-                            <i class="bi bi-heart-fill text-success display-6"></i>
-                        </div>
+                        {{-- Cek apakah program memiliki gambar --}}
+                        @if ($donation->program && $donation->program->image)
+                            <img src="{{ asset('storage/programs/' . $donation->program->image) }}"
+                                alt="{{ $donation->program->title }}" class="img-fluid rounded shadow-sm"
+                                style="height: 90px; width: 100%; object-fit: cover;">
+                        @else
+                            {{-- Fallback: Kalau nggak ada gambar, tetep nampilin icon love --}}
+                            <div class="bg-success bg-opacity-10 rounded d-flex align-items-center justify-content-center shadow-sm"
+                                style="height: 90px;">
+                                <i class="bi bi-heart-fill text-success display-6"></i>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
                         <h5 class="mb-2">{{ $donation->program->title ?? 'Donasi Umum' }}</h5>
@@ -63,7 +86,15 @@
                                     class="bi bi-calendar me-1"></i>{{ $donation->created_at->format('d M Y') }}</span>
                             <span class="text-muted"><i
                                     class="bi bi-clock me-1"></i>{{ $donation->created_at->format('H:i') }} WIB</span>
-                            <span class="badge bg-success">Berhasil</span>
+
+                            {{-- BADGE STATUS DINAMIS --}}
+                            @if ($donation->status == 'paid')
+                                <span class="badge bg-success">Berhasil</span>
+                            @elseif($donation->status == 'pending')
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            @else
+                                <span class="badge bg-danger">Gagal</span>
+                            @endif
                         </div>
                         <p class="text-muted mb-0">{{ Str::limit($donation->program->description ?? '', 100) }}</p>
                     </div>
@@ -76,11 +107,24 @@
                             <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown">Aksi</button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item"
-                                        href="{{ route('programs.show.public', $donation->program->id) }}"><i
-                                            class="bi bi-eye me-2"></i>Lihat Program</a></li>
-                                <li><a class="dropdown-item" href="#"><i
-                                            class="bi bi-receipt me-2"></i>Invoice</a></li>
+                                @php
+                                    $routeName =
+                                        $donation->program?->category == 'Wakaf Melalui Uang'
+                                            ? 'wakaf-melalui-uang.show.public'
+                                            : 'wakaf-uang.show.public';
+                                @endphp
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route($routeName, $donation->program?->slug ?? '') }}">
+                                        <i class="bi bi-eye me-2"></i>Lihat Program
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('dashboard.donations.invoice', $donation->order_id) }}">
+                                        <i class="bi bi-receipt me-2"></i>Download Invoice
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

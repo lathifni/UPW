@@ -1,234 +1,364 @@
 <x-layouts.app>
-    <x-slot:title>Program Donasi - Dana Sosial UNAND</x-slot:title>
+    <x-slot:title>Program Wakaf Melalui Uang - Dana Sosial UNAND</x-slot:title>
 
     @push('styles')
         <style>
-            .program-hero {
-                background: linear-gradient(135deg,
-                        rgba(25, 135, 84, 0.9) 0%,
-                        rgba(32, 201, 151, 0.9) 100%),
-                    url("https://via.placeholder.com/1920x600/198754/ffffff?text=Program+Donasi+UNAND") center/cover;
-                color: white;
-                padding: 100px 0;
+            :root {
+                --c-main: #84B179;
+                --c-hover: #A2CB8B;
+                --c-light: #C7EABB;
+                --c-pale: #E8F5BD;
+                --c-dark: #1a2e15;
+                --c-darker: #0f1c0c;
+                --c-white-glass: rgba(255, 255, 255, 0.9);
             }
 
-            .program-filter {
+            body {
+                background-color: #f8faf7;
+            }
+
+            /* HERO SECTION MODERN */
+            .index-hero {
+                background: linear-gradient(135deg, rgba(26, 46, 21, 0.9) 0%, rgba(132, 177, 121, 0.85) 100%),
+                    url("https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1920") center/cover no-repeat;
+                color: white;
+                padding: 160px 0 100px 0;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .hero-pattern {
+                position: absolute;
+                inset: 0;
+                opacity: 0.1;
+                background-image: radial-gradient(#fff 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+
+            /* STATS GLASS CARD */
+            .stat-glass {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 20px;
+                padding: 1.5rem;
+                transition: transform 0.3s;
+            }
+
+            .stat-glass:hover {
+                transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.15);
+            }
+
+            /* SEARCH PILL */
+            .search-pill {
                 background: white;
-                padding: 2rem;
-                border-radius: 1rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                margin-top: -50px;
+                border-radius: 50px;
+                padding: 8px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
                 position: relative;
                 z-index: 10;
+                margin-top: -35px;
+                display: flex;
+                align-items: center;
+                transition: all 0.3s;
             }
 
-            .filter-btn {
-                border: 2px solid #e9ecef;
-                background: white;
-                color: #6c757d;
-                padding: 0.5rem 1.5rem;
-                border-radius: 2rem;
-                margin: 0.25rem;
+            .search-pill:focus-within {
+                box-shadow: 0 20px 40px rgba(132, 177, 121, 0.2);
+                transform: translateY(-2px);
+            }
+
+            .search-input {
+                border: none;
+                box-shadow: none !important;
+                background: transparent;
+                padding-left: 15px;
+                font-size: 1.1rem;
+            }
+
+            /* BUTTONS */
+            .btn-modern {
+                background: var(--c-main);
+                color: #fff;
+                border: none;
+                padding: 0.8rem 2rem;
+                border-radius: 50px;
+                font-weight: 700;
                 transition: all 0.3s ease;
-                text-decoration: none;
             }
 
-            .filter-btn:hover,
-            .filter-btn.active {
-                background: #198754;
-                border-color: #198754;
-                color: white;
-                text-decoration: none;
+            .btn-modern:hover {
+                background: var(--c-dark);
+                color: var(--c-pale);
+                transform: translateY(-2px);
             }
 
-            .program-category {
-                margin-bottom: 3rem;
+            .btn-outline-modern {
+                background: rgba(255, 255, 255, 0.5);
+                color: var(--c-dark);
+                border: 2px solid var(--c-main);
+                padding: 0.6rem 1.5rem;
+                border-radius: 50px;
+                font-weight: 700;
+                transition: all 0.3s ease;
             }
 
-            .category-header {
-                border-left: 4px solid #198754;
-                padding-left: 1rem;
-                margin-bottom: 2rem;
+            .btn-outline-modern:hover {
+                background: var(--c-main);
+                color: #fff;
+                border-color: var(--c-main);
             }
 
-            .program-card-featured {
-                border: 2px solid #198754;
-                transform: scale(1.02);
+            /* HORIZONTAL CARD (UNGGULAN) */
+            .card-horizontal-modern {
+                background: white;
+                border-radius: 24px;
+                border: none;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+                overflow: hidden;
+                transition: all 0.4s ease;
+                display: flex;
+                flex-direction: column;
             }
 
-            .program-badge {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                z-index: 2;
+            @media (min-width: 768px) {
+                .card-horizontal-modern {
+                    flex-direction: row;
+                }
             }
 
-            .program-stats {
-                background: #f8f9fa;
-                border-radius: 0.5rem;
-                padding: 1rem;
+            .card-horizontal-modern:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 25px 50px rgba(132, 177, 121, 0.15);
             }
 
-            .search-box {
+            .img-horizontal-wrapper {
+                position: relative;
+                overflow: hidden;
+                min-height: 250px;
+                width: 100%;
+            }
+
+            @media (min-width: 768px) {
+                .img-horizontal-wrapper {
+                    width: 40%;
+                    min-height: 100%;
+                }
+            }
+
+            .img-horizontal-wrapper img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            }
+
+            .card-horizontal-modern:hover .img-horizontal-wrapper img {
+                transform: scale(1.05);
+            }
+
+            /* GRID CARD (LAINNYA) */
+            .program-card-modern {
+                border: none;
+                border-radius: 1.5rem;
+                overflow: hidden;
+                background: #fff;
+                transition: all 0.4s ease;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+            }
+
+            .program-card-modern:hover {
+                transform: translateY(-12px);
+                box-shadow: 0 25px 50px rgba(132, 177, 121, 0.2);
+            }
+
+            .program-img-wrap {
+                height: 220px;
+                overflow: hidden;
                 position: relative;
             }
 
-            .search-box input {
-                padding-right: 3rem;
+            .program-img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
             }
 
-            .search-box .search-icon {
-                position: absolute;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #6c757d;
+            .program-card-modern:hover .program-img-wrap img {
+                transform: scale(1.08);
             }
 
-            .program-card-horizontal {
+            .program-content {
+                padding: 1.8rem;
+                position: relative;
+                background: #fff;
+                margin-top: -20px;
+                border-radius: 1.5rem 1.5rem 0 0;
+                z-index: 2;
                 display: flex;
-                border: 1px solid #198754;
-                border-radius: 0.75rem;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            /* Progress Bar Modern */
+            .progress-modern {
+                height: 8px;
+                background-color: var(--c-light);
+                border-radius: 10px;
                 overflow: hidden;
-                transition: all 0.3s ease;
             }
 
-            .program-card-horizontal:hover {
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-                transform: translateY(-5px);
-            }
-
-            .program-card-horizontal .program-image {
-                flex-shrink: 0;
-            }
-
-            .program-card-horizontal .program-content {
-                padding: 1.5rem;
+            .progress-bar-modern {
+                background-color: var(--c-main);
+                border-radius: 10px;
+                position: relative;
             }
         </style>
     @endpush
 
-    <section class="program-hero" style="padding-top: 100px;">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-2">Wakaf Melalui Uang</h1>
-                    <p class="lead mb-4">Pilih program Wakaf Melalui Uang yang sesuai dengan kepedulian Anda. Bersama kita wujudkan
-                        perubahan yang berarti untuk kemajuan UNAND dan masyarakat</p>
-                    <div class="hero-stats">
-                        <div class="row justify-content-center">
-                            <div class="col-4">
-                                <div class="stat-item">
-                                    <h3 class="stat-number text-white">{{ $heroStats['active_programs']}}</h3>
-                                    <p class="stat-label text-white-50">Program Aktif</p>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="stat-item">
-                                   
-                                   <h3 class="stat-number text-white"
-                                        data-target="{{ $heroStats['total_collected_raw'] }}"
-                                        data-format="{{ $heroStats['total_collected_fmt'] }}">
-                                        0
-                                    </h3>
-                                    <p class="stat-label text-white-50">Terkumpul</p>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="stat-item">
-                                    
-                                    <h3 class="stat-number text-white"
-                                        data-target="{{ $heroStats['total_wakaf_masuk_raw'] }}"
-                                        data-format="{{ $heroStats['total_wakaf_masuk_fmt'] }}">
-                                        0
-                                    </h3>
-                                    <p class="stat-label text-white-50">Wakaf Masuk</p>
-                                </div>
-                            </div>
-                        </div>
+    {{-- HERO SECTION --}}
+    <section class="index-hero">
+        <div class="hero-pattern"></div>
+        <div class="container position-relative z-index-1">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Katalog
+                        Project Based</span>
+                    <h1 class="display-4 fw-bolder mb-3" style="letter-spacing: -1px;">Wakaf Melalui Uang</h1>
+                    <p class="fs-5 text-white-50 mx-auto" style="line-height: 1.6;">
+                        Pilih program pembangunan infrastruktur atau bantuan spesifik yang ingin Anda dukung. Setiap
+                        rupiah Anda wujudkan perubahan nyata.
+                    </p>
+                </div>
+            </div>
+
+            {{-- STATS AREA --}}
+            <div class="row justify-content-center g-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="stat-glass text-center h-100">
+                        <h2 class="fw-bolder mb-0 text-white stat-number">{{ $heroStats['active_programs'] }}</h2>
+                        <p class="small text-white-50 mb-0 mt-1 text-uppercase fw-bold ls-1"
+                            style="font-size: 0.75rem;">Program Aktif</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="stat-glass text-center h-100">
+                        <h2 class="fw-bolder mb-0 text-white stat-number"
+                            data-target="{{ $heroStats['total_collected_raw'] }}"
+                            data-format="{{ $heroStats['total_collected_fmt'] }}">0</h2>
+                        <p class="small text-white-50 mb-0 mt-1 text-uppercase fw-bold ls-1"
+                            style="font-size: 0.75rem;">Total Terkumpul</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3 d-none d-md-block">
+                    <div class="stat-glass text-center h-100">
+                        <h2 class="fw-bolder mb-0 text-white stat-number"
+                            data-target="{{ $heroStats['total_wakaf_masuk_raw'] }}"
+                            data-format="{{ $heroStats['total_wakaf_masuk_fmt'] }}">0</h2>
+                        <p class="small text-white-50 mb-0 mt-1 text-uppercase fw-bold ls-1"
+                            style="font-size: 0.75rem;">Wakaf Masuk</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="program-filter-section py-0">
-        <div class="container">
-            <div class="program-filter">
-                <div class="row align-items-center">
-                    <div class="col-lg-4">
-                        <div class="search-box">
-                            <input type="text" class="form-control" placeholder="Cari program wakaf melalui uang..." />
-                            <i class="bi bi-search search-icon"></i>
-                        </div>
+    {{-- SEARCH FILTER PILL --}}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {{-- Bungkus dengan Form GET --}}
+                <form action="{{ route('wakaf-melalui-uang.index.public') }}" method="GET">
+                    <div class="search-pill" data-aos="zoom-in" data-aos-delay="200">
+                        <i class="bi bi-search text-muted fs-5 ms-3"></i>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            class="form-control search-input" placeholder="Cari program project based...">
+                        <button type="submit" class="btn btn-modern">Cari</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="program-list-section py-5">
+    {{-- MAIN CONTENT SECTION --}}
+    <section class="py-5 mt-4">
         <div class="container">
+
+            {{-- SECTION: PROGRAM UNGGULAN --}}
             @if ($unggulan_programs->isNotEmpty())
-                <div class="program-category">
-                    <div class="category-header">
-                        <h3 class="text-success mb-2">Program Unggulan</h3>
-                        <p class="text-muted">Program prioritas yang membutuhkan dukungan segera.</p>
+                <div class="mb-5 pb-4 border-bottom border-success border-opacity-10">
+                    <div class="d-flex align-items-center mb-4" data-aos="fade-right">
+                        <div class="bg-pale-custom text-primary-custom rounded-circle d-flex align-items-center justify-content-center me-3"
+                            style="width: 45px; height: 45px;">
+                            <i class="bi bi-star-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="fw-bolder m-0" style="color: var(--c-dark);">Program Unggulan</h3>
+                            <p class="text-muted small m-0">Project prioritas utama yang membutuhkan dukungan segera.
+                            </p>
+                        </div>
                     </div>
+
                     <div class="row g-4">
                         @foreach ($unggulan_programs as $program)
                             <div class="col-12" data-aos="fade-up">
-                                <div class="program-card-horizontal">
-                                    <div class="program-image d-none d-md-block">
+                                <div class="card-horizontal-modern">
+                                    <div class="img-horizontal-wrapper">
                                         <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}">
                                             <img src="{{ asset('storage/programs/' . $program->image) }}"
-                                                alt="{{ $program->title }}"
-                                                style="width: 300px; height: 100%; object-fit: cover;">
+                                                alt="{{ $program->title }}">
                                         </a>
+                                        <div class="position-absolute top-0 start-0 m-3">
+                                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill shadow-sm"><i
+                                                    class="bi bi-fire me-1"></i> Mendesak</span>
+                                        </div>
                                     </div>
-                                    <div class="program-content d-flex flex-column flex-grow-1">
-                                        <div class="d-flex justify-content-between align-items-start">
-                                            <h4 class="program-title"><a
-                                                    href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
-                                                    class="text-decoration-none text-dark">{{ $program->title }}</a>
-                                            </h4>
-                                            <span
-                                                class="badge bg-success flex-shrink-0 ms-3">{{ Str::title($program->category) }}</span>
-                                        </div>
-                                        <p class="program-description my-3">
-                                            {{ Str::limit($program->description, 150) }}</p>
-                                        <div class="program-progress mb-3">
-                                            <div class="d-flex justify-content-between mb-1">
-                                                <small class="text-muted">Terkumpul <strong>Rp
-                                                        {{ $program->formatted_collected_amount }}</strong></small>
-                                                <small class="text-muted">Target <strong>Rp
-                                                        {{ $program->formatted_target_amount }}</strong></small>
-                                            </div>
-                                            <div class="progress" style="height: 8px;">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: {{ $program->progres_persentase }}%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="program-stats border rounded p-3 mb-4">
-                                            <div class="row text-center">
-                                                <div class="col-4">
-                                                    <strong>{{ $program->progres_persentase }}%</strong>
-                                                    <div class="small text-muted">Progress</div>
-                                                </div>
-                                                <div class="col-4">
-                                                    <strong>{{ $program->deadline ? \Carbon\Carbon::parse($program->deadline)->diffForHumans(null, true) : '∞' }}</strong>
-                                                    <div class="small text-muted">Tersisa</div>
-                                                </div>
-                                                <div class="col-4"><strong>{{ $program->donations->count() }}</strong>
-                                                    <div class="small text-muted">Donatur</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex gap-2 mt-auto">
+
+                                    <div class="p-4 p-lg-5 d-flex flex-column justify-content-center w-100">
+                                        <h3 class="fw-bolder mb-2">
                                             <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
-                                                class="btn btn-success flex-fill">Lihat Detail</a>
-                                            <a href="#" class="btn btn-outline-success"><i
-                                                    class="bi bi-heart"></i> Donasi</a>
+                                                class="text-decoration-none" style="color: var(--c-dark);">
+                                                {{ $program->title }}
+                                            </a>
+                                        </h3>
+                                        <span
+                                            class="badge bg-pale-custom text-primary-custom d-inline-block align-self-start mb-3">Target
+                                            Project</span>
+
+                                        <p class="text-muted mb-4" style="line-height: 1.7; font-size: 1.05rem;">
+                                            {{ Str::limit($program->description, 180) }}
+                                        </p>
+
+                                        <div class="mt-auto">
+                                            <div class="d-flex justify-content-between align-items-end mb-2">
+                                                <div>
+                                                    <span class="d-block small text-muted">Terkumpul</span>
+                                                    <span class="fw-bolder"
+                                                        style="color: var(--c-main); font-size: 1.1rem;">Rp
+                                                        {{ $program->formatted_collected_amount }}</span>
+                                                </div>
+                                                <div class="text-end">
+                                                    <span class="d-block small text-muted">Target</span>
+                                                    <span class="fw-bold text-dark">Rp
+                                                        {{ $program->formatted_target_amount }}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="progress-modern mb-4">
+                                                <div class="progress-bar-modern"
+                                                    style="width: {{ $program->progres_persentase }}%; height: 100%;">
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex gap-3">
+                                                <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
+                                                    class="btn-modern flex-grow-1 text-center text-decoration-none">
+                                                    Tunaikan Wakaf <i class="bi bi-arrow-right ms-2"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -236,69 +366,89 @@
                         @endforeach
                     </div>
                 </div>
-                <hr class="my-5">
             @endif
 
-            <div class="program-category">
-                @if ($unggulan_programs->isNotEmpty())
-                    <div class="category-header">
-                        <h3 class="text-success mb-2">Program Lainnya</h3>
-                        <p class="text-muted">Jelajahi program kebaikan lainnya yang bisa Anda dukung.</p>
+            {{-- SECTION: PROGRAM LAINNYA (GRID) --}}
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-4" data-aos="fade-right">
+                    <div class="bg-light-custom text-primary-custom rounded-circle d-flex align-items-center justify-content-center me-3"
+                        style="width: 45px; height: 45px;">
+                        <i class="bi bi-collection-fill fs-5"></i>
                     </div>
-                @endif
-                <div class="row g-4">
+                    <div>
+                        <h3 class="fw-bolder m-0" style="color: var(--c-dark);">Katalog Project</h3>
+                        <p class="text-muted small m-0">Jelajahi project kebaikan lainnya yang bisa Anda dukung.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4 justify-content-center">
                     @forelse ($programs as $program)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="program-card h-100" data-aos="fade-up">
-                                <div class="program-image"><a
-                                        href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"><img
-                                            src="{{ asset('storage/programs/' . $program->image) }}"
-                                            alt="{{ $program->title }}" class="card-img-top"></a></div>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="program-title"><a
-                                            href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
-                                            class="text-decoration-none text-dark">{{ $program->title }}</a></h5>
-                                    <p class="program-description">{{ Str::limit($program->description, 90) }}</p>
-                                    <div class="mt-auto">
-                                        <div class="program-progress mb-3">
-                                            <div class="d-flex justify-content-between mb-1"><small
-                                                    class="text-muted">Terkumpul</small><small
-                                                    class="text-muted">{{ $program->progres_persentase }}%</small>
-                                            </div>
-                                            <div class="progress" style="height: 8px;">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: {{ $program->progres_persentase }}%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="program-stats mb-3">
-                                            <div class="row text-center">
-                                                <div class="col-6"><strong class="text-success">Rp
-                                                        {{ $program->formatted_collected_amount }}</strong>
-                                                    <div class="small text-muted">Terkumpul</div>
-                                                </div>
-                                                <div class="col-6"><strong class="text-success">Rp
-                                                        {{ $program->formatted_target_amount }}</strong>
-                                                    <div class="small text-muted">Target</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        <div class="col-lg-4 col-md-6" data-aos="fade-up"
+                            data-aos-delay="{{ $loop->iteration * 100 }}">
+                            <div class="program-card-modern h-100 d-flex flex-column">
+                                <div class="program-img-wrap">
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}">
+                                        <img src="{{ asset('storage/programs/' . $program->image) }}"
+                                            alt="{{ $program->title }}">
+                                    </a>
+                                </div>
+
+                                <div class="program-content">
+                                    <h5 class="fw-bolder mb-3" style="line-height: 1.4;">
                                         <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
-                                            class="btn btn-success w-100">Lihat Detail</a>
+                                            class="text-decoration-none" style="color: var(--c-dark);">
+                                            {{ Str::limit($program->title, 55) }}
+                                        </a>
+                                    </h5>
+
+                                    <p class="text-muted small mb-4 flex-grow-1 line-height-lg">
+                                        {{ Str::limit($program->description, 90) }}
+                                    </p>
+
+                                    <div class="mt-auto">
+                                        <div class="d-flex justify-content-between align-items-end mb-2">
+                                            <div>
+                                                <span class="d-block small text-muted">Terkumpul</span>
+                                                <span class="fw-bolder" style="color: var(--c-main);">Rp
+                                                    {{ $program->formatted_collected_amount }}</span>
+                                            </div>
+                                            <div class="text-end">
+                                                <span
+                                                    class="fw-bold text-dark">{{ $program->progres_persentase }}%</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="progress-modern mb-4">
+                                            <div class="progress-bar-modern"
+                                                style="width: {{ $program->progres_persentase }}%; height: 100%;">
+                                            </div>
+                                        </div>
+
+                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
+                                            class="btn-outline-modern w-100 d-block text-center text-decoration-none">
+                                            Lihat Detail <i class="bi bi-arrow-right-circle ms-1"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <div class="col-12">
-                            <div class="alert alert-info text-center">Tidak ada Wakaf Melalui Uang yang ditemukan untuk
-                                saat ini.</div>
+                        <div class="col-12 text-center py-5">
+                            <div class="d-inline-block p-5 rounded-circle mb-3" style="background: var(--c-pale);">
+                                <i class="bi bi-inboxes text-success display-1"></i>
+                            </div>
+                            <h4 class="fw-bold" style="color: var(--c-dark);">Belum Ada Project</h4>
+                            <p class="text-muted">Belum ada katalog Wakaf Melalui Uang yang aktif untuk saat ini.</p>
                         </div>
                     @endforelse
                 </div>
-                <div class="mt-5">
+
+                {{-- Custom Pagination Styling --}}
+                <div class="mt-5 d-flex justify-content-center">
                     {{ $programs->links() }}
                 </div>
             </div>
+
         </div>
     </section>
 

@@ -20,8 +20,17 @@ class ArticleController extends Controller
     {
         $query = Article::query();
 
+        // Filter Kategori
         if ($request->has('category')) {
             $query->where('category', $request->category);
+        }
+
+        // FITUR SEARCH DITAMBAHKAN DI SINI
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                  ->orWhere('content', 'like', '%' . $request->search . '%');
+            });
         }
 
         $articles = $query->latest()->paginate(10);
@@ -40,10 +49,8 @@ class ArticleController extends Controller
 
         $categories = Article::select('category')->whereNotNull('category')->distinct()->pluck('category');
 
-        // --- BARIS INI DITAMBAHKAN KEMBALI ---
         $recent_articles = Article::latest()->take(5)->get();
 
-        // --- 'recent_articles' DIMASUKKAN KEMBALI KE compact() ---
         return view('public.articles.index', compact('articles', 'stats', 'category_counts', 'categories', 'recent_articles'));
     }
 

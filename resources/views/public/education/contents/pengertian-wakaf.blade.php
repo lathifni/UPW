@@ -11,13 +11,13 @@
         @endif
     </p>
 
-    <img 
-      src="{{ asset('img/edu/' . $post->image) }}" 
-      alt="{{ $post->title }}" 
+    <img
+      src="{{ asset('img/edu/' . $post->image) }}"
+      alt="{{ $post->title }}"
       class="rounded-lg mb-8 w-full shadow-md object-cover"
     > -->
 
-    <div class="prose max-w-none">
+    <div class="prose max-w-none text-justify">
         <p>
             Wakaf adalah perbuatan hukum wakif untuk memisahkan dan/atau menyerahkan
             sebagian harta benda miliknya untuk dimanfaatkan selamanya atau untuk

@@ -1,30 +1,32 @@
 <article class="max-w-4xl mx-auto px-4 py-10">
 
-    <div class="prose max-w-none">
+    <div class="prose max-w-none text-justify">
+         <p>
+            Sejarah awal mula wakaf dimulai pada masa Rasulullah SAW, yaitu pada tahun kedua Hijriyah setelah Nabi hijrah ke Madinah. Wakaf disyariatkan untuk memberikan manfaat kepada masyarakat secara berkelanjutan. Ada dua pendapat yang berkembang di kalangan ahli yurisprudensi Islam (fuqaha) tentang siapa yang pertama kali melaksanakan syariat wakaf. Menurut sebagian ulama, yang pertama kali melaksanakan wakaf adalah Rasulullah SAW, yakni mewakafkan tanah milik Nabi SAW untuk dibangun masjid.
         <p>
-          Ada dua pendapat wakaf yang berkembang di kalangan ahli yurisprudensi Islam (fuqaha) tentang siapa yang 
-          pertama kali yang melaksanakan syariat wakaf. Menurut sebagian para  pendapat ulama yang  mengatakan bahwa 
-          yang pertama kali melaksanakan wakaf adalah Rasulullah SAW ialah wakaf tanah milik Nabi Muhammad SAW untuk 
-          dibangun sebuah masjid. Sebelum pindah ke rumah pamannya yang berasal dari Bani Najjar. Kemudian disusul 
-          dengan pembangunan Masjid Nabawi yang dibangun di atas tanah anak yatim dari Bani Najjar setelah dibeli 
-          oleh Rasulullah dengan harga delapan ratus dirham. Setelah dilakukan pembelian tanah anak yatim tersebut 
-          beliau wakafkan tanah tersebut dan dibangunlah masjid diatas tanah tersebut yang saat ini masjid tersebut 
+          Ada dua pendapat wakaf yang berkembang di kalangan ahli yurisprudensi Islam (fuqaha) tentang siapa yang
+          pertama kali yang melaksanakan syariat wakaf. Menurut sebagian para  pendapat ulama yang  mengatakan bahwa
+          yang pertama kali melaksanakan wakaf adalah Rasulullah SAW ialah wakaf tanah milik Nabi Muhammad SAW untuk
+          dibangun sebuah masjid. Sebelum pindah ke rumah pamannya yang berasal dari Bani Najjar. Kemudian disusul
+          dengan pembangunan Masjid Nabawi yang dibangun di atas tanah anak yatim dari Bani Najjar setelah dibeli
+          oleh Rasulullah dengan harga delapan ratus dirham. Setelah dilakukan pembelian tanah anak yatim tersebut
+          beliau wakafkan tanah tersebut dan dibangunlah masjid diatas tanah tersebut yang saat ini masjid tersebut
           kita kenal sebagai masjid nabawi.Dengan demikian, Rasulullah telah mewakafkan tanah untuk pembangunan masjid.
         </p>
 
         <p>
-           Peristiwa ini menjadi kisah pertama wakaf yang dilakukan oleh Rasulullah SAW yang kemudian ajaran ini 
+           Peristiwa ini menjadi kisah pertama wakaf yang dilakukan oleh Rasulullah SAW yang kemudian ajaran ini
            di ikuti oleh para sahabat.
         </p>
 
         <p>
-          Selain kisah diatas terdapat 2 kisah sahabat nabi yang pertama kali melaksanakan syariat Wakaf yaitu 
-          kisah Umar bin Khatab dan Abu Thalhah yang mewakafkan kebun kesayangan dan terbaik yang mereka miliki 
+          Selain kisah diatas terdapat 2 kisah sahabat nabi yang pertama kali melaksanakan syariat Wakaf yaitu
+          kisah Umar bin Khatab dan Abu Thalhah yang mewakafkan kebun kesayangan dan terbaik yang mereka miliki
           berikut ini kisahnya yang berdasarkan hadis yang diriwayatkan Ibnu Umar ra. Ia berkata:
         </p>
 
         <p>
-          Dari Ibnu Umar ra, ia berkata: “Bahwa sahabat Umar ra, memperoleh sebidang tanah di Khaibar, kemudian 
+          Dari Ibnu Umar ra, ia berkata: “Bahwa sahabat Umar ra, memperoleh sebidang tanah di Khaibar, kemudian
           Umar ra, menghadap Rasulullah SAW untuk meminta petunjuk,
         </p>
 
@@ -33,7 +35,7 @@
         </p>
 
         <p>
-          “Hai Rasulullah SAW, saya mendapat sebidang tanah di Khaibar, saya belum mendapat harta sebaik itu, maka 
+          “Hai Rasulullah SAW, saya mendapat sebidang tanah di Khaibar, saya belum mendapat harta sebaik itu, maka
           apakah yang engkau perintahkan kepadaku?”
         </p>
 
@@ -42,32 +44,32 @@
         </p>
 
         <p>
-         “Bila engkau suka, kau tahan (pokoknya) tanah itu, dan engkau sedekahkan (hasilnya), tidak dijual, tidak 
-         dihibahkan, dan tidak diwariskan. Ibnu Umar berkata: “Umar menyedekahkannya (hasil pengelolaan tanah) 
-         kepada orang-orang fakir, kaum kerabat, hamba sahaya, sabilillah Ibnu sabil, dan tamu, dan tidak dilarang 
-         bagi yang mengelola (nazhir) wakaf makan dari hasilnya dengan cara yang baik (sepantasnya) atau member 
+         “Bila engkau suka, kau tahan (pokoknya) tanah itu, dan engkau sedekahkan (hasilnya), tidak dijual, tidak
+         dihibahkan, dan tidak diwariskan. Ibnu Umar berkata: “Umar menyedekahkannya (hasil pengelolaan tanah)
+         kepada orang-orang fakir, kaum kerabat, hamba sahaya, sabilillah Ibnu sabil, dan tamu, dan tidak dilarang
+         bagi yang mengelola (nazhir) wakaf makan dari hasilnya dengan cara yang baik (sepantasnya) atau member
          makan orang lain dengan tidak bermaksud menumpuk harta.”
         </p>
 
         <p>
-          Peristiwa ini terjadi setelah pembebasan tanah Khaibar pada tahun ke-7 Hijriyah.  Pada masa Umar bin 
-          Khattab menjadi  Khalifah, ia mencatat wakafnya dalam akte wakaf dengan disaksikan oleh para saksi dan 
+          Peristiwa ini terjadi setelah pembebasan tanah Khaibar pada tahun ke-7 Hijriyah.  Pada masa Umar bin
+          Khattab menjadi  Khalifah, ia mencatat wakafnya dalam akte wakaf dengan disaksikan oleh para saksi dan
           mengumumkannya.
         </p>
 
         <p>
-          Sejak saat itu banyak keluarga Nabi dan para sahabat yang mewakafkan tanah dan perkebunannya. Sebagaian 
-          di antara mereka ada yang mewakafkan harta untuk keluarga dan kerabatnya, sehingga muncullah wakaf keluarga 
+          Sejak saat itu banyak keluarga Nabi dan para sahabat yang mewakafkan tanah dan perkebunannya. Sebagaian
+          di antara mereka ada yang mewakafkan harta untuk keluarga dan kerabatnya, sehingga muncullah wakaf keluarga
           (wakaf dzurri atau ahli).
         </p>
 
         <p>
-          Kemudian wakaf yang telah dilakukan Umar bin Khattab disusul oleh Abu Thalhah yang mewakafkan kebun 
+          Kemudian wakaf yang telah dilakukan Umar bin Khattab disusul oleh Abu Thalhah yang mewakafkan kebun
           kesayangannya, kebun Bairaha.  Maka turunlah Ayat yang berbunyi:
         </p>
 
         <p>
-          “Kamu sekali-kali tidak sampai kepada kebajikan (yang sempurna), sebelum kamu menafkahkan sebagian 
+          “Kamu sekali-kali tidak sampai kepada kebajikan (yang sempurna), sebelum kamu menafkahkan sebagian
           harta yang kamu cintai”.
         </p>
 
@@ -76,69 +78,69 @@
         </p>
 
         <p>
-          Rasulullah telah menasehatinya agar ia menjadikan perkebunannya itu keluarga dan keturunannya. Maka Abu 
-          Thalhah mengikuti perintah Rasulullah tersebut, dan di antara keluarga keluarga yang mendapat wakaf dari 
+          Rasulullah telah menasehatinya agar ia menjadikan perkebunannya itu keluarga dan keturunannya. Maka Abu
+          Thalhah mengikuti perintah Rasulullah tersebut, dan di antara keluarga keluarga yang mendapat wakaf dari
           Abu Thalhah adalah Hassan bin Tsabit.
         </p>
 
         <p>
-          Atas kisah kedua sahabat tersebut maka semakin banyak sahabat nabi yang bersedia mewakafkan harta yang 
-          dimilikinya untuk kemaslahatan umat yaitu seperti Abu Bakar yang mewakafkan sebidang tanahnya di Makkah 
+          Atas kisah kedua sahabat tersebut maka semakin banyak sahabat nabi yang bersedia mewakafkan harta yang
+          dimilikinya untuk kemaslahatan umat yaitu seperti Abu Bakar yang mewakafkan sebidang tanahnya di Makkah
           yang diperuntukkan kepada anak keturunannya yang datang ke Makkah.
         </p>
 
         <p>
-          Sahabat Utsman menyedekahkan hartanya di Khaibar. Ali bin Abi Thalib mewakafkan tanahnya yang subur. Mu’ad 
-          bin Jabal mewakafkan rumahnya, yang populer dengan sebutan “Dar Al-Anshar”. Kemudian pelaksanaan wakaf 
+          Sahabat Utsman menyedekahkan hartanya di Khaibar. Ali bin Abi Thalib mewakafkan tanahnya yang subur. Mu’ad
+          bin Jabal mewakafkan rumahnya, yang populer dengan sebutan “Dar Al-Anshar”. Kemudian pelaksanaan wakaf
           disusul oleh Anas bin Malik, Abdullah bin Umar, Zubair bin Awwam dan Aisyah istri Rasulullah SAW.
         </p>
 
         <p>
-          Nabi juga mewakafkan perkebunan Mukhairik, yang telah menjadi miliknya. Beliau menyisihkan sebagian keuntungan 
-          dari perkebunan itu untuk kepentingan kaum Muslimin. Kisah ini dijadikan sebagai kisah wakaf produktif dimana 
+          Nabi juga mewakafkan perkebunan Mukhairik, yang telah menjadi miliknya. Beliau menyisihkan sebagian keuntungan
+          dari perkebunan itu untuk kepentingan kaum Muslimin. Kisah ini dijadikan sebagai kisah wakaf produktif dimana
           hasil yang di peroleh dari pengelolaan sebidang tanah perkebunan di pergunakan untuk kepentingan kaum.
         </p>
 
         <p>
-          Antusiasme masyarakat kepada pelaksanaan wakaf telah menarik perhatian negara untuk mengatur pengelolaan wakaf 
-          sebagai sektor untuk membangun solidaritas sosial dan ekonomi masyarakat.Sehingga pengelolaan harta wakaf 
+          Antusiasme masyarakat kepada pelaksanaan wakaf telah menarik perhatian negara untuk mengatur pengelolaan wakaf
+          sebagai sektor untuk membangun solidaritas sosial dan ekonomi masyarakat.Sehingga pengelolaan harta wakaf
           mengalami perkembangan yang sangat pesat pada masa Pemerintahan Harun Ar-Rasyid.
         </p>
 
         <p>
-          Harta wakaf menjadi bertambah dan berkembang, bahkan tujuan wakaf menjadi semakin luas bersamaan dengan 
-          berkembangnya masyarakat Muslim ke berbagai penjuru. Kreativitas dalam pengembangan wakaf Islam tidak terbatas 
-          pada wakaf yang ada pada umumnya, tetapi berkembang pesat bersamaan dengan munculnya jenis wakaf dan tujuannya, 
+          Harta wakaf menjadi bertambah dan berkembang, bahkan tujuan wakaf menjadi semakin luas bersamaan dengan
+          berkembangnya masyarakat Muslim ke berbagai penjuru. Kreativitas dalam pengembangan wakaf Islam tidak terbatas
+          pada wakaf yang ada pada umumnya, tetapi berkembang pesat bersamaan dengan munculnya jenis wakaf dan tujuannya,
           terlebih lagi dalam perkembangan masalah teknis berkaitan dengan hukum-hukum fikih.
         </p>
 
         <p>
-          Pemahaman tentang wakaf sedikit demi sedikit berkembang dan telah mencakup beberapa benda, seperti tanah dan 
-          perkebunan yang hasilnya dimanfaatkan untuk kepentingan tempat peribadatan dan kegiatan keagamaan serta 
+          Pemahaman tentang wakaf sedikit demi sedikit berkembang dan telah mencakup beberapa benda, seperti tanah dan
+          perkebunan yang hasilnya dimanfaatkan untuk kepentingan tempat peribadatan dan kegiatan keagamaan serta
           diberikan kepada fakir miskin.
         </p>
 
         <p>
-          Perkembangan ini terus berlanjut hingga masa-masa berikutnya dan telah mencapai puncaknya yang ditandai dengan 
-          meningkatnya jumlah wakaf yang mencapai sepertiga tanah pertanian yang ada di berbagai Negara Islam seperti di 
-          Mesir, Syam, Turki, Andalusia, dan Maroko. Termasuk dalam daftar kekayaan wakaf pada saat itu adalah perumahan 
-          rakyat dan komplek pertokoan di berbagai ibu kota Negara Islam yang terbentang dari ujung Barat di Maroko 
+          Perkembangan ini terus berlanjut hingga masa-masa berikutnya dan telah mencapai puncaknya yang ditandai dengan
+          meningkatnya jumlah wakaf yang mencapai sepertiga tanah pertanian yang ada di berbagai Negara Islam seperti di
+          Mesir, Syam, Turki, Andalusia, dan Maroko. Termasuk dalam daftar kekayaan wakaf pada saat itu adalah perumahan
+          rakyat dan komplek pertokoan di berbagai ibu kota Negara Islam yang terbentang dari ujung Barat di Maroko
           hingga ke ujung Timur di New Delhi dan Lahore.
         </p>
 
         <p>
-          Semua orang berduyun-duyun untuk melaksanakan wakaf, dan wakaf tidak hanya untuk orang-orang fakir dan miskin 
-          saja, tetapi wakaf menjadi modal untuk membangun lembaga pendidikan, membangun perpustakaan dan membayar gaji 
-          para stafnya, gaji para guru dan beasiswa untuk para siswa dan mahasiswa. Antusiasme masyarakat kepada 
-          pelaksanaan wakaf telah menarik perhatian Negara untuk mengatur pengelolaan wakaf sebagai sector untuk 
+          Semua orang berduyun-duyun untuk melaksanakan wakaf, dan wakaf tidak hanya untuk orang-orang fakir dan miskin
+          saja, tetapi wakaf menjadi modal untuk membangun lembaga pendidikan, membangun perpustakaan dan membayar gaji
+          para stafnya, gaji para guru dan beasiswa untuk para siswa dan mahasiswa. Antusiasme masyarakat kepada
+          pelaksanaan wakaf telah menarik perhatian Negara untuk mengatur pengelolaan wakaf sebagai sector untuk
           membangun solidaritas sosial dan ekonomi masyarakat.
         </p>
 
         <p>
-          Wakaf pada mulanya hanyalah keinginan seseorang yang ingin berbuat baik dengan kekayaan yang dimilikinya dan 
-          dikelola secara individu tanpa ada aturan yang pasti. Namun, setelah masyarakat Islam merasakan betapa manfaatnya 
-          lembaga wakaf, maka timbullah keinginan untuk mengatur perwakafan dengan baik. Kemudian dibentuk lembaga yang 
-          mengatur wakaf untuk mengelola, memelihara dan menggunakan harta wakaf, baik secara umum seperti masjid atau 
+          Wakaf pada mulanya hanyalah keinginan seseorang yang ingin berbuat baik dengan kekayaan yang dimilikinya dan
+          dikelola secara individu tanpa ada aturan yang pasti. Namun, setelah masyarakat Islam merasakan betapa manfaatnya
+          lembaga wakaf, maka timbullah keinginan untuk mengatur perwakafan dengan baik. Kemudian dibentuk lembaga yang
+          mengatur wakaf untuk mengelola, memelihara dan menggunakan harta wakaf, baik secara umum seperti masjid atau
           secara individu atau keluarga.
         </p>
     </div>

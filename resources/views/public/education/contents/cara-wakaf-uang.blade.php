@@ -1,6 +1,6 @@
 <article class="max-w-4xl mx-auto px-4 py-10">
 
-    <div class="prose max-w-none">
+    <div class="prose max-w-none text-justify">
         <p>
            Cooming Soon
         </p>

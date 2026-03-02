@@ -23,12 +23,12 @@
 
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-        0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-        0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-        0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --shadow-md:
+        0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:
+        0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl:
+        0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
 /* ===== BASE STYLES ===== */
@@ -678,4 +678,28 @@ body {
     background: rgba(25, 135, 84, 0.1);
     border-color: var(--unand-green);
     color: var(--unand-dark-green);
+}
+
+/* CUSTOM DROPDOWN NAVBAR */
+.custom-dropdown .dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    color: #2c3e27;
+    transition: all 0.2s ease;
+    border-radius: 8px; /* Biar pinggirnya agak melengkung */
+    margin: 2px 8px; /* Kasih jarak antar menu */
+    width: auto;
+}
+
+/* Pas di hover (ganti ijo) */
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item:focus {
+    background-color: #e8f5bd; /* Hijau pucat/pastel */
+    color: #1a2e15; /* Hijau tua */
+}
+
+/* Pas menu lagi aktif/di halaman tsb */
+.custom-dropdown .dropdown-item.active {
+    background-color: #84b179; /* Hijau Utama */
+    color: white;
 }

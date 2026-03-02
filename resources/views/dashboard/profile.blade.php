@@ -22,7 +22,10 @@
                 height: 120px;
                 border-radius: 50%;
                 border: 4px solid #198754;
-                object-fit: cover;
+                object-fit: contain;
+                object-position: center;
+                background-color: #f8f9fa;
+                padding: 12px;
                 margin: 0 auto 1.5rem;
                 display: block;
             }
@@ -83,8 +86,8 @@
                         <img src="{{ asset('storage/avatars/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->nama }}"
                             class="profile-avatar" />
                     @else
-                        <img src="https://via.placeholder.com/120x120/198754/ffffff?text={{ substr(Auth::user()->nama, 0, 1) }}"
-                            alt="{{ Auth::user()->nama }}" class="profile-avatar" />
+                        <img src="{{ asset('storage/avatars/avatar-default.svg') }}" alt="Default Avatar"
+                            class="profile-avatar" />
                     @endif
 
                     {{-- Input file yang disembunyikan --}}
@@ -132,8 +135,9 @@
                             <span class="badge badge-verified ms-2"><i class="bi bi-patch-check-fill"></i>
                                 Terverifikasi</span>
                         @else
-                            <span class="badge bg-warning bg-opacity-10 text-warning-emphasis ms-2"><i
-                                    class="bi bi-exclamation-triangle-fill"></i> Belum Terverifikasi</span>
+                            <span class="badge bg-warning bg-opacity-10 text-warning-emphasis ms-2">
+                                <i class="bi bi-exclamation-triangle-fill"></i> Belum Terverifikasi
+                            </span>
                         @endif
                     </div>
                 </div>
@@ -154,9 +158,31 @@
                     <label class="form-label text-muted">Nomor Telepon</label>
                     <p class="fw-medium">{{ $user->nomor_hp }}</p>
                 </div>
+
+                {{-- TAMBAHAN: Kategori Pengguna --}}
+                <div class="mb-3">
+                    <label class="form-label text-muted">Kategori Pengguna</label>
+                    <p class="fw-medium text-capitalize">{{ str_replace('_', ' ', $user->kategori ?? 'Umum') }}</p>
+                </div>
+
+                {{-- LOGIKA TAMPILAN NIK / NIM / NIP --}}
+                @php
+                    $labelIdentitas = 'NIK';
+                    $nilaiIdentitas = $user->nik;
+                    if (in_array($user->kategori, ['mahasiswa', 'alumni'])) {
+                        $labelIdentitas = 'NIM';
+                        $nilaiIdentitas = $user->nomor_induk;
+                    } elseif ($user->kategori == 'dosen') {
+                        $labelIdentitas = 'NIP';
+                        $nilaiIdentitas = $user->nomor_induk;
+                    } else {
+                        $labelIdentitas = 'NIK';
+                        $nilaiIdentitas = $user->nik;
+                    }
+                @endphp
                 <div class="mb-0">
-                    <label class="form-label text-muted">NIK</label>
-                    <p class="fw-medium">{{ $user->nik }}</p>
+                    <label class="form-label text-muted">{{ $labelIdentitas }}</label>
+                    <p class="fw-medium">{{ $nilaiIdentitas ?? '-' }}</p>
                 </div>
             </div>
         </div>
@@ -206,11 +232,12 @@
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Lengkap</label>
                             <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                id="nama" name="nama" value="{{ old('nama', $user->nama) }}">
+                                id="nama" name="nama" value="{{ old('nama', $user->nama) }}" required>
                             @error('nama')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
                         <div class="mb-3">
                             <label for="nomor_hp_edit" class="form-label">Nomor Telepon</label>
                             <div class="input-group">
@@ -224,17 +251,48 @@
                                 <div class="text-danger small mt-1">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        {{-- Kategori Pengguna --}}
+                        <div class="mb-3">
+                            <label for="kategori" class="form-label">Kategori Pengguna</label>
+                            <select name="kategori" id="kategori"
+                                class="form-select @error('kategori') is-invalid @enderror"
+                                onchange="updateLabelIdentitas()" required>
+                                <option value="umum"
+                                    {{ old('kategori', $user->kategori) == 'umum' ? 'selected' : '' }}>Umum</option>
+                                <option value="mahasiswa"
+                                    {{ old('kategori', $user->kategori) == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa
+                                </option>
+                                <option value="alumni"
+                                    {{ old('kategori', $user->kategori) == 'alumni' ? 'selected' : '' }}>Alumni
+                                </option>
+                                <option value="dosen"
+                                    {{ old('kategori', $user->kategori) == 'dosen' ? 'selected' : '' }}>Dosen</option>
+                                <option value="tenaga_pendidik"
+                                    {{ old('kategori', $user->kategori) == 'tenaga_pendidik' ? 'selected' : '' }}>
+                                    Tenaga Pendidik</option>
+                            </select>
+                            @error('kategori')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        {{-- Nomor Identitas Dinamis --}}
+                        <div class="mb-3">
+                            <label id="label_identitas" class="form-label">NIK</label>
+                            <input type="text" class="form-control @error('nomor_identitas') is-invalid @enderror"
+                                id="nomor_identitas" name="nomor_identitas"
+                                value="{{ old('nomor_identitas', $user->nik ?? $user->nomor_induk) }}" required>
+                            @error('nomor_identitas')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" class="form-control" value="{{ $user->email }}" readonly
                                 disabled>
                             <small class="form-text text-muted">Email tidak dapat diubah.</small>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">NIK</label>
-                            <input type="text" class="form-control" value="{{ $user->nik }}" readonly
-                                disabled>
-                            <small class="form-text text-muted">NIK tidak dapat diubah.</small>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -245,6 +303,31 @@
             </div>
         </div>
     </div>
+
+    {{-- SCRIPT JAVASCRIPT UNTUK MODAL EDIT --}}
+    @push('scripts')
+        <script>
+            function updateLabelIdentitas() {
+                const kategori = document.getElementById('kategori').value;
+                const label = document.getElementById('label_identitas');
+                const input = document.getElementById('nomor_identitas');
+
+                if (kategori === 'mahasiswa' || kategori === 'alumni') {
+                    label.innerText = 'NIM (Nomor Induk Mahasiswa)';
+                    input.placeholder = 'Masukkan NIM Anda';
+                } else if (kategori === 'dosen') {
+                    label.innerText = 'NIP (Nomor Induk Pegawai)';
+                    input.placeholder = 'Masukkan NIP Anda';
+                } else {
+                    label.innerText = 'NIK (Nomor Induk Kependudukan)';
+                    input.placeholder = 'Masukkan NIK Anda';
+                }
+            }
+
+            // Jalankan pas halaman diload buat set label awal sesuai database
+            document.addEventListener('DOMContentLoaded', updateLabelIdentitas);
+        </script>
+    @endpush
 
     <div class="modal fade" id="modalUbahPassword" tabindex="-1" aria-labelledby="modalUbahPasswordLabel"
         aria-hidden="true">

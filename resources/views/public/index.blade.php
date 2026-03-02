@@ -1,509 +1,594 @@
 <x-layouts.app>
-    <x-slot:title>Dana Sosial UNAND - Salurkan Kebaikan, Wujudkan Perubahan</x-slot:title>
+    <x-slot:title>Dana Sosial UNAND - Wujudkan Perubahan</x-slot:title>
 
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="row align-items-center min-vh-100 py-5">
-                <div class="col-lg-6">
-                    <div class="hero-content" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-                        <h1 class="hero-title mb-4 mt-5">Salurkan Kebaikan, Wujudkan Perubahan Bersama UNAND</h1>
-                        <p class="hero-subtitle mb-4">Bergabunglah dengan komunitas akademik UNAND dalam mewujudkan
-                            program sosial, wakaf, zakat, dan dana abadi yang berdampak positif bagi masyarakat luas.</p>
-                        <div class="hero-buttons">
-                            <a href="{{ route('wakaf-melalui-uang.index.public') }}" class="btn btn-success btn-lg me-3">Lihat
-                                Program Donasi</a>
-                            {{-- Arahkan ke section program di halaman ini --}}
-                            <a href="#program" class="btn btn-outline-success btn-lg">Pelajari Lebih Lanjut</a>
-                        </div>
+    {{-- ==========================================
+         ULTRA MODERN CSS (SENIOR FE APPROACH)
+         ========================================== --}}
+    <style>
+        :root {
+            /* Palette User */
+            --c-main: #84B179;
+            --c-hover: #A2CB8B;
+            --c-light: #C7EABB;
+            --c-pale: #E8F5BD;
+            /* Added Contrast Elements */
+            --c-dark: #1a2e15;
+            --c-darker: #0f1c0c;
+            --c-white-glass: rgba(255, 255, 255, 0.85);
+        }
 
-                        <!-- <div class="hero-stats mt-5">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="stat-item">
-                                        <h4 class="stat-number">{{ $stats['transactions'] }}+</h4>
-                                        <p class="stat-label">Transaksi Wakaf</p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="stat-item">
-                                        <h4 class="stat-number">{{ $stats['distributions'] }}+</h4>
-                                        <p class="stat-label">Penyaluran Manfaat</p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="stat-item">
-                                        <h4 class="stat-number">{{ $stats['funds'] }}+</h4>
-                                        <p class="stat-label">Wakaf Terkumpul</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Typography Scaling */
+        .text-huge {
+            font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--c-dark) 0%, var(--c-main) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Abstract Background Blobs */
+        .bg-mesh {
+            position: relative;
+            background-color: #f8faf7;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(90px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: floatBlob 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--c-light);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: var(--c-pale);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatBlob {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(5%, 10%) scale(1.1) rotate(10deg);
+            }
+
+            100% {
+                transform: translate(-5%, 5%) scale(0.9) rotate(-10deg);
+            }
+        }
+
+        /* Glassmorphism System */
+        .glass-card {
+            background: var(--c-white-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(132, 177, 121, 0.15);
+        }
+
+        /* Modern Buttons */
+        .btn-modern {
+            background: var(--c-main);
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(132, 177, 121, 0.3);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-modern:hover {
+            background: var(--c-dark);
+            color: var(--c-pale);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px rgba(26, 46, 21, 0.2);
+        }
+
+        .btn-outline-modern {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            color: var(--c-dark);
+            border: 2px solid var(--c-main);
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-modern:hover {
+            background: var(--c-main);
+            color: #fff;
+            border-color: var(--c-main);
+        }
+
+        /* Bento Grid Layout (Apple Style) */
+        /* .bento-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(12, 1fr);
+        } */
+
+        .bento-item {
+            border-radius: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-img-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: transform 0.7s ease;
+        }
+
+        .bento-item:hover .bento-img-bg {
+            transform: scale(1.05);
+        }
+
+        .bento-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26, 46, 21, 0.95) 0%, rgba(26, 46, 21, 0.2) 100%);
+            z-index: 1;
+        }
+
+        .bento-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+        }
+
+        /* Program Cards Overlap */
+        .program-card-modern {
+            border: none;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            background: #fff;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+        }
+
+        .program-card-modern:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(132, 177, 121, 0.2);
+        }
+
+        .program-img-wrap {
+            height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .program-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .program-card-modern:hover .program-img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .program-content {
+            padding: 2rem;
+            position: relative;
+            background: #fff;
+            margin-top: -30px;
+            border-radius: 1.5rem 1.5rem 0 0;
+            z-index: 2;
+        }
+
+        /* Dark Section */
+        .bg-ultra-dark {
+            background-color: var(--c-dark);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accent-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: var(--c-main);
+            filter: blur(120px);
+            border-radius: 50%;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* Progress Bar */
+        .progress-modern {
+            height: 8px;
+            background-color: var(--c-light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-modern {
+            background-color: var(--c-main);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-bar-modern::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+
+    {{-- ==========================================
+         HERO SECTION (DYNAMIC MESH & GLASS)
+         ========================================== --}}
+    <section id="home" class="bg-mesh min-vh-100 d-flex align-items-center position-relative pt-5">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+
+        <div class="container position-relative z-3 pt-5">
+            <div class="row align-items-center justify-content-between pt-4">
+
+                {{-- Kiri: Headline (Dikecilin porsinya jadi col-lg-5 biar gambar lebih lega) --}}
+                <div class="col-lg-5 mb-5 mb-lg-0 text-center text-lg-start" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="d-inline-flex align-items-center px-4 py-2 rounded-pill mb-4 border border-success"
+                        style="background: rgba(132, 177, 121, 0.1);">
+                        <span class="spinner-grow spinner-grow-sm text-success me-2" role="status"></span>
+                        <span class="fw-bold" style="color: var(--c-dark);">Unit Pengelola Wakaf UNAND</span>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="hero-image text-center" data-aos="fade-left" data-aos-duration="1000"
-                        data-aos-delay="400">
-                        {{-- Ganti dengan gambar yang relevan dari folder public/frontend/img Anda --}}
-                        <img src="{{ asset('frontend/img/rektorat2.png') }}" alt="Kampus UNAND"
-                            class="img-fluid rounded-3 shadow-lg">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="program" class="program-section py-2">
-        <div class="container">
-            
-            {{-- JUDUL UTAMA SECTION --}}
-            <div class="row text-center">
-                <div class="col-12">
-                    <h2 class="section-title fw-bold">Pilih Program Wakaf</h2>
-                    <p class="section-subtitle text-muted">Salurkan wakaf terbaik Anda melalui program unggulan kami</p>
-                </div>
-            </div>
+                    <h1 class="text-huge fw-bolder mb-4">
+                        Kebaikan Anda,<br>
+                        <span class="text-gradient">Masa Depan Mereka.</span>
+                    </h1>
 
-            {{-- ========================================================== --}}
-            {{-- SUB-SECTION 1: WAKAF UANG (HIGHLIGHT / DANA ABADI)       --}}
-            {{-- ========================================================== --}}
-            <div class="mb-5">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-success rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="bi bi-cash-coin text-white"></i>
-                    </div>
-                    <h3 class="h4 fw-bold m-0 text-success">Wakaf Uang</h3>
-                </div>
+                    <p class="fs-5 text-secondary mb-5" style="line-height: 1.7;">
+                        Platform filantropi resmi sivitas akademika Universitas Andalas. Bersama kita wujudkan
+                        pendidikan yang inklusif melalui Wakaf, Zakat, dan Dana Abadi.
+                    </p>
 
-                {{-- Card Khusus Wakaf Uang (Desain Banner) --}}
-                <div class="card border-0 shadow overflow-hidden rounded-4" data-aos="fade-up">
-                    <div class="row g-0">
-                        {{-- Kolom Gambar/Ilustrasi --}}
-                        <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
-                            {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
-                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800" 
-                                 class="w-100 h-100 object-fit-cover" 
-                                 alt="Wakaf Uang">
-                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
-                        </div>
-                        
-                        {{-- Kolom Konten --}}
-                        <div class="col-md-7 d-flex align-items-center bg-white">
-                            <div class="card-body p-4 p-lg-5">
-                                <h3 class="fw-bold mb-3">Wakaf Uang UNAND</h3>
-                                <p class="text-muted mb-4">
-                                    Wakaf berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
-                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat. 
-                                    Menjadi amal jariyah yang pahalanya terus mengalir.
-                                </p>
-                                
-                                <div class="d-flex gap-3">
-                                    {{-- Link ke Form Wakaf Uang Tunai --}}
-                                    <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
-                                        <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
-                                    </a> -->
-                                    <a href="{{ route('public.wakaf-uang') }}" class="btn btn-outline-success rounded-pill px-4">
-                                        Pelajari Lebih Lanjut
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Divider Pemisah Cantik --}}
-            <hr class="my-5 border-secondary opacity-10">
-
-            {{-- ========================================================== --}}
-            {{-- SUB-SECTION 2: WAKAF MELALUI UANG (PROJECT BASED)        --}}
-            {{-- ========================================================== --}}
-            <div class="mb-5">
-                <div class="d-flex align-items-center mb-4">
-                    <div class="bg-primary rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="bi bi-buildings text-white"></i>
-                    </div>
-                    <div>
-                        <h3 class="h4 fw-bold m-0 text-primary">Wakaf Melalui Uang</h3>
-                    </div>
-                </div>
-
-                {{-- Grid Program (Looping Existing) --}}
-                <div class="row g-4">
-                    @forelse ($programs as $program)
-                        @if($program->id == 1) @continue @endif
-                        <div class="col-lg-4 col-md-6">
-                            <div class="program-card card h-100 border-0 shadow-sm hover-lift" data-aos="fade-up" 
-                                data-aos-delay="{{ $loop->iteration * 100 }}">
-                                
-                                {{-- Gambar Program --}}
-                                <div class="program-image position-relative overflow-hidden rounded-top-3">
-                                    <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}">
-                                        <img src="{{ asset('storage/programs/' . $program->image) }}"
-                                            alt="{{ $program->title }}" 
-                                            class="card-img-top"
-                                            style="height: 220px; width: 100%; object-fit: cover;">
-                                    </a>
-                                    <!-- <span class="badge bg-primary position-absolute top-0 end-0 m-3 shadow-sm">
-                                        Project
-                                    </span> -->
-                                </div>
-
-                                {{-- Konten Card --}}
-                                <div class="card-body d-flex flex-column p-4">
-                                    <h5 class="program-title fw-bold mb-3">
-                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}" class="text-decoration-none text-dark stretched-link">
-                                            {{ Str::limit($program->title, 50) }}
-                                        </a>
-                                    </h5>
-                                    
-                                    <p class="program-description text-muted small mb-4">
-                                        {{ Str::limit($program->description, 80) }}
-                                    </p>
-
-                                    <div class="mt-auto">
-                                        {{-- Progress Bar --}}
-                                        <div class="program-progress mb-3">
-                                            <div class="d-flex justify-content-between mb-1 small fw-bold">
-                                                <span class="text-primary">Terkumpul</span>
-                                                <span class="text-muted">{{ $program->progres_persentase }}%</span>
-                                            </div>
-                                            <div class="progress rounded-pill bg-primary-subtle" style="height: 8px;">
-                                                <div class="progress-bar bg-primary rounded-pill" role="progressbar"
-                                                    style="width: {{ $program->progres_persentase }}%"></div>
-                                            </div>
-                                        </div>
-
-                                        {{-- Statistik Angka --}}
-                                        <div class="row text-center g-0 border rounded-3 py-2 bg-light small mb-3">
-                                            <div class="col-6 border-end">
-                                                <div class="fw-bold text-dark">Rp {{ $program->formatted_collected_amount }}</div>
-                                                <div class="text-muted" style="font-size: 0.75rem;">Terkumpul</div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="fw-bold text-dark">Rp {{ $program->formatted_target_amount }}</div>
-                                                <div class="text-muted" style="font-size: 0.75rem;">Target</div>
-                                            </div>
-                                        </div>
-
-                                        {{-- Tombol --}}
-                                        <a href="{{ route('wakaf-melalui-uang.show.public', $program->id) }}"
-                                        class="btn btn-outline-primary w-100 fw-bold rounded-pill" style="position: relative; z-index: 2;">
-                                        Ikut Berwakaf
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="alert alert-info text-center py-5">
-                                <i class="bi bi-info-circle fs-1 mb-3 d-block"></i>
-                                <h5>Belum ada program project aktif saat ini.</h5>
-                            </div>
-                        </div>
-                    @endforelse
-                </div>
-
-                {{-- Tombol Lihat Semua --}}
-                @if($programs->count() > 0)
-                    <div class="text-center mt-5">
-                        <a href="{{ route('wakaf-melalui-uang.index.public') }}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">
-                            Lihat Semua Program Wakaf Melalui Uang <i class="bi bi-arrow-right ms-2"></i>
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#program-pilihan" class="btn-modern text-decoration-none">
+                            Mulai Berwakaf <i class="bi bi-arrow-right ms-2 fs-5"></i>
+                        </a>
+                        <a href="#bento-layanan" class="btn-outline-modern text-decoration-none">
+                            Lihat Layanan
                         </a>
                     </div>
-                @endif
-            </div>
-
-        </div>
-    </section>
-
-    <section id="dana-abadi" class="program-section py-2">
-        <div class="container">
-            {{-- JUDUL UTAMA SECTION --}}
-            <div class="row text-center">
-                <div class="col-12">
-                    <h2 class="section-title fw-bold">Pilih Program Dana Abadi</h2>
-                    <p class="section-subtitle text-muted">Salurkan wakaf terbaik Anda melalui program unggulan kami</p>
-                </div>
-            </div>
-
-            {{-- ========================================================== --}}
-            {{-- SUB-SECTION 1: WAKAF UANG (HIGHLIGHT / DANA ABADI)       --}}
-            {{-- ========================================================== --}}
-            <div class="mb-5">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-success rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="bi bi-cash-coin text-white"></i>
-                    </div>
-                    <h3 class="h4 fw-bold m-0 text-success">Dana Abadi</h3>
                 </div>
 
-                {{-- Card Khusus Wakaf Uang (Desain Banner) --}}
-                <div class="card border-0 shadow overflow-hidden rounded-4" data-aos="fade-up">
-                    <div class="row g-0">
-                        {{-- Kolom Gambar/Ilustrasi --}}
-                        <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
-                            {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
-                            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=800" 
-                                 class="w-100 h-100 object-fit-cover" 
-                                 alt="Wakaf Uang">
-                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
-                        </div>
-                        
-                        {{-- Kolom Konten --}}
-                        <div class="col-md-7 d-flex align-items-center bg-white">
-                            <div class="card-body p-4 p-lg-5">
-                                <h3 class="fw-bold mb-3">Dana Abadi UNAND</h3>
-                                <p class="text-muted mb-4">
-                                    Dana abadi berupa uang tunai yang pokoknya dikelola secara abadi (tidak boleh berkurang), 
-                                    dan hasil pengelolaannya disalurkan untuk beasiswa dan kemaslahatan umat.
-                                </p>
-                                
-                                <div class="d-flex gap-3">
-                                    {{-- Link ke Form Wakaf Uang Tunai --}}
-                                    <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
-                                        <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
-                                    </a> -->
-                                    <a href="{{ route('public.wakaf-uang') }}" class="btn btn-outline-success rounded-pill px-4">
-                                        Pelajari Lebih Lanjut
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                {{-- Kanan: Glassmorphism Visual (Dibesarin jadi col-lg-6 dengan rasio gambar cinematic) --}}
+                <div class="col-lg-6 position-relative" data-aos="fade-left" data-aos-duration="1200"
+                    data-aos-delay="200">
+                    <div class="position-relative">
+                        {{-- Tambahan object-fit dan aspect-ratio biar gambar rektoratnya gede, proporsional, & megah --}}
+                        <img src="{{ asset('frontend/img/rektorat.jpg') }}" alt="Gedung Rektorat UNAND"
+                            class="img-fluid w-100"
+                            style="border-radius: 2rem; box-shadow: 0 30px 60px rgba(0,0,0,0.15); aspect-ratio: 4/3; object-fit: cover; border: 8px solid white;">
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
 
-    <section id="zakat" class="program-section py-2">
-        <div class="container">
-             <div class="container">
-            {{-- JUDUL UTAMA SECTION --}}
-            <div class="row text-center">
-                <div class="col-12">
-                    <h2 class="section-title fw-bold">Zakat</h2>
-                    <p class="section-subtitle text-muted">Salurkan zakat terbaik Anda melalui kami</p>
-                </div>
-            </div>
-
-            {{-- ========================================================== --}}
-            {{-- SUB-SECTION 1: WAKAF UANG (HIGHLIGHT / DANA ABADI)       --}}
-            {{-- ========================================================== --}}
-            <div class="mb-5">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-success rounded-circle p-2 me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="bi bi-cash-coin text-white"></i>
-                    </div>
-                    <h3 class="h4 fw-bold m-0 text-success">Zakat</h3>
-                </div>
-
-                {{-- Card Khusus Wakaf Uang (Desain Banner) --}}
-                <div class="card border-0 shadow overflow-hidden rounded-4" data-aos="fade-up">
-                    <div class="row g-0">
-                        {{-- Kolom Gambar/Ilustrasi --}}
-                        <div class="col-md-5 bg-light position-relative" style="min-height: 250px;">
-                            {{-- Ganti URL gambar dengan gambar celengan/uang/aset wakaf --}}
-                            <img src="http://upz.unand.ac.id/assets/img/logo-outline.png" 
-                                 class="w-100 h-100 object-fit-cover" 
-                                 alt="Wakaf Uang">
-                            <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
-                        </div>
-                        
-                        {{-- Kolom Konten --}}
-                        <div class="col-md-7 d-flex align-items-center bg-white">
-                            <div class="card-body p-4 p-lg-5">
-                                <h3 class="fw-bold mb-3">Zakat UNAND</h3>
-                                <p class="text-muted mb-4">
-                                    Unit Pengumpul Zakat (UPZ) Univeritas Andalas merupakan unit pengumpul zakat di lingkungan 
-                                    Universitas Andalas. UPZ ini bertujuan untuk mengoptimalkan pengumpulan dan pendistribusian 
-                                    zakat, infaq, dan sedekah dari sivitas akademika Universitas Andalas, serta masyarakat 
-                                    sekitar.
-                                </p>
-
-                                {{-- BAGIAN LIST CEKLIS --}}
-                                <ul class="list-unstyled mb-4">
-                                    <li class="d-flex align-items-start mb-3">
-                                        {{-- Ikon Ceklis Ganda --}}
-                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
-                                        <span>Bantuan Pendidikan bagi mahasiswa Universitas Andalas</span>
-                                    </li>
-                                    <li class="d-flex align-items-start mb-3">
-                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
-                                        <span>Bantuan Pendidikan bekerjasama dengan BAZNAS Provinsi Sumatera Barat</span>
-                                    </li>
-                                    <li class="d-flex align-items-start mb-3">
-                                        <i class="bi bi-check-all text-success me-3 fs-5"></i>
-                                        <span>Bantuan kegiatan sosial dan kebencanaan</span>
-                                    </li>
-                                </ul>
-                                {{-- AKHIR BAGIAN LIST --}}
-                                
-                                <div class="d-flex gap-3">
-                                    {{-- Link ke Form Wakaf Uang Tunai --}}
-                                    <!-- <a href="{{ route('public.wakaf-uang') }}" class="btn btn-success rounded-pill px-4 fw-bold">
-                                        <i class="bi bi-heart-fill me-2"></i> Wakaf Sekarang
-                                    </a> -->
-                                    <a href="http://upz.unand.ac.id/" class="btn btn-outline-success rounded-pill px-4">
-                                        Pelajari Lebih Lanjut
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-
-    <section class="testimonial-section py-3 bg-light">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-12">
-                    <h2 class="section-title">Kata Mereka Tentang Unit Pengelola Wakaf UNAND</h2>
-                    <p class="section-subtitle">Testimoni dari para donatur dan penerima manfaat</p>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
+    {{-- ==========================================
+         BENTO GRID LAYOUT (LAYANAN UTAMA)
+         ========================================== --}}
+    <section id="bento-layanan" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="row mb-5" data-aos="fade-up">
                 <div class="col-lg-8">
-                    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="testimonial-card text-center">
-                                    <div class="testimonial-image mb-4">
-                                        <img src="https://via.placeholder.com/80x80/198754/ffffff?text=DR"
-                                            alt="Dr. Ahmad Rahman" class="rounded-circle">
-                                    </div>
-                                    <blockquote class="testimonial-quote">
-                                        <p>"Platform ini memudahkan saya sebagai alumni untuk terus berkontribusi pada
-                                            almamater. Transparansi laporannya sangat baik dan membuat saya percaya dana
-                                            yang saya berikan benar-benar sampai ke tujuan."</p>
-                                    </blockquote>
-                                    <div class="testimonial-author">
-                                        <h6 class="author-name">Dr. Ahmad Rahman, S.T., M.T.</h6>
-                                        <p class="author-title">Alumni Teknik Sipil '95, Direktur PT. Andalas
-                                            Konstruksi</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <h2 class="display-5 fw-bolder text-gradient mb-3">Pilar Kebaikan Kami</h2>
+                    <p class="fs-5 text-muted">Tiga instrumen utama untuk menyalurkan niat baik Anda dengan dampak yang
+                        terukur dan abadi.</p>
+                </div>
+            </div>
 
-                            <div class="carousel-item">
-                                <div class="testimonial-card text-center">
-                                    <div class="testimonial-image mb-4">
-                                        <img src="https://via.placeholder.com/80x80/28a745/ffffff?text=SM"
-                                            alt="Siti Mariam" class="rounded-circle">
-                                    </div>
-                                    <blockquote class="testimonial-quote">
-                                        <p>"Berkat program beasiswa dari Dana Sosial UNAND, saya bisa menyelesaikan
-                                            kuliah tanpa membebani orang tua. Sekarang saya bekerja dan ingin membalas
-                                            kebaikan ini dengan menjadi donatur."</p>
-                                    </blockquote>
-                                    <div class="testimonial-author">
-                                        <h6 class="author-name">Siti Mariam</h6>
-                                        <p class="author-title">Mahasiswa Farmasi, Penerima Beasiswa 2023</p>
-                                    </div>
-                                </div>
+            {{-- PERBAIKAN: Pakai Bootstrap Row agar responsif aman --}}
+            <div class="row g-4 align-items-stretch">
+
+                {{-- Bento 1: Wakaf Uang (Besar, Kiri) --}}
+                <div class="col-lg-7">
+                    <div class="bento-item h-100 w-100 shadow-sm" style="min-height: 400px;" data-aos="fade-up"
+                        data-aos-delay="100">
+                        <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=1000"
+                            class="bento-img-bg" alt="Wakaf Uang">
+                        <div class="bento-overlay"></div>
+                        <div class="bento-content text-white">
+                            <div class="d-inline-block bg-white text-success p-3 rounded-circle mb-4"
+                                style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-piggy-bank fs-3"></i>
+                            </div>
+                            <h3 class="display-6 fw-bolder mb-3 text-white">Wakaf Uang & Dana Abadi</h3>
+                            <p class="fs-6 opacity-75 mb-4 pe-md-5">Wakaf berupa uang tunai yang pokoknya dikelola
+                                secara abadi. Hasilnya murni untuk kemaslahatan umat dan beasiswa.</p>
+                            <div>
+                                <a href="{{ route('public.wakaf-uang') }}"
+                                    class="btn btn-light rounded-pill px-4 py-2 fw-bold text-success">Pelajari
+                                    Sistemnya</a>
                             </div>
                         </div>
-
-                        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                        </button>
                     </div>
+                </div>
+
+                {{-- Bento 2 & 3: Tumpuk di Kanan --}}
+                <div class="col-lg-5 d-flex flex-column gap-4">
+
+                    {{-- Bento 2: Zakat --}}
+                    <div class="bento-item flex-grow-1 w-100 shadow-sm"
+                        style="min-height: 250px; background: var(--c-pale);" data-aos="fade-left" data-aos-delay="200">
+                        <div class="p-4 p-md-5 h-100 d-flex flex-column justify-content-center">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img src="http://upz.unand.ac.id/assets/img/logo-outline.png" alt="UPZ"
+                                    width="40">
+                                <h4 class="fw-bolder m-0" style="color: var(--c-dark);">Zakat UPZ</h4>
+                            </div>
+                            <p class="text-muted small mb-4">Salurkan zakat, infaq, dan sedekah Anda melalui Unit
+                                Pengumpul Zakat (UPZ) Universitas Andalas secara resmi.</p>
+                            <a href="http://upz.unand.ac.id/" target="_blank" class="text-decoration-none fw-bold"
+                                style="color: var(--c-main);">Kunjungi Website UPZ <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    {{-- Bento 3: Transparansi --}}
+                    <div class="bento-item flex-grow-1 w-100 shadow-sm"
+                        style="min-height: 250px; background: var(--c-dark);" data-aos="fade-left" data-aos-delay="300">
+                        <div
+                            class="p-4 p-md-5 h-100 d-flex flex-column justify-content-center text-white position-relative overflow-hidden">
+                            <i class="bi bi-shield-check position-absolute opacity-10"
+                                style="font-size: 15rem; right: -20px; bottom: -40px;"></i>
+                            <h4 class="fw-bolder mb-3 text-white">Transparansi 100%</h4>
+                            <p class="opacity-75 small mb-0">Setiap rupiah yang Anda salurkan dapat dilacak melalui
+                                laporan periodik publik kami.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="berita" class="py-5 bg-light"> {{-- Kasih bg-light biar kontras sama section atasnya --}}
-        <div class="container">
-            
-            {{-- Judul Section --}}
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="section-title fw-bold">Berita Terkini</h2>
-                    <p class="text-muted">Informasi terbaru seputar kegiatan dan penyaluran dana sosial</p>
-                </div>
+    {{-- ==========================================
+         PROGRAM CARD (HOVER & OVERLAP EFFECTS)
+         ========================================== --}}
+    <section id="program-pilihan" class="py-5" style="background-color: #f4f7f4;">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <span class="badge px-3 py-2 rounded-pill fw-bold mb-3"
+                    style="background: var(--c-light); color: var(--c-dark);">Project Based</span>
+                <h2 class="display-5 fw-bolder text-gradient">Wakaf Melalui Uang</h2>
+                <p class="fs-5 text-muted mx-auto mt-3" style="max-width: 600px;">Pilih infrastruktur atau program
+                    spesifik yang ingin Anda wujudkan bersama kami hari ini.</p>
             </div>
 
-            {{-- Grid Berita --}}
-            <div class="row g-4">
-                @forelse($articles as $article)
+            <div class="row g-4 g-xl-5 justify-content-center">
+                @forelse ($programs as $program)
                     <div class="col-lg-4 col-md-6">
-                        <div class="card h-100 border-0 shadow-sm hover-top overflow-hidden">
-                            
-                            {{-- Gambar Berita --}}
-                            <div class="position-relative">
-                                <a href="{{ route('articles.show.public', $article->slug ?? $article->id) }}">
-                                    {{-- Cek ada gambar atau nggak --}}
-                                    @if($article->image)
-                                        <img src="{{ asset('storage/articles/' . $article->image) }}" 
-                                            class="card-img-top" 
-                                            alt="{{ $article->title }}"
-                                            style="height: 200px; object-fit: cover;">
-                                    @else
-                                        {{-- Gambar Placeholder kalau gak ada gambar --}}
-                                        <img src="https://via.placeholder.com/600x400/198754/ffffff?text=News" 
-                                            class="card-img-top" 
-                                            style="height: 200px; object-fit: cover;">
-                                    @endif
+                        <div class="program-card-modern h-100 d-flex flex-column" data-aos="fade-up"
+                            data-aos-delay="{{ $loop->iteration * 100 }}">
+                            <div class="program-img-wrap">
+                                <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}">
+                                    <img src="{{ asset('storage/programs/' . $program->image) }}"
+                                        alt="{{ $program->title }}">
                                 </a>
-                                
-                                {{-- Badge Tanggal (Pojok Kanan Atas) --}}
-                                <div class="bg-success text-white position-absolute bottom-0 start-0 px-3 py-2 small fw-bold rounded-top-end">
-                                    <i class="bi bi-calendar-event me-1"></i> 
-                                    {{ $article->created_at->format('d M Y') }}
+                                <div class="position-absolute top-0 end-0 m-3">
+                                    <span class="badge bg-white text-dark shadow-sm px-3 py-2 rounded-pill"><i
+                                            class="bi bi-activity text-success me-1"></i> Aktif</span>
                                 </div>
                             </div>
 
-                            {{-- Konten Berita --}}
-                            <div class="card-body p-4 d-flex flex-column">
-                                {{-- Kategori (Opsional, kalau ada kolom category_id) --}}
-                                {{-- <small class="text-success fw-bold mb-2 text-uppercase">Berita Umum</small> --}}
-
-                                <h5 class="card-title fw-bold mb-3">
-                                    <a href="{{ route('articles.show.public', $article->slug ?? $article->id) }}" class="text-decoration-none text-dark">
-                                        {{ Str::limit($article->title, 55) }}
+                            <div class="program-content d-flex flex-column flex-grow-1">
+                                <h4 class="fw-bold mb-3">
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
+                                        class="text-decoration-none" style="color: var(--c-dark);">
+                                        {{ Str::limit($program->title, 55) }}
                                     </a>
-                                </h5>
-                                
-                                <p class="card-text text-muted small mb-4 flex-grow-1">
-                                    {{-- Strip tags biar HTML summernote gak bocor, limit 100 karakter --}}
-                                    {{ Str::limit(strip_tags($article->content), 100) }}
+                                </h4>
+                                <p class="text-muted small mb-4 flex-grow-1 line-height-lg">
+                                    {{ Str::limit($program->description, 90) }}
                                 </p>
 
-                                <a href="{{ route('articles.show.public', $article->slug ?? $article->id) }}" class="fw-bold text-success text-decoration-none stretched-link">
-                                    Baca Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
-                                </a>
+                                <div>
+                                    <div class="d-flex justify-content-between align-items-end mb-2">
+                                        <div>
+                                            <span class="d-block small text-muted">Terkumpul</span>
+                                            <span class="fw-bolder"
+                                                style="color: var(--c-main); font-size: 1.1rem;">Rp
+                                                {{ $program->formatted_collected_amount }}</span>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="fw-bold text-dark">{{ $program->progres_persentase }}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress-modern mb-4">
+                                        <div class="progress-bar-modern"
+                                            style="width: {{ $program->progres_persentase }}%; height: 100%;"></div>
+                                    </div>
+
+                                    <a href="{{ route('wakaf-melalui-uang.show.public', $program->slug) }}"
+                                        class="btn-outline-modern w-100 d-block text-center text-decoration-none">
+                                        Ikut Berwakaf
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @empty
                     <div class="col-12 text-center py-5">
-                        <p class="text-muted">Belum ada berita terbaru saat ini.</p>
+                        <div class="d-inline-block p-5 rounded-circle" style="background: var(--c-pale);">
+                            <i class="bi bi-inboxes text-success display-1"></i>
+                        </div>
+                        <h4 class="mt-4 fw-bold" style="color: var(--c-dark);">Belum ada project aktif</h4>
                     </div>
                 @endforelse
             </div>
 
-            {{-- Tombol Lihat Semua --}}
-            @if($articles->count() > 0)
-                <div class="row mt-5">
-                    <div class="col-12 text-center">
-                        <a href="{{ route('articles.index.public') }}" class="btn btn-outline-success rounded-pill px-4">
-                            Lihat Arsip Berita <i class="bi bi-newspaper ms-2"></i>
-                        </a>
-                    </div>
+            @if ($programs->count() > 0)
+                <div class="text-center mt-5 pt-3">
+                    <a href="{{ route('wakaf-melalui-uang.index.public') }}"
+                        class="text-decoration-none fw-bold text-success fs-5 border-bottom border-success pb-1">
+                        Lihat Semua Program Wakaf <i class="bi bi-arrow-right"></i>
+                    </a>
                 </div>
             @endif
-
         </div>
     </section>
 
+    {{-- ==========================================
+         CALL TO ACTION (DARK MODE HIGH CONTRAST)
+         ========================================== --}}
+    <section class="bg-ultra-dark py-5">
+        <div class="accent-glow" style="top: -100px; right: -100px;"></div>
+        <div class="accent-glow" style="bottom: -100px; left: -100px; background: var(--c-pale);"></div>
+
+        <div class="container py-5 position-relative z-2">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8" data-aos="zoom-in">
+                    <h2 class="display-4 fw-bolder mb-4 text-white">Sudah Pernah Berwakaf?</h2>
+                    <p class="fs-5 mb-5 opacity-75" style="color: var(--c-pale);">Lacak status transaksi wakaf Anda
+                        secara real-time dan unduh sertifikat atau invoice digital Anda langsung dari sistem.</p>
+
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                        <a href="{{ route('donations.check') }}" class="btn-modern text-decoration-none"
+                            style="background: var(--c-pale); color: var(--c-dark);">
+                            <i class="bi bi-search me-2"></i> Lacak Donasi Saya
+                        </a>
+                        <a href="#bento-layanan"
+                            class="btn-outline-modern text-white border-white text-decoration-none"
+                            style="background: rgba(255,255,255,0.1);">
+                            Mulai Wakaf Baru
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ==========================================
+         BLOG / BERITA MODERN
+         ========================================== --}}
+    <section id="berita" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
+                <div>
+                    <h2 class="display-6 fw-bolder text-gradient mb-2">Kabar Terbaru</h2>
+                    <p class="text-muted mb-0 fs-5">Kisah inspiratif dan update seputar Dana Sosial.</p>
+                </div>
+                @if ($articles->count() > 0)
+                    <div class="d-none d-md-block">
+                        <a href="{{ route('articles.index.public') }}"
+                            class="btn-outline-modern text-decoration-none px-4 py-2">Lihat Semua</a>
+                    </div>
+                @endif
+            </div>
+
+            <div class="row g-4">
+                @forelse($articles as $article)
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
+                        <a href="{{ route('articles.show.public', $article->slug ?? $article->id) }}"
+                            class="text-decoration-none group d-block">
+                            <div class="position-relative overflow-hidden rounded-4 mb-3" style="height: 240px;">
+                                @if ($article->image)
+                                    <img src="{{ asset('storage/articles/' . $article->image) }}"
+                                        class="w-100 h-100 object-fit-cover transition-transform duration-500 group-hover-scale"
+                                        alt="{{ $article->title }}" style="transition: transform 0.5s;">
+                                @else
+                                    <img src="https://images.unsplash.com/photo-1585828068979-24653dbd591c?auto=format&fit=crop&q=80&w=600"
+                                        class="w-100 h-100 object-fit-cover" style="transition: transform 0.5s;">
+                                @endif
+                                <div class="position-absolute bottom-0 start-0 m-3 px-3 py-1 bg-white rounded-pill shadow-sm small fw-bold"
+                                    style="color: var(--c-dark);">
+                                    {{ $article->created_at->format('d M Y') }}
+                                </div>
+                            </div>
+                            <h5 class="fw-bolder mb-2" style="color: var(--c-dark); line-height: 1.4;">
+                                {{ Str::limit($article->title, 60) }}</h5>
+                            <p class="text-muted small">{{ Str::limit(strip_tags($article->content), 90) }}</p>
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5 text-muted">
+                        <i class="bi bi-journal-x fs-1 mb-3 d-block"></i> Belum ada berita.
+                    </div>
+                @endforelse
+            </div>
+
+            @if ($articles->count() > 0)
+                <div class="d-block d-md-none text-center mt-4">
+                    <a href="{{ route('articles.index.public') }}"
+                        class="btn-outline-modern text-decoration-none w-100">Lihat Semua Berita</a>
+                </div>
+            @endif
+        </div>
+    </section>
+
+    {{-- Tambahan Script CSS Interaktif --}}
+    <style>
+        .group:hover img {
+            transform: scale(1.05);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </x-layouts.app>

@@ -2,438 +2,425 @@
     <x-slot:title>Detail Program: {{ $program->title }}</x-slot:title>
 
     @push('styles')
-        {{-- (Salin CSS dari implementasi sebelumnya jika diperlukan) --}}
         <style>
-            .program-detail-hero {
-                background: linear-gradient(135deg, rgba(25, 135, 84, 0.9) 0%, rgba(32, 201, 151, 0.9) 100%), url("{{ asset('storage/programs/' . $program->image) }}") center/cover;
-                color: white;
-                padding: 100px 0;
+            :root {
+                --c-main: #84B179;
+                --c-hover: #A2CB8B;
+                --c-light: #C7EABB;
+                --c-pale: #E8F5BD;
+                --c-dark: #1a2e15;
+                --c-darker: #0f1c0c;
+                --c-white-glass: rgba(255, 255, 255, 0.9);
             }
 
-            .program-stats-card {
-                background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                margin-top: -50px;
+            /* HERO SECTION MODERN */
+            .wakaf-hero {
+                background: linear-gradient(135deg, rgba(26, 46, 21, 0.9) 0%, rgba(132, 177, 121, 0.8) 100%),
+                    url("{{ $program->image ? asset('storage/programs/' . $program->image) : 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1920' }}") center/cover no-repeat;
+                color: white;
+                padding: 140px 0 100px 0;
                 position: relative;
+                overflow: hidden;
+            }
+
+            .hero-pattern {
+                position: absolute;
+                inset: 0;
+                opacity: 0.1;
+                background-image: radial-gradient(#fff 1px, transparent 1px);
+                background-size: 20px 20px;
+            }
+
+            /* GLASS SALDO CARD */
+            .saldo-glass-card {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 24px;
+                padding: 2rem;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                transform: translateY(20px);
+                animation: floatUp 0.8s ease forwards;
+                width: 100%;
+            }
+
+            @keyframes floatUp {
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            /* FORM CARD MODERN */
+            .form-glass-card {
+                background: white;
+                border-radius: 24px;
+                box-shadow: 0 20px 40px rgba(132, 177, 121, 0.15);
+                border: none;
+                overflow: hidden;
+                position: sticky;
+                top: 100px;
                 z-index: 10;
             }
 
-            .program-content {
-                font-size: 1.1rem;
-                line-height: 1.8;
+            .form-header-modern {
+                background: var(--c-main);
+                color: white;
+                padding: 1.5rem;
+                text-align: center;
             }
 
-            .donation-sidebar {
-                background: white;
-                border-radius: 1rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                position: sticky;
-                top: 100px;
+            /* BUTTONS & INPUTS */
+            .btn-nominal-modern {
+                border: 2px solid var(--c-light);
+                color: var(--c-dark);
+                border-radius: 12px;
+                font-weight: 700;
+                transition: all 0.3s;
+                background: transparent;
             }
 
-            .donation-option {
-                border: 2px solid #e9ecef;
-                border-radius: 0.5rem;
-                padding: 1rem;
-                margin-bottom: 1rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
+            .btn-nominal-modern:hover {
+                border-color: var(--c-main);
+                color: var(--c-main);
+                background: var(--c-pale);
             }
 
-            .donation-option:hover,
-            .donation-option.selected {
-                border-color: #198754;
-                background: rgba(25, 135, 84, 0.05);
+            .btn-nominal-modern.active {
+                background: var(--c-main);
+                border-color: var(--c-main);
+                color: white;
+                box-shadow: 0 5px 15px rgba(132, 177, 121, 0.3);
             }
 
-            .donation-sidebar {
-                position: sticky;
-                top: 100px; /* Jarak dari atas */
-                background: white;
-                padding: 20px;
-                border-radius: 15px;
-                box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-                border: 1px solid #e9ecef;
+            .input-modern {
+                border: 2px solid #e3e8e3;
+                border-radius: 12px;
+                padding: 0.8rem 1rem;
+                transition: all 0.3s;
             }
 
-            /* Style Tombol Nominal */
-            .donation-option {
-                cursor: pointer;
-                border: 2px solid #dee2e6;
+            .input-modern:focus {
+                border-color: var(--c-main);
+                box-shadow: 0 0 0 4px rgba(132, 177, 121, 0.1);
+                outline: none;
+            }
+
+            .btn-donate-huge {
+                background: linear-gradient(135deg, var(--c-main) 0%, var(--c-hover) 100%);
+                color: white;
+                border: none;
+                border-radius: 16px;
+                padding: 1.2rem;
+                font-size: 1.2rem;
+                font-weight: 800;
+                box-shadow: 0 10px 20px rgba(132, 177, 121, 0.3);
+                transition: all 0.3s;
+            }
+
+            .btn-donate-huge:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 25px rgba(132, 177, 121, 0.4);
+                color: white;
+            }
+
+            /* LIST DONATUR */
+            .donor-item {
+                transition: all 0.3s;
+                border-radius: 16px;
+                margin-bottom: 0.5rem;
+                border: 1px solid transparent;
+            }
+
+            .donor-item:hover {
+                background: var(--c-pale);
+                border-color: var(--c-light);
+                transform: translateX(5px);
+            }
+
+            /* Progress Bar Modern */
+            .progress-modern {
+                height: 12px;
+                background-color: rgba(255, 255, 255, 0.2);
                 border-radius: 10px;
-                padding: 10px 15px;
-                margin-bottom: 10px;
-                transition: all 0.2s;
+                overflow: hidden;
             }
 
-            .donation-option:hover {
-                border-color: #198754;
-                background-color: #f8fffb;
-            }
-
-            /* Kalau dipilih */
-            .donation-option.selected {
-                border-color: #198754;
-                background-color: #e9f7ef;
-                color: #198754;
-                font-weight: bold;
+            .progress-bar-modern {
+                background-color: white;
+                border-radius: 10px;
+                position: relative;
             }
         </style>
     @endpush
 
-    <section class="program-detail-hero" style="padding-top: 150px;">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h1 class="display-4 fw-bold mb-4">{{ $program->title }}</h1>
-                </div>
-            </div>
+    {{-- HERO SECTION --}}
+    <section class="wakaf-hero">
+        <div class="hero-pattern"></div>
+        <div class="position-absolute top-0 end-0 opacity-25" style="transform: translate(20%, -10%) rotate(-15deg);">
+            <i class="bi bi-buildings" style="font-size: 25rem; color: rgba(255,255,255,0.4);"></i>
+        </div>
+
+        <div class="container position-relative z-index-1 text-center">
+            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Project Wakaf Melalui
+                Uang</span>
+            <h1 class="display-3 fw-bolder mb-3 text-white" style="letter-spacing: -1px;">{{ $program->title }}</h1>
         </div>
     </section>
 
-    <section class="program-stats-section py-0">
-        <div class="container">
-            <div class="program-stats-card">
-                <div class="row align-items-center">
-                    <div class="col-lg-8">
-                        <div class="program-progress mb-3">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Terkumpul</span>
-                                <span class="text-success fw-bold">Rp
-                                    {{ number_format($program->collected_amount, 0, ',', '.') }} / Rp
-                                    {{ number_format($program->target_amount, 0, ',', '.') }}</span>
+    {{-- MAIN CONTENT (LAYOUT 7 - 5 GRID) --}}
+    <div class="container py-5" style="margin-top: -80px; position: relative; z-index: 5;">
+        <div class="row justify-content-center g-5">
+
+            {{-- KIRI: Deskripsi & Stats (7 Kolom) --}}
+            <div class="col-lg-7">
+
+                {{-- Card Stats Progress (Pindah ke kiri atas biar nyambung sama deskripsi) --}}
+                <div class="saldo-glass-card mb-5" style="background: var(--c-main);">
+                    <div class="row align-items-center">
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <p class="text-uppercase text-white-50 fw-bold mb-1"
+                                style="letter-spacing: 1px; font-size: 0.85rem;">Progress Terkumpul</p>
+                            <h2 class="display-6 fw-bolder text-white mb-2">Rp
+                                {{ number_format($program->collected_amount, 0, ',', '.') }}</h2>
+                            <div class="d-flex justify-content-between text-white small mb-2 fw-bold">
+                                <span>{{ $program->progres_persentase }}%</span>
+                                <span>Target: Rp {{ number_format($program->target_amount, 0, ',', '.') }}</span>
                             </div>
-                            <div class="progress progress-lg">
-                                <div class="progress-bar bg-success" role="progressbar"
-                                    style="width: {{ $program->progres_persentase }}%"></div>
-                            </div>
-                        </div>
-                        <div class="row text-center">
-                            <div class="col-4">
-                                <strong class="text-success d-block">{{ $program->progres_persentase }}%</strong>
-                                <small class="text-muted">Progress</small>
-                            </div>
-                            <div class="col-4">
-                                {{-- LOGIKA BARU UNTUK HARI TERSISA --}}
-                                @if ($program->days_remaining !== null)
-                                    <strong class="text-success d-block">{{ $program->days_remaining }} Hari</strong>
-                                @else
-                                    <strong class="text-success d-block">-</strong>
-                                @endif
-                                <small class="text-muted">Tersisa</small>
-                            </div>
-                            <div class="col-4">
-                                {{-- DATA WAKIF BARU YANG DINAMIS --}}
-                                <strong class="text-success d-block">{{ $donor_count }}</strong>
-                                <small class="text-muted">Wakaf Masuk</small>
+                            <div class="progress-modern">
+                                <div class="progress-bar-modern" style="width: {{ $program->progres_persentase }}%">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                        <a href="#donationSection" class="btn btn-success btn-lg">
-                            <i class="bi bi-gift-fill me-2"></i>Wakaf Sekarang</a>
+                        <div class="col-md-4 text-md-end border-md-start border-light border-opacity-25 ps-md-4">
+                            <div class="mb-3">
+                                <strong
+                                    class="text-white d-block fs-4">{{ $program->days_remaining !== null ? $program->days_remaining . ' Hari' : '∞' }}</strong>
+                                <small class="text-white-50 text-uppercase fw-bold" style="font-size: 0.7rem;">Sisa
+                                    Waktu</small>
+                            </div>
+                            <div>
+                                <strong class="text-white d-block fs-4">{{ $donor_count }}</strong>
+                                <small class="text-white-50 text-uppercase fw-bold" style="font-size: 0.7rem;">Orang
+                                    Baik</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="program-content-section py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <article class="program-content">
-                        {{-- TAMBAHAN: FOTO PROGRAM --}}
-                        @if ($program->image)
-                            <div class="mb-4 text-center">
-                                <img src="{{ asset('storage/programs/' . $program->image) }}" 
-                                    alt="{{ $program->title }}" 
-                                    class="img-fluid rounded-2 shadow-sm w-100" 
-                                    style="max-height: 400px; object-fit: cover;">
-                            </div>
-                        @endif
-
-                        {{-- Deskripsi Program (Yang Lama) --}}
-                        <p class="lead" style="white-space: pre-wrap;">{{ $program->description }}</p>
-                    </article>
-                    {{-- SECTION: DONATUR TERBARU --}}
-                    @if($latestDonors->count() > 0)
-                        <div class="mt-5">
-                            <h5 class="fw-bold text-dark mb-4">
-                                <i class="bi bi-people-fill text-success me-2"></i>Wakif Terbaru
-                            </h5>
-
-                            <div class="list-group list-group-flush border rounded-4 shadow-sm overflow-hidden">
-                                @foreach($latestDonors as $donor)
-                                    <div class="list-group-item p-3 border-light">
-                                        <div class="d-flex align-items-center">
-                                            
-                                            {{-- Avatar Inisial (Bulat) --}}
-                                            <div class="flex-shrink-0">
-                                                <div class="rounded-circle bg-success-subtle text-success d-flex align-items-center justify-content-center fw-bold" 
-                                                    style="width: 45px; height: 45px; font-size: 1.2rem;">
-                                                    {{ substr($donor->donor_name, 0, 1) }}
-                                                </div>
-                                            </div>
-
-                                            {{-- Info Donatur --}}
-                                            <div class="flex-grow-1 ms-3">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="mb-0 fw-bold text-dark">
-                                                        {{-- Sensor Nama Belakang (Opsional, biar privasi terjaga dikit) --}}
-                                                        {{ Str::mask($donor->donor_name, '*', 4) }}
-                                                    </h6>
-                                                    <small class="text-muted" style="font-size: 0.8rem;">
-                                                        {{ $donor->created_at?->diffForHumans() }}
-                                                    </small>
-                                                </div>
-                                                <small class="text-muted d-block">
-                                                    Berwakaf <span class="text-success fw-bold">Rp{{ number_format($donor->amount, 0, ',', '.') }}</span>
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                {{-- Artikel Deskripsi --}}
+                <div class="mb-5 px-lg-3">
+                    @if ($program->image)
+                        <div class="mb-4">
+                            <img src="{{ asset('storage/programs/' . $program->image) }}" alt="{{ $program->title }}"
+                                class="img-fluid rounded-4 shadow-sm w-100"
+                                style="max-height: 450px; object-fit: cover;">
                         </div>
                     @endif
+
+                    <h3 class="fw-bolder mb-4" style="color: var(--c-dark);">Tentang Project Ini</h3>
+                    <div class="text-muted" style="font-size: 1.1rem; line-height: 1.8;">
+                        {!! nl2br(e($program->description)) !!}
+                    </div>
                 </div>
 
-                <div class="col-lg-4 mt-4 mt-lg-0">
-                    <div class="donation-sidebar" id="donationSection">
-                        <h4 class="text-center fw-bold mb-2 text-success">Dukung Program Ini</h4>
-                        
-                        <form action="{{ route('donations.store') }}" method="POST" id="form-donasi" novalidate>
+                {{-- List Donatur Terbaru --}}
+                @if ($latestDonors->count() > 0)
+                    <div class="mt-5 pt-4 border-top">
+                        <h4 class="fw-bold mb-4" style="color: var(--c-dark);">
+                            <i class="bi bi-people-fill text-success me-2"></i> Orang Baik Terbaru
+                        </h4>
+                        <div class="d-flex flex-column gap-2">
+                            @foreach ($latestDonors as $donor)
+                                <div class="donor-item d-flex align-items-center p-3 bg-white shadow-sm">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5 shadow-sm"
+                                        style="width: 50px; height: 50px; background: var(--c-pale); color: var(--c-dark);">
+                                        {{ substr($donor->donor_name, 0, 1) }}
+                                    </div>
+                                    <div class="ms-3 flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <h6 class="mb-0 fw-bold" style="color: var(--c-dark);">
+                                                {{ Str::mask($donor->donor_name, '*', 4) }}</h6>
+                                            <span
+                                                class="badge bg-light text-muted fw-normal">{{ $donor->created_at?->diffForHumans() }}</span>
+                                        </div>
+                                        <div class="text-success fw-bold">Rp
+                                            {{ number_format($donor->amount, 0, ',', '.') }}</div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            {{-- KANAN: Form Donasi (5 Kolom - Sticky) --}}
+            <div class="col-lg-5">
+                <div id="form-wakaf-area" class="form-glass-card">
+                    <div class="form-header-modern">
+                        <h4 class="fw-bolder m-0"><i class="bi bi-heart-fill me-2 text-warning"></i> Dukung Project Ini
+                        </h4>
+                        <p class="small opacity-75 mb-0 mt-1">Pilih nominal dan isi data diri Anda</p>
+                    </div>
+
+                    <div class="p-4 p-md-5 bg-white">
+                        <form action="{{ route('donations.store') }}" method="POST" novalidate>
                             @csrf
                             <input type="hidden" name="program_id" value="{{ $program->id }}">
-                            {{-- Input Rahasia buat nyimpen angka asli --}}
                             <input type="hidden" name="amount" id="amount_hidden">
 
-                            {{-- Opsi Nominal Cepat --}}
-                            <div class="mb-2">
-                                <div class="d-flex align-items-center mb-2">
-                                <span class="badge bg-success-subtle text-success me-2">
-                                    <i class="bi bi-cash-coin"></i> {{-- Icon Uang --}}
-                                </span>
-                                <span class="small text-uppercase text-muted fw-bold">Pilih Nominal Cepat</span>
-                            </div>
-                                
-                                <div class="row g-2"> {{-- g-2 artinya gap/jarak antar kotak kecil --}}
-                                    
-                                    {{-- Kotak 1: 100rb --}}
+                            {{-- Pilihan Nominal Cepat --}}
+                            <div class="mb-4">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Pilih Nominal
+                                    Cepat</label>
+                                <div class="row g-2">
                                     <div class="col-6">
-                                        <div class="donation-option text-center py-2" data-amount="100000">
-                                            <span class="fw-bold d-block">Rp100.000</span>
-                                        </div>
+                                        <button type="button" class="btn w-100 btn-nominal-modern donation-option"
+                                            data-amount="100000">Rp 100.000</button>
                                     </div>
-
-                                    {{-- Kotak 2: 250rb --}}
                                     <div class="col-6">
-                                        <div class="donation-option text-center py-2" data-amount="250000">
-                                            <span class="fw-bold d-block">Rp250.000</span>
-                                        </div>
+                                        <button type="button" class="btn w-100 btn-nominal-modern donation-option"
+                                            data-amount="250000">Rp 250.000</button>
                                     </div>
-
-                                    {{-- Kotak 3: 500rb --}}
                                     <div class="col-6">
-                                        <div class="donation-option text-center py-2" data-amount="500000">
-                                            <span class="fw-bold d-block">Rp500.000</span>
-                                        </div>
+                                        <button type="button" class="btn w-100 btn-nominal-modern donation-option"
+                                            data-amount="500000">Rp 500.000</button>
                                     </div>
-
-                                    {{-- Kotak 4: 1 Juta --}}
                                     <div class="col-6">
-                                        <div class="donation-option text-center py-2" data-amount="1000000">
-                                            <span class="fw-bold d-block">Rp1.000.000</span>
-                                        </div>
+                                        <button type="button" class="btn w-100 btn-nominal-modern donation-option"
+                                            data-amount="1000000">Rp 1 Juta</button>
                                     </div>
-
                                 </div>
                             </div>
 
-                            {{-- Input Manual --}}
-                            <div class="mb-2">
-                                <label for="customAmount" class="form-label fw-bold small text-uppercase text-muted">Nominal Lainnya</label>
+                            {{-- Input Nominal Manual --}}
+                            <div class="mb-4">
+                                <label class="form-label fw-bold text-muted small text-uppercase">Atau Nominal
+                                    Lainnya</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-white fw-bold text-success">Rp</span>
-                                    <input type="number" class="form-control fw-bold text-success" 
+                                    <span class="input-group-text bg-light border-0 fw-bold px-3">Rp</span>
+                                    <input type="number"
+                                        class="form-control form-control-lg input-modern border-start-0 fw-bold fs-4 text-success"
                                         id="customAmount" placeholder="0" min="10000">
                                 </div>
-                                <small class="text-muted">Minimal donasi Rp10.000</small>
+                                <small class="text-danger mt-1 d-none" id="minAmountWarning">*Minimal donasi Rp
+                                    10.000</small>
                             </div>
 
-                           {{-- Data Diri Section --}}
-                            <div class="mb-2">
-                                {{-- Judul Seksi Kecil --}}
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="badge bg-success-subtle text-success me-2">
-                                        <i class="bi bi-person-fill"></i>
-                                    </span>
-                                    <span class="small text-uppercase text-muted fw-bold">Data Wakif</span>
-                                </div>
+                            <hr class="my-4 opacity-10">
 
-                                {{-- Input Nama --}}
-                                <div class="mb-2">
-                                    <label for="donor_name" class="form-label fw-bold small">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="donor_name" name="donor_name" required
-                                        value="{{ auth()->user()->nama ?? '' }}" placeholder="Masukkan nama Anda">
-                                </div>
-                                
-                                {{-- Input Email --}}
-                                <div class="mb-2">
-                                    <label for="donor_email" class="form-label fw-bold small">Alamat Email</label>
-                                    <input type="email" class="form-control" id="donor_email" name="donor_email" required
-                                        value="{{ auth()->user()->email ?? '' }}" placeholder="contoh@email.com">
-                                    <div class="form-text" style="font-size: 0.75rem;">
-                                        Bukti pembayaran akan dikirim ke email ini
+                            {{-- Data Diri Section --}}
+                            <div class="mb-4">
+                                <label class="form-label fw-bold text-muted small text-uppercase mb-3">Informasi
+                                    Wakif</label>
+
+                                @auth
+                                    <div class="bg-pale-custom rounded-4 p-3 mb-3 border border-success border-opacity-25">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="bi bi-patch-check-fill text-success fs-5 me-2"></i>
+                                            <span class="fw-bold" style="color: var(--c-dark);">Terhubung sebagai:</span>
+                                        </div>
+                                        <h5 class="fw-bolder mb-1">{{ auth()->user()->nama }}</h5>
+                                        <p class="mb-0 text-muted small">{{ auth()->user()->email }} |
+                                            {{ auth()->user()->nomor_hp }}</p>
+
+                                        <input type="hidden" name="donor_name" value="{{ auth()->user()->nama }}">
+                                        <input type="hidden" name="donor_email" value="{{ auth()->user()->email }}">
+                                        <input type="hidden" name="donor_phone" value="{{ auth()->user()->nomor_hp }}">
+                                        <input type="hidden" name="donor_category"
+                                            value="{{ auth()->user()->kategori }}">
+                                        <input type="hidden" name="donor_nomor_induk"
+                                            value="{{ auth()->user()->nik ?? auth()->user()->nomor_induk }}">
                                     </div>
-                                </div>
-                                {{-- Input Kategori Wakif --}}
-                                <div class="mb-2">
-                                    <label for="donor_category" class="form-label fw-bold small">Kategori Wakif</label>
-                                    <select name="donor_category" id="donor_category" class="form-select" required>
-                                        <option value="" disabled {{ old('donor_category', auth()->user()->kategori ?? '') == '' ? 'selected' : '' }}>
-                                            -- Pilih Kategori --
-                                        </option>
-                                        
-                                        <option value="umum" {{ old('donor_category', auth()->user()->kategori ?? '') == 'umum' ? 'selected' : '' }}>
-                                            Umum
-                                        </option>
-                                        <option value="mahasiswa" {{ old('donor_category', auth()->user()->kategori ?? '') == 'mahasiswa' ? 'selected' : '' }}>
-                                            Mahasiswa
-                                        </option>
-                                        <option value="alumni" {{ old('donor_category', auth()->user()->kategori ?? '') == 'alumni' ? 'selected' : '' }}>
-                                            Alumni
-                                        </option>
-                                        <option value="dosen" {{ old('donor_category', auth()->user()->kategori ?? '') == 'dosen' ? 'selected' : '' }}>
-                                            Dosen
-                                        </option>
-                                        <option value="tenaga_pendidik" {{ old('donor_category', auth()->user()->kategori ?? '') == 'tenaga_pendidik' ? 'selected' : '' }}>
-                                            Tenaga Pendidik
-                                        </option>
-                                    </select>
-                                </div>
-                                {{-- Input No HP --}}
-                                <div class="mb-2">
-                                    <label for="donor_phone" class="form-label fw-bold small">Nomor HP</label>
-                                    <input type="text" class="form-control" id="donor_phone" name="donor_phone" required
-                                        value="{{ auth()->user()->phone ?? '' }}" placeholder="08121234..." maxlenght=14>
-                                    <!-- <div class="form-text" style="font-size: 0.75rem;">
-                                        Bukti pembayaran akan dikirim ke email ini
-                                    </div> -->
-                                </div>
-                                {{-- Input NIM/NIP/NIKU --}}
-                                <div class="mb-2">
-                                    <label for="donor_nomor_induk" class="form-label fw-bold small">NIM/NIP/NIKU</label>
-                                    <input type="text" class="form-control" id="donor_nomor_induk" name="donor_nomor_induk" required
-                                        value="{{ auth()->user()->nim ?? '' }}" placeholder="201152..." maxlenght=20>
-                                    <!-- <div class="form-text" style="font-size: 0.75rem;">
-                                        Bukti pembayaran akan dikirim ke email ini
-                                    </div> -->
-                                </div>
+                                    <div class="text-end">
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="small text-danger text-decoration-none fw-bold">Bukan Anda? Ganti
+                                            Akun</a>
+                                    </div>
+                                @else
+                                    <div
+                                        class="alert bg-pale-custom border-0 small p-3 rounded-3 mb-4 d-flex align-items-center">
+                                        <i class="bi bi-info-circle-fill text-success fs-4 me-3"></i>
+                                        <div>Punya akun? <a href="{{ route('login') }}"
+                                                class="fw-bold text-success text-decoration-none">Login di sini</a> untuk
+                                            autofill data.</div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control input-modern" id="donor_name"
+                                            name="donor_name" required placeholder="Nama Lengkap Anda">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control input-modern" id="donor_email"
+                                            name="donor_email" required placeholder="Alamat Email (Contoh@mail.com)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <select name="donor_category" id="donor_category"
+                                            class="form-select input-modern" required>
+                                            <option value="" disabled selected>-- Kategori Wakif --</option>
+                                            <option value="umum">Umum</option>
+                                            <option value="mahasiswa">Mahasiswa</option>
+                                            <option value="alumni">Alumni</option>
+                                            <option value="dosen">Dosen</option>
+                                            <option value="tenaga_pendidik">Tenaga Pendidik</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control input-modern" id="donor_phone"
+                                            name="donor_phone" required placeholder="No. HP / WhatsApp" maxlength="14">
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control input-modern" id="donor_nomor_induk"
+                                            name="donor_nomor_induk" required placeholder="NIM / NIP / NIK"
+                                            maxlength="20">
+                                    </div>
+                                @endauth
                             </div>
 
-                            <button type="submit" class="btn btn-success w-100 btn-lg fw-bold shadow-sm" id="btn-submit">
-                                <i class="bi bi-heart-fill me-2"></i>Lanjutkan Wakaf <i class="bi bi-arrow-right ms-2"></i>
+                            <button type="submit"
+                                class="btn w-100 btn-donate-huge d-flex justify-content-between align-items-center">
+                                <span>Lanjutkan Pembayaran</span>
+                                <i class="bi bi-arrow-right-circle-fill fs-4"></i>
                             </button>
-                            <div class="text-center pt-2 border-top">
-                                <small class="text-muted d-block mb-2">Sudah pernah berwakaf?</small>
-                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4 mb-2">
-                                    <i class="bi bi-search me-1"></i> Cek Status Wakaf
-                                </a>
-                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-success btn-sm rounded-pill px-3">
-                                    <i class="bi bi-clock-history me-1"></i> Riwayat Wakaf
-                                </a>
-                            </div>
-                            <div class="text-center mt-2">
-                                <small class="text-muted"><i class="bi bi-shield-lock"></i> Dikelola Profesional oleh UPW UNAND</small>
+
+                            <div class="text-center mt-4 pt-3 border-top">
+                                <p class="text-muted small fw-bold mb-2">Akses Cepat:</p>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('donations.check') }}"
+                                        class="btn btn-sm btn-light border rounded-pill px-3 fw-bold text-secondary">Cek
+                                        Status</a>
+                                    <a href="{{ route('public.wakaf.history') }}"
+                                        class="btn btn-sm btn-light border rounded-pill px-3 fw-bold text-secondary">Riwayat
+                                        Saya</a>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="related-programs-section py-5 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-5">
-                    <h3 class="section-title">Program Lainnya</h3>
-                    <p class="section-subtitle">Jelajahi program-program kebaikan lainnya dari Dana Sosial UNAND</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                @forelse ($related_programs as $related)
-                    <div class="col-lg-4 col-md-6">
-                        {{-- Kita gunakan lagi kode kartu program yang sudah kita sempurnakan --}}
-                        <div class="program-card h-100" data-aos="fade-up">
-                            <div class="program-image">
-                                <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}">
-                                    <img src="{{ asset('storage/programs/' . $related->image) }}"
-                                        alt="{{ $related->title }}" class="card-img-top">
-                                </a>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="program-title">
-                                    <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}"
-                                        class="text-decoration-none text-dark">{{ $related->title }}</a>
-                                </h5>
-                                <p class="program-description">{{ Str::limit($related->description, 90) }}</p>
-                                <div class="mt-auto">
-                                    <div class="program-progress mb-3">
-                                        <div class="d-flex justify-content-between mb-1"><small
-                                                class="text-muted">Terkumpul</small><small
-                                                class="text-muted">{{ $related->progres_persentase }}%</small></div>
-                                        <div class="progress" style="height: 8px;">
-                                            <div class="progress-bar bg-success" role="progressbar"
-                                                style="width: {{ $related->progres_persentase }}%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="program-stats mb-3">
-                                        <div class="row text-center">
-                                            <div class="col-6"><strong class="text-success">Rp
-                                                    {{ $related->formatted_collected_amount }}</strong>
-                                                <div class="small text-muted">Terkumpul</div>
-                                            </div>
-                                            <div class="col-6"><strong class="text-success">Rp
-                                                    {{ $related->formatted_target_amount }}</strong>
-                                                <div class="small text-muted">Target</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a href="{{ route('wakaf-melalui-uang.show.public', $related->id) }}"
-                                        class="btn btn-success w-100">Lihat Detail</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center">
-                        <p class="text-muted">Tidak ada program lainnya saat ini.</p>
-                    </div>
-                @endforelse
-            </div>
         </div>
-    </section>
+    </div>
 
     @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const options = document.querySelectorAll('.donation-option');
                 const customAmountInput = document.getElementById('customAmount');
                 const hiddenAmountInput = document.getElementById('amount_hidden');
+                const warningMsg = document.getElementById('minAmountWarning');
 
                 function updateSelection(selectedOption) {
-                    options.forEach(opt => opt.classList.remove('selected'));
+                    options.forEach(opt => opt.classList.remove('active'));
                     if (selectedOption) {
-                        selectedOption.classList.add('selected');
+                        selectedOption.classList.add('active');
                         const amount = selectedOption.getAttribute('data-amount');
                         customAmountInput.value = '';
                         hiddenAmountInput.value = amount;
+                        warningMsg.classList.add('d-none');
                     }
                 }
 
@@ -444,44 +431,43 @@
                 });
 
                 customAmountInput.addEventListener('input', function() {
-                    if (this.value) {
-                        updateSelection(null); // Hapus seleksi dari opsi cepat
-                        hiddenAmountInput.value = this.value;
+                    options.forEach(opt => opt.classList.remove('active'));
+                    hiddenAmountInput.value = this.value;
+
+                    if (this.value > 0 && this.value < 10000) {
+                        warningMsg.classList.remove('d-none');
+                    } else {
+                        warningMsg.classList.add('d-none');
                     }
                 });
-            });
-            const donationForm = document.querySelector('form[action="{{ route('donations.store') }}"]');
 
-            donationForm.addEventListener('submit', function(e) {
-                // 1. Ambil nilai dari input rahasia (amount_hidden)
-                let nominal = document.getElementById('amount_hidden').value;
-                
-                // 2. Konversi jadi angka (biar aman)
-                nominal = parseInt(nominal);
+                // Validasi Form
+                const donationForm = document.querySelector('form[action="{{ route('donations.store') }}"]');
+                donationForm.addEventListener('submit', function(e) {
+                    let nominal = document.getElementById('amount_hidden').value;
+                    nominal = parseInt(nominal);
 
-                if (!nominal || isNaN(nominal)) {
-                    e.preventDefault();
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Nominal Belum Diisi',
-                        text: 'Silakan pilih atau masukkan nominal donasi terlebih dahulu.',
-                        confirmButtonColor: '#ffc107' // Warna kuning warning
-                    });
-                    return; // Stop, jangan lanjut ke cek bawahnya
-                }
+                    if (!nominal || isNaN(nominal)) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Nominal Belum Diisi',
+                            text: 'Silakan pilih atau masukkan nominal donasi terlebih dahulu.',
+                            confirmButtonColor: '#84B179'
+                        });
+                        return;
+                    }
 
-                // 3. Cek Logic: Kalau kosong ATAU di bawah 10000
-                if (nominal < 10000) {
-                    e.preventDefault(); // STOP! Jangan kirim ke server
-                    
-                    // Munculin SweetAlert Warning
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Nominal Kurang',
-                        text: 'Maaf Bapak/Ibu, minimal donasi mulai dari Rp10.000',
-                        confirmButtonColor: '#198754'
-                    });
-                }
+                    if (nominal < 10000) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Nominal Kurang',
+                            text: 'Maaf Bapak/Ibu, minimal donasi mulai dari Rp10.000',
+                            confirmButtonColor: '#84B179'
+                        });
+                    }
+                });
             });
         </script>
     @endpush

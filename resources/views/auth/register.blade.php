@@ -35,7 +35,8 @@
                 margin: 0 auto 1rem;
             }
 
-            .form-control:focus {
+            .form-control:focus,
+            .form-select:focus {
                 border-color: #198754;
                 box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
             }
@@ -98,23 +99,52 @@
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label for="nama" class="form-label">Nama Lengkap</label>
+                                        <label for="nama" class="form-label fw-bold small">Nama Lengkap</label>
                                         <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                             id="nama" name="nama" value="{{ old('nama') }}" required>
                                         @error('nama')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    {{-- DROPDOWN KATEGORI BARU --}}
                                     <div class="col-12">
-                                        <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)</label>
-                                        <input type="text" class="form-control @error('nik') is-invalid @enderror"
-                                            id="nik" name="nik" value="{{ old('nik') }}" required>
-                                        @error('nik')
+                                        <label for="kategori" class="form-label fw-bold small">Kategori Pengguna</label>
+                                        <select class="form-select @error('kategori') is-invalid @enderror"
+                                            id="kategori" name="kategori" required onchange="updateLabelIdentitas()">
+                                            <option value="umum" {{ old('kategori') == 'umum' ? 'selected' : '' }}>
+                                                Umum</option>
+                                            <option value="mahasiswa"
+                                                {{ old('kategori') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa
+                                            </option>
+                                            <option value="alumni" {{ old('kategori') == 'alumni' ? 'selected' : '' }}>
+                                                Alumni</option>
+                                            <option value="dosen" {{ old('kategori') == 'dosen' ? 'selected' : '' }}>
+                                                Dosen</option>
+                                            <option value="tenaga_pendidik"
+                                                {{ old('kategori') == 'tenaga_pendidik' ? 'selected' : '' }}>Tenaga
+                                                Pendidik</option>
+                                        </select>
+                                        @error('kategori')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    {{-- INPUT NOMOR IDENTITAS (DINAMIS NIK/NIM/NIP) --}}
+                                    <div class="col-12">
+                                        <label for="nomor_identitas" id="label_identitas"
+                                            class="form-label fw-bold small">Nomor Induk Kependudukan (NIK)</label>
+                                        <input type="text"
+                                            class="form-control @error('nomor_identitas') is-invalid @enderror"
+                                            id="nomor_identitas" name="nomor_identitas"
+                                            value="{{ old('nomor_identitas') }}" required>
+                                        @error('nomor_identitas')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-md-6">
-                                        <label for="email" class="form-label">Alamat Email</label>
+                                        <label for="email" class="form-label fw-bold small">Alamat Email</label>
                                         <input type="email" class="form-control @error('email') is-invalid @enderror"
                                             id="email" name="email" value="{{ old('email') }}" required>
                                         @error('email')
@@ -122,20 +152,20 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nomor_hp" class="form-label">Nomor HP</label>
+                                        <label for="nomor_hp" class="form-label fw-bold small">Nomor HP</label>
                                         <div class="input-group">
-                                            <span class="input-group-text">+62</span>
+                                            <span class="input-group-text bg-light">+62</span>
                                             <input type="tel"
                                                 class="form-control @error('nomor_hp') is-invalid @enderror"
                                                 id="nomor_hp" name="nomor_hp" value="{{ old('nomor_hp') }}"
                                                 placeholder="81234567890" required>
                                         </div>
                                         @error('nomor_hp')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="password" class="form-label">Password</label>
+                                        <label for="password" class="form-label fw-bold small">Password</label>
                                         <input type="password" class="form-control" id="password" name="password"
                                             data-password-validate="true" required>
                                         @include('auth.partials.password-guide')
@@ -146,14 +176,15 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="password_confirmation" class="form-label">Konfirmasi Kata
+                                        <label for="password_confirmation" class="form-label fw-bold small">Konfirmasi
+                                            Kata
                                             Sandi</label>
                                         <input type="password" class="form-control" id="password_confirmation"
                                             name="password_confirmation" required>
                                         <div class="password-confirmation-status small mt-2"></div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success btn-auth w-100 mt-4">
+                                <button type="submit" class="btn btn-success btn-auth w-100 mt-4 shadow-sm">
                                     Daftar Sekarang
                                 </button>
 
@@ -170,4 +201,29 @@
             </div>
         </div>
     </section>
+
+    @push('scripts')
+        <script>
+            function updateLabelIdentitas() {
+                const kategori = document.getElementById('kategori').value;
+                const label = document.getElementById('label_identitas');
+                const input = document.getElementById('nomor_identitas');
+
+                if (kategori === 'mahasiswa' || kategori === 'alumni') {
+                    label.innerText = 'NIM (Nomor Induk Mahasiswa)';
+                    input.placeholder = 'Masukkan NIM Anda';
+                } else if (kategori === 'dosen') {
+                    label.innerText = 'NIP (Nomor Induk Pegawai)';
+                    input.placeholder = 'Masukkan NIP Anda';
+                } else {
+                    // Untuk Umum dan Tenaga Pendidik
+                    label.innerText = 'NIK (Nomor Induk Kependudukan)';
+                    input.placeholder = 'Masukkan NIK Anda';
+                }
+            }
+
+            // Jalankan otomatis sekali pas halaman pertama kali dibuka
+            document.addEventListener('DOMContentLoaded', updateLabelIdentitas);
+        </script>
+    @endpush
 </x-layouts.app>

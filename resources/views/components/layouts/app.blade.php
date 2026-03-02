@@ -56,7 +56,7 @@
 
     <script>
         // 1. Cek apakah ada session bernama 'error' dari Backend?
-        @if(session('error'))
+        @if (session('error'))
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -67,7 +67,7 @@
         @endif
 
         // 2. Sekalian buat pesan sukses (biar lengkap)
-        @if(session('success'))
+        @if (session('success'))
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil!',
@@ -78,321 +78,181 @@
     </script>
     @stack('scripts')
 
-    <!-- <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg"> {{-- Pakai modal-lg biar agak lebar --}}
-            <div class="modal-content rounded-4 border-0 overflow-hidden shadow-lg">
-                
-                {{-- Header Modal dengan Background Hijau --}}
-                <div class="modal-header bg-success text-white p-4">
-                    <h5 class="modal-title fw-bold" id="wakafUangModalLabel">
-                        <i class="bi bi-cash-coin me-2"></i>Wakaf Uang (Tunai)
+    {{-- MODAL DONASI CEPAT (ULTRA MODERN & SMART AUTOFILL) --}}
+    <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+
+                {{-- Header Modern --}}
+                <div class="modal-header text-white px-4 py-3"
+                    style="background: linear-gradient(135deg, #84B179 0%, #A2CB8B 100%);">
+                    <h5 class="modal-title fw-bolder" id="wakafUangModalLabel">
+                        <i class="bi bi-heart-pulse-fill text-danger me-2"></i> Tunaikan Kebaikan
                     </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
 
-                <div class="modal-body p-0">
-                    <div class="row g-0 h-100">
-                        
-                        {{-- KOLOM KIRI: Gambar QRIS & Instruksi --}}
-                        <div class="col-md-5 bg-light text-center p-4 border-end">
-                            <h6 class="fw-bold mb-3 text-success">Scan QRIS untuk Berwakaf</h6>
-                            
-                            {{-- Container Gambar QRIS --}}
-                            <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block mb-3 border">
-                                {{-- GANTI path gambar ini sesuai lokasi gambar QRIS kamu --}}
-                                <img src="{{ asset('frontend/img/qris-unand.jpg') }}" 
-                                    alt="QRIS Dana Sosial UNAND" 
-                                    class="img-fluid" 
-                                    style="max-width: 200px; height: auto;">
-                            </div>
-                            
-                            <p class="small text-muted mb-1">A.n. Dana Sosial UNAND</p>
-                            <p class="small fw-bold text-dark mb-3">NMID: ID1234567890 (Contoh)</p>
+                <div class="modal-body px-4 py-4" style="background-color: #f8faf7;">
+                    <form action="{{ route('donations.store') }}" method="POST">
+                        @csrf
 
-                            <div class="alert alert-warning small text-start fst-italic">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Silakan scan dan transfer sesuai nominal yang Anda inginkan. Setelah berhasil, mohon isi formulir konfirmasi di samping.
-                            </div>
-                        </div>
-
-                        {{-- KOLOM KANAN: Formulir Konfirmasi --}}
-                        <div class="col-md-7 p-4">
-                            <h6 class="fw-bold mb-4">Konfirmasi Wakaf Anda</h6>
-                            
-                            {{-- Form mengarah ke route yang menangani penyimpanan donasi --}}
-                            {{-- Pastikan kamu sudah punya route dan controller untuk ini (mirip storeManual di admin tapi untuk publik) --}}
-                            <form action="{{ route('public.wakaf.store') }}" method="POST">
-                                @csrf
-                                {{-- Hidden input untuk menandakan ini Wakaf Uang --}}
-                                <input type="hidden" name="donation_type" value="wakaf_uang_kilat">
+                        <div class="row g-4">
+                            {{-- KOLOM KIRI: PROGRAM & NOMINAL --}}
+                            <div class="col-md-6 border-md-end pe-md-4">
+                                <h6 class="fw-bold mb-3" style="color: #1a2e15;">1. Pilih Tujuan Wakaf</h6>
 
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold">Nama Wakif (Donatur) <span class="text-danger">*</span></label>
-                                    <input type="text" name="donor_name" class="form-control" placeholder="Nama Lengkap / Hamba Allah" required value="{{ auth()->check() ? auth()->user()->nama : '' }}">
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label small fw-bold">Email <span class="text-danger">*</span></label>
-                                        <input type="email" name="donor_email" class="form-control" placeholder="email@anda.com" required value="{{ auth()->check() ? auth()->user()->email : '' }}">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label small fw-bold">No. WhatsApp <span class="text-danger">*</span></label>
-                                        <input type="text" name="donor_phone" class="form-control" placeholder="0812xxxx" required>
-                                    </div>
+                                    <label class="form-label fw-bold small text-muted">Program Wakaf <span
+                                            class="text-danger">*</span></label>
+                                    <select name="program_id" class="form-select border-success-subtle"
+                                        style="border-radius: 12px;" required>
+                                        <option value="">-- Pilih Program --</option>
+                                        @foreach ($programsNav ?? [] as $p)
+                                            <option value="{{ $p->id }}">{{ $p->title }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label small fw-bold">Nominal yang Ditransfer (Rp) <span class="text-danger">*</span></label>
+                                    <label class="form-label fw-bold small text-muted">Nominal Wakaf (Rp) <span
+                                            class="text-danger">*</span></label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-success text-white fw-bold">Rp</span>
-                                        <input type="number" name="amount" class="form-control fw-bold text-success" placeholder="Contoh: 100000" min="10000" required>
+                                        <span
+                                            class="input-group-text bg-white border-success-subtle border-end-0 fw-bold text-success"
+                                            style="border-radius: 12px 0 0 12px;">Rp</span>
+                                        <input type="number" name="amount"
+                                            class="form-control border-success-subtle border-start-0 fw-bolder text-success fs-5"
+                                            placeholder="10.000" min="10000" style="border-radius: 0 12px 12px 0;"
+                                            required>
                                     </div>
-                                    <small class="text-muted" style="font-size: 0.75rem;">Minimal Rp 10.000</small>
                                 </div>
-                                
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-success fw-bold py-2">
-                                        <i class="bi bi-send-check me-2"></i>Saya Sudah Transfer & Konfirmasi
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered"> {{-- Hapus modal-lg biar lebih ramping --}}
-            <div class="modal-content rounded-4 border-0 shadow-lg">
-                
-                {{-- Header Simple --}}
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title fw-bold" id="wakafUangModalLabel">
-                        <i class="bi bi-heart-fill me-2"></i>Ayo Berwakaf
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+                            </div>
 
-                <div class="modal-body px-4">
-                    {{-- Form diarahkan ke Route Donasi Online (Midtrans) --}}
-                    {{-- Ganti 'donations.store' dengan route yang kamu pakai di halaman detail program --}}
-                    <form action="{{ route('donations.store') }}" method="POST">
-                        @csrf
-                        
-                        {{-- 1. PILIH TUJUAN WAKAF (Dropdown) --}}
-                        <div class="mb-1">
-                            <label class="form-label fw-bold small">Saya Ingin Berwakaf Untuk:</label>
-                            <select name="program_id" class="form-select" required>
-                                <option value="">-- Pilih Program Wakaf --</option>
-                                
-                                {{-- Opsi Khusus Wakaf Uang (Jika ada ID khususnya, misal ID 1) --}}
-                                {{-- <option value="1">Wakaf Uang Abadi (Dana Abadi)</option> --}}
+                            {{-- KOLOM KANAN: IDENTITAS WAKIF --}}
+                            <div class="col-md-6 ps-md-4">
+                                <h6 class="fw-bold mb-3" style="color: #1a2e15;">2. Identitas Wakif</h6>
 
-                                {{-- Looping Program dari Database --}}
-                                @foreach($programsNav ?? [] as $p)
-                                    <option value="{{ $p->id }}">{{ $p->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                                @auth
+                                    {{-- JIKA SUDAH LOGIN (AUTOFILL & HIDDEN INPUT) --}}
+                                    <div class="alert mb-0"
+                                        style="background: rgba(132, 177, 121, 0.15); border: 1px dashed #84B179; border-radius: 16px;">
+                                        <div
+                                            class="d-flex align-items-center mb-3 border-bottom border-success border-opacity-25 pb-2">
+                                            <i class="bi bi-patch-check-fill text-success fs-5 me-2"></i>
+                                            <span class="fw-bold" style="color: #1a2e15;">Data Otomatis Terisi</span>
+                                        </div>
+                                        <div class="small mb-2 d-flex justify-content-between">
+                                            <span class="text-muted">Nama:</span> <span
+                                                class="fw-bold text-dark">{{ auth()->user()->nama }}</span>
+                                        </div>
+                                        <div class="small mb-2 d-flex justify-content-between">
+                                            <span class="text-muted">Email:</span> <span
+                                                class="fw-bold text-dark">{{ auth()->user()->email }}</span>
+                                        </div>
+                                        <div class="small mb-2 d-flex justify-content-between">
+                                            <span class="text-muted">No. HP:</span> <span
+                                                class="fw-bold text-dark">{{ auth()->user()->nomor_hp }}</span>
+                                        </div>
+                                        <div class="small mb-0 d-flex justify-content-between">
+                                            <span class="text-muted">Kategori:</span> <span
+                                                class="fw-bold text-dark text-capitalize">{{ str_replace('_', ' ', auth()->user()->kategori) }}</span>
+                                        </div>
+                                    </div>
 
-                        {{-- 2. NOMINAL --}}
-                        <div class="mb-1">
-                            <label class="form-label fw-bold small">Nominal Wakaf (Rp)</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light fw-bold">Rp</span>
-                                <input type="number" name="amount" class="form-control fw-bold text-success" 
-                                    placeholder="Minimal 10.000" min="10000" required>
+                                    {{-- Input Hidden buat dikirim ke form --}}
+                                    <input type="hidden" name="donor_name" value="{{ auth()->user()->nama }}">
+                                    <input type="hidden" name="donor_email" value="{{ auth()->user()->email }}">
+                                    <input type="hidden" name="donor_phone" value="{{ auth()->user()->nomor_hp }}">
+                                    <input type="hidden" name="donor_category" value="{{ auth()->user()->kategori }}">
+                                    <input type="hidden" name="donor_nomor_induk"
+                                        value="{{ auth()->user()->nik ?? auth()->user()->nomor_induk }}">
+
+                                    <div class="text-end mt-2">
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="small text-danger text-decoration-none fw-bold"><i
+                                                class="bi bi-box-arrow-right"></i> Ganti Akun</a>
+                                    </div>
+                                @else
+                                    {{-- JIKA GUEST (INPUT MANUAL) --}}
+                                    <div class="alert alert-warning py-2 px-3 small d-flex align-items-center mb-3"
+                                        style="border-radius: 12px;">
+                                        <i class="bi bi-info-circle me-2"></i> <span>Punya akun? <a
+                                                href="{{ route('login') }}" class="fw-bold text-warning-emphasis">Login
+                                                di sini</a></span>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-bold text-muted mb-1">Nama Lengkap <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="donor_name" class="form-control form-control-sm"
+                                            placeholder="Nama sesuai KTP/Identitas" style="border-radius: 8px;" required>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-bold text-muted mb-1">Alamat Email <span
+                                                class="text-danger">*</span></label>
+                                        <input type="email" name="donor_email" class="form-control form-control-sm"
+                                            placeholder="email@anda.com" style="border-radius: 8px;" required>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <label class="form-label small fw-bold text-muted mb-1">No. HP / WhatsApp <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" name="donor_phone" class="form-control form-control-sm"
+                                            placeholder="0812xxxx" style="border-radius: 8px;" maxlength="15" required>
+                                    </div>
+
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-6">
+                                            <label class="form-label small fw-bold text-muted mb-1">Kategori <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="donor_category" class="form-select form-select-sm"
+                                                style="border-radius: 8px;" required>
+                                                <option value="" disabled selected>Pilih...</option>
+                                                <option value="umum">Umum</option>
+                                                <option value="mahasiswa">Mahasiswa</option>
+                                                <option value="alumni">Alumni</option>
+                                                <option value="dosen">Dosen</option>
+                                                <option value="tenaga_pendidik">Tenaga Pendidik</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label small fw-bold text-muted mb-1">NIM/NIP/NIK <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" name="donor_nomor_induk"
+                                                class="form-control form-control-sm" placeholder="Nomor identitas"
+                                                style="border-radius: 8px;" maxlength="20" required>
+                                        </div>
+                                    </div>
+                                @endauth
                             </div>
                         </div>
 
-                        {{-- 3. DATA DIRI --}}
-                        <div class="mb-1">
-                            <label class="form-label fw-bold small">Nama Lengkap</label>
-                            <input type="text" name="donor_name" class="form-control" 
-                                placeholder="Nama atau Hamba Allah" 
-                                value="{{ auth()->check() ? auth()->user()->nama : '' }}" required>
-                        </div>
-
-                        <div class=" mb-1">
-                            <label class="form-label fw-bold small">Email</label>
-                            <input type="email" name="donor_email" class="form-control" 
-                                placeholder="email@anda.com" 
-                                value="{{ auth()->check() ? auth()->user()->email : '' }}" required>
-                        </div>
-                        <div class=" mb-1">
-                            <label class="form-label fw-bold small">No HP/WA Aktif</label>
-                            <input type="number" name="donor_phone" class="form-control" 
-                                placeholder="0812..." required>
-                        </div>
-                        <div class=" mb-1">
-                            <label class="form-label fw-bold small">NIM (Opsional)</label>
-                            <input type="string" name="donor_nim" class="form-control" 
-                                placeholder="201152...." required>
-                        </div>
-                        
-                        {{-- Tombol Submit --}}
-                        <div class="d-grid mt-1">
-                            <button type="submit" class="btn btn-success fw-bold py-2 rounded-pill">
-                                Lanjut Pembayaran <i class="bi bi-arrow-right-circle ms-2"></i>
+                        {{-- FOOTER MODAL & SUBMIT --}}
+                        <div class="mt-4 pt-3 border-top d-flex flex-column align-items-center">
+                            <button type="submit" class="btn w-100 text-white fw-bolder py-2 mb-3"
+                                style="background: #84B179; border-radius: 50px; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(132, 177, 121, 0.4); transition: all 0.3s;"
+                                onmouseover="this.style.transform='translateY(-2px)'"
+                                onmouseout="this.style.transform='translateY(0)'">
+                                Lanjutkan Pembayaran <i class="bi bi-arrow-right-circle-fill ms-2"></i>
                             </button>
-                        </div>
-                        
-                        <div class="text-center mt-1">
-                            <small class="text-muted" style="font-size: 0.7rem;">
-                                <i class="bi bi-lock-fill me-1"></i>Pembayaran aman
-                            </small>
-                        </div>
-                        <div class="text-center pt-1">
-                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
-                                    <i class="bi bi-search me-1"></i> Cek Status Wakaf
-                                </a>
-                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
-                                    <i class="bi-journal-text me-1"></i> Riwayat Wakaf Saya
-                                </a>
-                            </div>
 
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <div class="modal fade" id="wakafUangModal" tabindex="-1" aria-labelledby="wakafUangModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg"> {{-- Pakai modal-lg biar kolomnya muat --}}
-        <div class="modal-content rounded-4 border-0 shadow-lg">
-            
-            {{-- Header --}}
-            <div class="modal-header bg-success text-white px-4 py-3">
-                <h5 class="modal-title fw-bold" id="wakafUangModalLabel">
-                    <i class="bi bi-heart-fill me-2"></i>Formulir Wakaf Cepat
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body px-4 py-4">
-                <form action="{{ route('donations.store') }}" method="POST">
-                    @csrf
-                    
-                    {{-- 1. TUJUAN WAKAF --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Tujuan Wakaf <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <select name="program_id" class="form-select" required>
-                                <option value="">-- Pilih Program --</option>
-                                @foreach($programsNav ?? [] as $p)
-                                    <option value="{{ $p->id }}">{{ $p->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    {{-- 2. NOMINAL --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Nominal (Rp) <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light fw-bold">Rp</span>
-                                <input type="number" name="amount" class="form-control fw-bold text-success" 
-                                       placeholder="Min. 10.000" min="10000" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- 3. NAMA LENGKAP --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Nama Lengkap <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" name="donor_name" class="form-control" 
-                                   placeholder="Nama atau Hamba Allah" 
-                                   value="{{ auth()->check() ? auth()->user()->nama : '' }}" required>
-                        </div>
-                    </div>
-
-                    {{-- 4. EMAIL --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Email <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="email" name="donor_email" class="form-control" 
-                                   placeholder="email@anda.com" 
-                                   value="{{ auth()->check() ? auth()->user()->email : '' }}" required>
-                        </div>
-                    </div>
-
-                    {{-- 5. NO HP/WA --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">No. HP / WA <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <input type="number" name="donor_phone" class="form-control" 
-                                   placeholder="0812xxxx" maxlength="20" required>
-                        </div>
-                    </div>
-
-                    {{-- 6. Kategori Wakif --}}
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">Kategori Wakif <span class="text-danger">*</span></label>
-                        <div class="col-sm-8">
-                            <select name="donor_category" id="donor_category" class="form-select" required>
-                                <option value="" disabled {{ old('donor_category', auth()->user()->kategori ?? '') == '' ? 'selected' : '' }}>
-                                    -- Pilih Kategori --
-                                </option>
-                                
-                                <option value="umum" {{ old('donor_category', auth()->user()->kategori ?? '') == 'umum' ? 'selected' : '' }}>
-                                    Umum
-                                </option>
-                                <option value="mahasiswa" {{ old('donor_category', auth()->user()->kategori ?? '') == 'mahasiswa' ? 'selected' : '' }}>
-                                    Mahasiswa
-                                </option>
-                                <option value="alumni" {{ old('donor_category', auth()->user()->kategori ?? '') == 'alumni' ? 'selected' : '' }}>
-                                    Alumni
-                                </option>
-                                <option value="dosen" {{ old('donor_category', auth()->user()->kategori ?? '') == 'dosen' ? 'selected' : '' }}>
-                                    Dosen
-                                </option>
-                                <option value="tenaga_pendidik" {{ old('donor_category', auth()->user()->kategori ?? '') == 'tenaga_pendidik' ? 'selected' : '' }}>
-                                    Tenaga Pendidik
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {{-- 7. Nomor Induk (OPSIONAL) --}}
-                    <div class="row mb-4 align-items-center">
-                        <label class="col-sm-4 col-form-label fw-bold small text-end-sm">NIM/NIP/NIKU<span class="text-muted fw-normal">(Opsional)</span></label>
-                        <div class="col-sm-8">
-                            <input type="text" name="donor_nomor_induk" class="form-control" maxlength="20" >
-                        </div>
-                    </div>
-                    
-                    {{-- TOMBOL SUBMIT --}}
-                    <div class="row">
-                        <div class="col-sm-8 offset-sm-4">
-                            <button type="submit" class="btn btn-success w-100 fw-bold py-2 rounded-pill shadow-sm">
-                                Lanjut Pembayaran <i class="bi bi-arrow-right-circle ms-2"></i>
-                            </button>
-                            <div class="text-center mt-2">
-                                <small class="text-muted" style="font-size: 0.75rem;">
-                                    <i class="bi bi-shield-check me-1"></i>Transaksi aman & terverifikasi
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- TOMBOL ALTERNATIF --}}
-                    <div class="row mt-4 pt-3 border-top">
-                        <div class="col-12 text-center">
                             <div class="d-flex gap-2 justify-content-center flex-wrap">
-                                <a href="{{ route('donations.check') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                                <a href="{{ route('donations.check') }}"
+                                    class="btn btn-outline-secondary btn-sm rounded-pill px-3">
                                     <i class="bi bi-search me-1"></i> Cek Status
                                 </a>
-                                <a href="{{ route('public.wakaf.history') }}" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                                <a href="{{ route('public.wakaf.history') }}"
+                                    class="btn btn-outline-success btn-sm rounded-pill px-3">
                                     <i class="bi bi-clock-history me-1"></i> Riwayat Wakaf
                                 </a>
                             </div>
                         </div>
-                    </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
