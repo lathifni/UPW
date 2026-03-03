@@ -41,14 +41,27 @@ function initializeNavbar() {
     window.addEventListener('scroll', handleNavbarScroll);
     
     // Mobile navbar collapse
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
+    // const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    // const navbarToggler = document.querySelector('.navbar-toggler');
+    // const navbarCollapse = document.querySelector('.navbar-collapse');
     
+    // navLinks.forEach(link => {
+    //     link.addEventListener('click', () => {
+    //         if (navbarCollapse.classList.contains('show')) {
+    //             navbarToggler.click();
+    //         }
+    //     });
+    // });
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle)');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (navbarCollapse.classList.contains('show')) {
-                navbarToggler.click();
+                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
+                });
+                bsCollapse.hide();
             }
         });
     });
