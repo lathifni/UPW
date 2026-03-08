@@ -88,6 +88,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('rekenings', RekeningController::class);
     Route::get('/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile.index');
     Route::put('/admin/profile/update', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+    Route::patch('/admin/donations/{donation}/revert', [AdminDonationController::class, 'revertStatus'])->name('admin.donations.revert');
 });
 
 // Rute untuk Donatur yang sudah login

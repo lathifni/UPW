@@ -46,7 +46,7 @@
 
                                     {{-- Tombol Hapus --}}
                                     <form action="{{ route('rekenings.destroy', $rekening->id) }}" method="POST"
-                                        class="d-inline delete-form" onsubmit="return confirm('Yakin hapus rekening ini?')">
+                                        class="d-inline delete-form" >
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">

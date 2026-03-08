@@ -84,11 +84,11 @@
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#"
                                 id="navbarDropdownUser" role="button" data-bs-toggle="dropdown">
-                                <img src="{{ Auth::user()->avatar
-                                    ? asset('storage/avatars/' . Auth::user()->avatar)
-                                    : asset('storage/avatars/avatar.png') }}"
-                                    alt="User" class="me-2 rounded-circle border border-success" width="32"
-                                    height="32" style="object-fit: cover;">
+                                <img src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name='.urlencode(Auth::user()->nama).'&background=84B179&color=fff' }}"
+                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->nama) }}&background=84B179&color=fff';"
+                                    alt="{{ Auth::user()->nama }}" 
+                                    class="me-2 rounded-circle border border-success" 
+                                    width="32" height="32" style="object-fit: cover;">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown shadow-sm border-0 mt-2"
                                 aria-labelledby="navbarDropdownUser">

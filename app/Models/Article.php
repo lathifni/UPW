@@ -22,6 +22,11 @@ class Article extends Model
         'user_id',
         'slug',
         'category',
+        'additional_images',
+    ];
+
+    protected $casts = [
+        'additional_images' => 'array', // 👈 Ini biar Laravel otomatis ngubah JSON jadi Array
     ];
 
     /**
@@ -43,6 +48,13 @@ class Article extends Model
         static::deleting(function ($article) {
             if ($article->image) {
                 Storage::delete('public/articles/' . $article->image);
+            }
+
+            // Hapus semua gambar tambahan (looping array-nya)
+            if (!empty($article->additional_images)) {
+                foreach ($article->additional_images as $imagePath) {
+                    Storage::disk('public')->delete($imagePath);
+                }
             }
         });
     }

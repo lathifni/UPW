@@ -120,23 +120,35 @@
                                             {{-- Tombol Ubah Status (hanya jika pending) --}}
                                             @if ($donation->status == 'pending')
                                                 <div class="dropdown-divider"></div>
-                                                <form
-                                                    action="{{ route('admin.donations.status.update', $donation->id) }}"
-                                                    method="POST" class="px-2"
-                                                    onsubmit="return confirm('Anda yakin ingin menandai donasi ini sebagai LUNAS?');">
+                                                
+                                                {{-- Form Lunas --}}
+                                                <form action="{{ route('admin.donations.status.update', $donation->id) }}" method="POST" class="px-2 form-update-status">
                                                     @csrf
                                                     <input type="hidden" name="status" value="paid">
-                                                    <button type="submit"
-                                                        class="btn btn-success btn-sm btn-block">Tandai Lunas</button>
+                                                    <button type="button" 
+                                                        class="btn btn-success btn-sm btn-block btn-update-status"
+                                                        data-action="LUNAS"
+                                                        data-order="{{ $donation->order_id }}"
+                                                        data-nama="{{ $donation->user->nama ?? $donation->donor_name }}"
+                                                        data-program="{{ $donation->program->title ?? 'Donasi Umum' }}"
+                                                        data-jumlah="{{ number_format($donation->amount, 0, ',', '.') }}">
+                                                        Tandai Lunas
+                                                    </button>
                                                 </form>
-                                                <form
-                                                    action="{{ route('admin.donations.status.update', $donation->id) }}"
-                                                    method="POST" class="px-2 mt-2"
-                                                    onsubmit="return confirm('Anda yakin ingin menandai donasi ini sebagai GAGAL?');">
+
+                                                {{-- Form Gagal --}}
+                                                <form action="{{ route('admin.donations.status.update', $donation->id) }}" method="POST" class="px-2 mt-2 form-update-status">
                                                     @csrf
                                                     <input type="hidden" name="status" value="failed">
-                                                    <button type="submit"
-                                                        class="btn btn-danger btn-sm btn-block">Tandai Gagal</button>
+                                                    <button type="button" 
+                                                        class="btn btn-danger btn-sm btn-block btn-update-status"
+                                                        data-action="GAGAL"
+                                                        data-order="{{ $donation->order_id }}"
+                                                        data-nama="{{ $donation->user->nama ?? $donation->donor_name }}"
+                                                        data-program="{{ $donation->program->title ?? 'Donasi Umum' }}"
+                                                        data-jumlah="{{ number_format($donation->amount, 0, ',', '.') }}">
+                                                        Tandai Gagal
+                                                    </button>
                                                 </form>
                                             @endif
                                         </div>
@@ -156,4 +168,50 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <script>
+            document.querySelectorAll('.btn-update-status').forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('.form-update-status'); // Cari form yang bungkus tombol ini
+                    
+                    // Ambil data dari atribut HTML
+                    const actionType = this.getAttribute('data-action');
+                    const orderId = this.getAttribute('data-order');
+                    const nama = this.getAttribute('data-nama');
+                    const program = this.getAttribute('data-program');
+                    const jumlah = this.getAttribute('data-jumlah');
+
+                    // Setel warna tombol sesuai aksi (Lunas = Ijo, Gagal = Merah)
+                    const confirmColor = actionType === 'LUNAS' ? '#1cc88a' : '#e74a3b';
+                    const iconType = actionType === 'LUNAS' ? 'question' : 'warning';
+
+                    Swal.fire({
+                        title: `Tandai sebagai ${actionType}?`,
+                        html: `
+                            <div class="text-left mt-3 p-3 bg-light rounded border">
+                                <strong>Order ID:</strong> ${orderId} <br>
+                                <strong>Nama:</strong> ${nama} <br>
+                                <strong>Program:</strong> ${program} <br>
+                                <strong>Jumlah:</strong> <span class="text-primary font-weight-bold">Rp ${jumlah}</span>
+                            </div>
+                            <p class="mt-3 mb-0 font-weight-bold text-danger">Pastikan Anda sudah mengecek mutasi bank!</p>
+                        `,
+                        icon: iconType,
+                        showCancelButton: true,
+                        confirmButtonColor: confirmColor,
+                        cancelButtonColor: '#858796',
+                        confirmButtonText: `Ya, Tandai ${actionType}!`,
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // Submit formnya kalau admin milih Yes
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

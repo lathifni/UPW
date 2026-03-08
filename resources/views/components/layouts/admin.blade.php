@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ $title ?? 'Admin Dashboard' }}</title>
-    <link rel="icon" type="image/x-icon" src="{{ asset('frontend/img/logo_unand.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('frontend/img/logo_unand.png') }}">
 
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -140,8 +140,9 @@
                                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->nama ?? 'Admin' }}</span>
 
                                 {{-- Foto Profil Dinamis --}}
-                                <img class="img-profile rounded-circle" style="object-fit: cover;"
-                                    src="{{ auth()->user()->avatar ? asset('storage/avatars/' . auth()->user()->avatar) : asset('storage/avatars/avatar.png') }}">
+                                <img class="img-profile rounded-circle border" style="object-fit: cover; border-color: #84B179 !important;"
+                                    src="{{ auth()->user()->avatar ? asset('storage/avatars/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name='.urlencode(auth()->user()->nama ?? 'Admin').'&background=84B179&color=fff' }}"
+                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->nama ?? 'Admin') }}&background=84B179&color=fff';">
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

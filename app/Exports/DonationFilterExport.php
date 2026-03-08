@@ -9,16 +9,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-// class DonationFilterExport implements FromCollection
-// {
-//     /**
-//     * @return \Illuminate\Support\Collection
-//     */
-//     public function collection()
-//     {
-//         //
-//     }
-// }
 class DonationFilterExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
     protected $bulan;
@@ -38,7 +28,9 @@ class DonationFilterExport implements FromQuery, WithHeadings, WithMapping, Shou
     // 2. Query data sesuai filter
     public function query()
     {
-        $query = Donation::query()->with('program'); // Eager load relasi jika perlu
+        $query = Donation::query()
+            ->with('program')
+            ->where('status', 'paid');
 
         if ($this->bulan) {
             $query->whereMonth('created_at', $this->bulan);
@@ -66,6 +58,9 @@ class DonationFilterExport implements FromQuery, WithHeadings, WithMapping, Shou
         return [
             $donation->created_at->format('d-m-Y'),
             $donation->donor_name,
+            $donation->donor_email, // Tambahan Email
+            $donation->donor_phone, // Tambahan No HP
+            $donation->donor_nomor_induk ?? '-', // Tambahan Nomor Induk (kasih '-' kalau kosong)
             $donation->program->title ?? '-', // Ambil nama program dari relasi
             $donation->donor_category,
             "Rp " . number_format($donation->amount, 0, ',', '.'),
@@ -78,7 +73,10 @@ class DonationFilterExport implements FromQuery, WithHeadings, WithMapping, Shou
     {
         return [
             'Tanggal',
-            'Nama Donatur',
+            'Wakif',
+            'Email', // Tambahan Header
+            'No HP', // Tambahan Header
+            'Nomor Induk', // Tambahan Header
             'Program',
             'Kategori',
             'Nominal',

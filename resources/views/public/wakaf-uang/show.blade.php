@@ -151,7 +151,7 @@
         </div>
 
         <div class="container position-relative z-index-1 text-center">
-            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Dana Abadi
+            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Wakaf Uang
                 Universitas Andalas</span>
             <h1 class="display-3 fw-bolder mb-3 text-white" style="letter-spacing: -1px;">{{ $program->title }}</h1>
             <p class="fs-5 mb-5 text-white-50 mx-auto" style="max-width: 700px; line-height: 1.6;">

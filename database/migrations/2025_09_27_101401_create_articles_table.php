@@ -27,6 +27,7 @@ return new class extends Migration
             // 'constrained' otomatis nyari id di tabel 'users'
             // 'cascadeOnDelete' artinya kalau user dihapus, artikelnya ikut kehapus (opsional, bisa ganti nullOnDelete)
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->comment('Author');
+            $table->json('additional_images')->nullable();
 
             $table->timestamps();
         });

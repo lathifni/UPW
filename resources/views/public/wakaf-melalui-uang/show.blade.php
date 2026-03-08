@@ -163,8 +163,8 @@
         </div>
 
         <div class="container position-relative z-index-1 text-center">
-            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Project Wakaf Melalui
-                Uang</span>
+            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm">Wakaf Melalui
+                Uang Universitas Andalas</span>
             <h1 class="display-3 fw-bolder mb-3 text-white" style="letter-spacing: -1px;">{{ $program->title }}</h1>
         </div>
     </section>

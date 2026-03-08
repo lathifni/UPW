@@ -22,7 +22,6 @@
             /* Saat bank dipilih (Checked) */
             .bank-radio:checked+.bank-select-card {
                 border-color: #4e73df;
-                /* Warna Primary (karena form edit tema primary) */
                 background-color: #f8f9fc;
                 box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
             }
@@ -44,6 +43,13 @@
                 filter: grayscale(0%);
                 opacity: 1;
             }
+
+            /* Tambahan buat input manual yang aktif */
+            .input-manual-active {
+                background-color: #fff !important;
+                border: 2px solid #4e73df !important;
+                box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+            }
         </style>
     @endpush
 
@@ -56,6 +62,23 @@
                 @csrf
                 @method('PUT')
 
+                {{-- Cek apakah bank yang tersimpan adalah bank manual atau default --}}
+                @php
+                    $knownBanks = [
+                        'Bank Syariah Indonesia (BSI)',
+                        'Bank Mandiri',
+                        'Bank Negara Indonesia (BNI)',
+                        'Bank Rakyat Indonesia (BRI)',
+                        'Bank Central Asia (BCA)'
+                    ];
+                    // Kalau nama_bank nggak ada di array atas, berarti dia manual
+                    $isManual = !in_array($rekening->nama_bank, $knownBanks);
+                    
+                    // Ekstrak nama file asli
+                    $defaultLogo = explode('/', $rekening->logo ?? 'default.png');
+                    $defaultLogo = end($defaultLogo);
+                @endphp
+
                 {{-- PILIH BANK (UI GRID) --}}
                 <div class="form-group mb-4">
                     <label class="font-weight-bold">Pilih Bank <span class="text-danger">*</span></label>
@@ -64,7 +87,7 @@
                             <label class="w-100 mb-0">
                                 <input type="radio" name="bank_selector" class="bank-radio"
                                     value="Bank Syariah Indonesia (BSI)" data-logo="bsi.png"
-                                    {{ str_contains($rekening->nama_bank, 'BSI') ? 'checked' : '' }}>
+                                    {{ old('bank_selector', $isManual ? 'manual' : $rekening->nama_bank) == 'Bank Syariah Indonesia (BSI)' ? 'checked' : '' }}>
                                 <div class="card bank-select-card h-100 py-3 px-2 text-center">
                                     <img src="{{ asset('images/bank/bsi.png') }}"
                                         class="bank-logo-img img-fluid mx-auto" alt="BSI">
@@ -75,7 +98,7 @@
                             <label class="w-100 mb-0">
                                 <input type="radio" name="bank_selector" class="bank-radio" value="Bank Mandiri"
                                     data-logo="mandiri.png"
-                                    {{ str_contains($rekening->nama_bank, 'Mandiri') ? 'checked' : '' }}>
+                                    {{ old('bank_selector', $isManual ? 'manual' : $rekening->nama_bank) == 'Bank Mandiri' ? 'checked' : '' }}>
                                 <div class="card bank-select-card h-100 py-3 px-2 text-center">
                                     <img src="{{ asset('images/bank/mandiri.png') }}"
                                         class="bank-logo-img img-fluid mx-auto" alt="Mandiri">
@@ -86,7 +109,7 @@
                             <label class="w-100 mb-0">
                                 <input type="radio" name="bank_selector" class="bank-radio"
                                     value="Bank Negara Indonesia (BNI)" data-logo="bni.png"
-                                    {{ str_contains($rekening->nama_bank, 'BNI') ? 'checked' : '' }}>
+                                    {{ old('bank_selector', $isManual ? 'manual' : $rekening->nama_bank) == 'Bank Negara Indonesia (BNI)' ? 'checked' : '' }}>
                                 <div class="card bank-select-card h-100 py-3 px-2 text-center">
                                     <img src="{{ asset('images/bank/bni.png') }}"
                                         class="bank-logo-img img-fluid mx-auto" alt="BNI">
@@ -97,7 +120,7 @@
                             <label class="w-100 mb-0">
                                 <input type="radio" name="bank_selector" class="bank-radio"
                                     value="Bank Rakyat Indonesia (BRI)" data-logo="bri.png"
-                                    {{ str_contains($rekening->nama_bank, 'BRI') ? 'checked' : '' }}>
+                                    {{ old('bank_selector', $isManual ? 'manual' : $rekening->nama_bank) == 'Bank Rakyat Indonesia (BRI)' ? 'checked' : '' }}>
                                 <div class="card bank-select-card h-100 py-3 px-2 text-center">
                                     <img src="{{ asset('images/bank/bri.png') }}"
                                         class="bank-logo-img img-fluid mx-auto" alt="BRI">
@@ -108,31 +131,37 @@
                             <label class="w-100 mb-0">
                                 <input type="radio" name="bank_selector" class="bank-radio"
                                     value="Bank Central Asia (BCA)" data-logo="bca.svg"
-                                    {{ str_contains($rekening->nama_bank, 'BCA') ? 'checked' : '' }}>
+                                    {{ old('bank_selector', $isManual ? 'manual' : $rekening->nama_bank) == 'Bank Central Asia (BCA)' ? 'checked' : '' }}>
                                 <div class="card bank-select-card h-100 py-3 px-2 text-center">
                                     <img src="{{ asset('images/bank/bca.svg') }}"
                                         class="bank-logo-img img-fluid mx-auto" alt="BCA">
                                 </div>
                             </label>
                         </div>
+
+                        {{-- Opsi Bank Lainnya (Manual) --}}
+                        <div class="col-6 col-md-4 col-lg-2 mb-3">
+                            <label class="w-100 mb-0 h-100">
+                                <input type="radio" name="bank_selector" class="bank-radio" value="manual" data-logo="default.png" 
+                                {{ old('bank_selector', $isManual ? 'manual' : '') == 'manual' ? 'checked' : '' }}>
+                                <div class="card bank-select-card h-100 py-3 px-2 text-center d-flex align-items-center justify-content-center" style="min-height: 74px;">
+                                    <div class="bank-logo-img d-flex flex-column align-items-center justify-content-center w-100 text-secondary">
+                                        <i class="fas fa-keyboard mb-1" style="font-size: 1.2rem;"></i>
+                                        <span class="small font-weight-bold">Bank Lainnya</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                {{-- Nama Bank Terisi Otomatis --}}
-                <div class="form-group bg-light p-3 rounded border">
-                    <label for="nama_bank" class="text-muted small font-weight-bold text-uppercase mb-1">Nama Bank
-                        Terpilih</label>
+                {{-- Nama Bank Terisi Otomatis/Manual --}}
+                <div class="form-group bg-light p-3 rounded border" id="container_nama_bank">
+                    <label for="nama_bank" class="text-muted small font-weight-bold text-uppercase mb-1" id="label_nama_bank">Nama Bank Terpilih</label>
                     <input type="text"
                         class="form-control border-0 bg-white font-weight-bold text-primary @error('nama_bank') is-invalid @enderror"
                         id="nama_bank" name="nama_bank" value="{{ old('nama_bank', $rekening->nama_bank) }}" readonly>
 
-                    {{-- Hidden input file path logo lama --}}
-                    @php
-                        // Ekstrak nama file asli kalau sebelumnya upload manual
-                        // Kalau format baru, logonya langsung bsi.png dsb
-                        $defaultLogo = explode('/', $rekening->logo);
-                        $defaultLogo = end($defaultLogo);
-                    @endphp
                     <input type="hidden" id="logo_filename" name="logo_filename"
                         value="{{ old('logo_filename', $defaultLogo) }}">
 
@@ -231,22 +260,58 @@
     {{-- Script JavaScript --}}
     @push('scripts')
         <script>
-            // Set awal logo kalau belum ada yang nge-klik tapi data udah ada
+            // Fungsi buat ngatur UI input teks manual
+            function toggleManualInput(isManual, bankName = '', logoName = 'default.png') {
+                const inputNamaBank = document.getElementById('nama_bank');
+                const labelNamaBank = document.getElementById('label_nama_bank');
+                const hiddenLogo = document.getElementById('logo_filename');
+
+                if (isManual) {
+                    inputNamaBank.readOnly = false;
+                    // Kalau awalnya milih manual terus klik yang lain lalu balik lagi, jangan dihapus teks aslinya
+                    inputNamaBank.value = bankName === 'manual' ? '' : bankName; 
+                    inputNamaBank.placeholder = "Ketik nama bank di sini...";
+                    inputNamaBank.classList.add('input-manual-active');
+                    
+                    labelNamaBank.innerHTML = 'Ketik Nama Bank <span class="text-danger">*</span>';
+                    labelNamaBank.classList.add('text-primary');
+                    
+                    hiddenLogo.value = 'default.png'; 
+                } else {
+                    inputNamaBank.readOnly = true;
+                    inputNamaBank.value = bankName;
+                    inputNamaBank.classList.remove('input-manual-active');
+                    
+                    labelNamaBank.innerHTML = 'Nama Bank Terpilih';
+                    labelNamaBank.classList.remove('text-primary');
+                    
+                    hiddenLogo.value = logoName;
+                }
+            }
+
             document.addEventListener("DOMContentLoaded", function() {
                 let checkedRadio = document.querySelector('.bank-radio:checked');
+                // Pakai nilai dari DB saat awal buka halaman
+                let currentNamaBank = "{{ old('nama_bank', $rekening->nama_bank) }}";
+                
                 if (checkedRadio) {
-                    document.getElementById('nama_bank').value = checkedRadio.value;
-                    document.getElementById('logo_filename').value = checkedRadio.dataset.logo;
+                    if (checkedRadio.value === 'manual') {
+                        toggleManualInput(true, currentNamaBank);
+                    } else {
+                        toggleManualInput(false, checkedRadio.value, checkedRadio.dataset.logo);
+                    }
                 }
             });
 
-            // JS untuk handle klik logo bank
             document.querySelectorAll('.bank-radio').forEach(function(radio) {
                 radio.addEventListener('change', function() {
-                    // Update nama bank text input
-                    document.getElementById('nama_bank').value = this.value;
-                    // Update hidden input untuk nama file logo
-                    document.getElementById('logo_filename').value = this.dataset.logo;
+                    if(this.value === 'manual') {
+                        // Kalau pindah ke manual, kolom input awalnya dikosongin biar ngetik ulang
+                        toggleManualInput(true, '');
+                        document.getElementById('nama_bank').focus();
+                    } else {
+                        toggleManualInput(false, this.value, this.dataset.logo);
+                    }
                 });
             });
 

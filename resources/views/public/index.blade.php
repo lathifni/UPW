@@ -304,7 +304,7 @@
                         pendidikan yang inklusif melalui Wakaf, Zakat, dan Dana Abadi.
                     </p>
 
-                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                    <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mb-2">
                         <a href="#program-pilihan" class="btn-modern text-decoration-none">
                             Mulai Berwakaf <i class="bi bi-arrow-right ms-2 fs-5"></i>
                         </a>
@@ -530,7 +530,7 @@
         <div class="container py-5">
             <div class="d-flex justify-content-between align-items-end mb-5" data-aos="fade-up">
                 <div>
-                    <h2 class="display-6 fw-bolder text-gradient mb-2">Kabar Terbaru</h2>
+                    <h2 class="display-6 fw-bolder text-gradient mb-2">Berita Terbaru</h2>
                     <p class="text-muted mb-0 fs-5">Kisah inspiratif dan update seputar Dana Sosial.</p>
                 </div>
                 @if ($articles->count() > 0)

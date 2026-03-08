@@ -18,18 +18,27 @@
                             
                             <div class="mb-3">
                                 <label class="form-label fw-bold small">Judul Laporan</label>
-                                <input type="text" name="title" class="form-control" placeholder="Contoh: Laporan Keuangan 2024" required>
+                                <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" placeholder="Contoh: Laporan Keuangan 2024" value="{{ old('title') }}" required>
+                                @error('title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold small">Tahun Periode</label>
-                                <input type="number" name="year" class="form-control" placeholder="2024" value="{{ date('Y') }}" required>
+                                <input type="number" name="year" class="form-control @error('year') is-invalid @enderror" placeholder="2024" value="{{ old('year', date('Y')) }}" required>
+                                @error('year')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold small">File PDF</label>
-                                <input type="file" name="file" class="form-control" accept="application/pdf" required>
+                                <input type="file" name="file" id="report_file" class="form-control @error('file') is-invalid @enderror" accept="application/pdf" required>
                                 <small class="text-muted">Format PDF, Maks 5MB.</small>
+                                @error('file')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100 fw-bold">
@@ -63,12 +72,12 @@
                                             <td class="text-center fw-bold">{{ $report->year }}</td>
                                             <td>{{ $report->title }}</td>
                                             <td class="text-center">
-                                                <a href="{{ asset('storage/reports/' . $report->file_path) }}" target="_blank" class="btn btn-sm btn-info">
+                                                <a href="{{ asset('storage/reports/' . $report->file_path) }}" target="_blank" class="btn btn-sm btn-info text-white">
                                                     <i class="fas fa-eye"></i> Lihat
                                                 </a>
                                             </td>
                                             <td class="text-center">
-                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST" onsubmit="return confirm('Yakin hapus laporan ini?');">
+                                                <form action="{{ route('reports.destroy', $report->id) }}" method="POST" class="delete-form">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger">
@@ -93,4 +102,63 @@
 
         </div>
     </div>
+
+    @push('scripts')
+        {{-- Load SweetAlert2 buat UI notifikasi yang keren --}}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
+        <script>
+            // 1. Validasi Ukuran File (Max 5MB)
+            document.getElementById('report_file').addEventListener('change', function() {
+                const file = this.files[0];
+                
+                if (file) {
+                    // Cek ukurannya (dalam byte). 5MB = 5 * 1024 * 1024 = 5242880
+                    if (file.size > 5242880) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'File Terlalu Besar!',
+                            text: 'Ukuran file PDF tidak boleh lebih dari 5MB.',
+                            confirmButtonColor: '#4e73df'
+                        });
+                        
+                        // Kosongin inputannya biar admin gak bisa submit
+                        this.value = '';
+                    } else if (file.type !== 'application/pdf') {
+                        // Tambahan: Cegah admin yang iseng rename JPG jadi PDF
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Format Salah!',
+                            text: 'Hanya file dengan ekstensi .pdf yang diizinkan.',
+                            confirmButtonColor: '#4e73df'
+                        });
+                        
+                        this.value = '';
+                    }
+                }
+            });
+
+            // 2. SweetAlert2 buat Konfirmasi Hapus Data (Biar Gak "Localhost Says" lagi)
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); 
+
+                    Swal.fire({
+                        title: 'Yakin hapus laporan ini?',
+                        text: "File PDF yang terkait juga akan ikut terhapus!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#e74a3b', 
+                        cancelButtonColor: '#858796', 
+                        confirmButtonText: 'Ya, Hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); 
+                        }
+                    })
+                });
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

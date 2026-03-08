@@ -75,6 +75,34 @@
                 margin: 2.5rem 0;
             }
 
+            /* GALLERY TAMBAHAN STYLE */
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+                margin-top: 3rem;
+                margin-bottom: 2rem;
+            }
+
+            .gallery-item {
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                cursor: pointer;
+            }
+
+            .gallery-item img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                margin: 0 !important; /* Override style image artikel */
+                transition: transform 0.4s ease;
+            }
+
+            .gallery-item:hover img {
+                transform: scale(1.08);
+            }
+
             /* SHARE BUTTONS */
             .btn-share {
                 width: 40px;
@@ -142,6 +170,13 @@
                 transform: translateY(-5px);
                 box-shadow: 0 15px 30px rgba(132, 177, 121, 0.1);
             }
+            
+            /* Modal / Lightbox Sederhana */
+            .modal-img-custom {
+                max-height: 85vh;
+                object-fit: contain;
+                width: 100%;
+            }
         </style>
     @endpush
 
@@ -163,10 +198,11 @@
                 <div class="meta-glass-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="d-flex align-items-center gap-3">
                         {{-- FOTO AVATAR PENULIS --}}
-                        <img src="{{ $article->user->avatar ? asset('storage/avatars/' . $article->user->avatar) : asset('storage/avatars/avatar.png') }}"
-                            alt="{{ $article->user->nama }}" class="rounded-circle shadow-sm"
+                        <img src="{{ $article->user->avatar ? asset('storage/avatars/' . $article->user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($article->user->nama).'&background=84B179&color=fff' }}"
+                            onerror="this.onerror=null; this.src=https://ui-avatars.com/api/?name={{ urlencode($article->user->nama) }}&background=84B179&color=fff';"
+                            alt="{{ $article->user->nama }}" 
+                            class="rounded-circle shadow-sm"
                             style="width: 50px; height: 50px; object-fit: cover; border: 2px solid var(--c-light);">
-
                         <div>
                             <h6 class="mb-0 fw-bold" style="color: var(--c-dark);">{{ $article->user->nama }}</h6>
                             <small class="text-muted">{{ $article->created_at->translatedFormat('d F Y') }} • <i
@@ -174,7 +210,7 @@
                         </div>
                     </div>
 
-                    {{-- TOMBOL SHARE YANG SUDAH AKTIF --}}
+                    {{-- TOMBOL SHARE --}}
                     @php
                         $shareUrl = urlencode(url()->current());
                         $shareTitle = urlencode($article->title);
@@ -197,6 +233,24 @@
                 {{-- ARTICLE CONTENT --}}
                 <article class="article-content-modern py-4" data-aos="fade-in" data-aos-delay="200">
                     {!! $article->content !!}
+
+                    {{-- ==========================================
+                        GALERI GAMBAR TAMBAHAN 
+                        ========================================== --}}
+                    @if(!empty($article->additional_images) && is_array($article->additional_images) && count($article->additional_images) > 0)
+                        <h4 class="fw-bolder mt-5 pt-3" style="color: var(--c-dark); border-top: 1px dashed #e2e8f0;">
+                            <i class="bi bi-images me-2 text-success"></i> Galeri
+                        </h4>
+                        <div class="gallery-grid">
+                            @foreach($article->additional_images as $index => $img)
+                                {{-- Cuma nampilin gambar kecil buat di-klik --}}
+                                <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#imageModal{{ $index }}">
+                                    <img src="{{ asset('storage/articles/additional/' . $img) }}" alt="Galeri {{ $index + 1 }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                    {{-- ========================================== --}}
                 </article>
 
                 {{-- TAGS / SEPARATOR --}}
@@ -235,7 +289,7 @@
         <div class="container py-4">
             <div class="row mb-5">
                 <div class="col-12 text-center" data-aos="fade-up">
-                    <h2 class="fw-bolder" style="color: var(--c-dark);">Artikel Terkait</h2>
+                    <h2 class="fw-bolder" style="color: var(--c-dark);">Berita Terkait</h2>
                     <p class="text-muted">Jangan lewatkan informasi menarik lainnya.</p>
                 </div>
             </div>
@@ -271,4 +325,28 @@
         </div>
     </section>
 
+    {{-- ==========================================
+         KUMPULAN MODAL (HARUS DI PALING BAWAH BIAR GAK KETIMPA BACKGROUND)
+         ========================================== --}}
+    @if(!empty($article->additional_images) && is_array($article->additional_images) && count($article->additional_images) > 0)
+        @foreach($article->additional_images as $index => $img)
+            <div class="modal fade" id="imageModal{{ $index }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-transparent border-0 position-relative">
+                        
+                        {{-- Tombol Tutup (X) Melayang --}}
+                        <button type="button" class="btn btn-light rounded-circle position-absolute" 
+                            data-bs-dismiss="modal" aria-label="Close"
+                            style="top: -15px; right: -10px; z-index: 9999; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                            <i class="bi bi-x-lg text-dark fw-bold"></i>
+                        </button>
+
+                        <div class="modal-body text-center p-0 mt-3">
+                            <img src="{{ asset('storage/articles/additional/' . $img) }}" class="img-fluid rounded shadow-lg" style="max-height: 85vh; object-fit: contain;" alt="Zoom Galeri {{ $index + 1 }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
 </x-layouts.app>

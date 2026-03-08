@@ -305,4 +305,21 @@ class DonationController extends Controller
         // 3. Download file Excel
         return Excel::download(new DonationFilterExport($bulan, $tahun, $programId, $kategori), $fileName);
     }
+
+    public function revertStatus(Donation $donation)
+    {
+        // Ubah status jadi pending
+        $donation->update([
+            'status' => 'pending'
+        ]);
+
+        // Opsional: Kalau lu mau ngehapus sertifikat yang udah telanjur ke-generate biar bersih
+        /* if ($donation->certificate_path) {
+            \Storage::disk('public')->delete($donation->certificate_path);
+            $donation->update(['certificate_path' => null]);
+        }
+        */
+
+        return back()->with('success', 'Status donasi berhasil dikembalikan ke Pending!');
+    }
 }

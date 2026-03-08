@@ -93,23 +93,33 @@
                                 </div>
                             </label>
                         </div>
+                        <div class="col-6 col-md-4 col-lg-2 mb-3">
+                            <label class="w-100 mb-0 h-100">
+                                <input type="radio" name="bank_selector" class="bank-radio" value="manual" data-logo="default.png" {{ old('bank_selector') == 'manual' ? 'checked' : '' }}>
+                                <div class="card bank-select-card h-100 py-3 px-2 text-center d-flex align-items-center justify-content-center" style="min-height: 74px;">
+                                    <div class="bank-logo-img d-flex flex-column align-items-center justify-content-center w-100 text-secondary">
+                                        <i class="fas fa-keyboard mb-1" style="font-size: 1.2rem;"></i>
+                                        <span class="small font-weight-bold">Bank Lainnya</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 {{-- Nama Bank Terisi Otomatis --}}
-                <div class="form-group bg-light p-3 rounded border">
-                    <label for="nama_bank" class="text-muted small font-weight-bold text-uppercase mb-1">Nama Bank Terpilih</label>
+                <div class="form-group bg-light p-3 rounded border" id="container_nama_bank">
+                    <label for="nama_bank" class="text-muted small font-weight-bold text-uppercase mb-1" id="label_nama_bank">Nama Bank Terpilih</label>
                     <input type="text" class="form-control border-0 bg-white font-weight-bold text-primary @error('nama_bank') is-invalid @enderror"
                         id="nama_bank" name="nama_bank" value="{{ old('nama_bank') }}" readonly placeholder="Silakan klik logo bank di atas...">
 
                     {{-- Input hidden untuk mengirim nama file logo ke controller --}}
-                    <input type="hidden" id="logo_filename" name="logo_filename" value="{{ old('logo_filename') }}">
+                    <input type="hidden" id="logo_filename" name="logo_filename" value="{{ old('logo_filename', 'default.png') }}">
 
                     @error('nama_bank')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <div class="row mt-3">
                     {{-- Nomor Rekening --}}
                     <div class="col-md-6">
@@ -186,22 +196,61 @@
     {{-- Script JavaScript --}}
     @push('scripts')
     <script>
-        // Handle Old Input saat validasi error
+        // Fungsi untuk mengatur tampilan input Nama Bank
+        function toggleManualInput(isManual, bankName = '', logoName = 'default.png') {
+            const inputNamaBank = document.getElementById('nama_bank');
+            const labelNamaBank = document.getElementById('label_nama_bank');
+            const containerNamaBank = document.getElementById('container_nama_bank');
+            const hiddenLogo = document.getElementById('logo_filename');
+
+            if (isManual) {
+                // Mode Ketik Manual
+                inputNamaBank.readOnly = false;
+                inputNamaBank.value = bankName === 'manual' ? '' : bankName; // Kosongkan jika baru diklik
+                inputNamaBank.placeholder = "Ketik nama bank di sini (contoh: Bank Nagari)...";
+                inputNamaBank.classList.add('input-manual-active');
+                
+                labelNamaBank.innerHTML = 'Ketik Nama Bank <span class="text-danger">*</span>';
+                labelNamaBank.classList.add('text-primary');
+                
+                hiddenLogo.value = 'default.png'; // Set logo default kalau bank manual
+                
+                inputNamaBank.focus();
+            } else {
+                // Mode Otomatis dari Logo
+                inputNamaBank.readOnly = true;
+                inputNamaBank.value = bankName;
+                inputNamaBank.classList.remove('input-manual-active');
+                
+                labelNamaBank.innerHTML = 'Nama Bank Terpilih';
+                labelNamaBank.classList.remove('text-primary');
+                
+                hiddenLogo.value = logoName;
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
+            // Cek kondisi awal saat halaman load (berguna pas kena validasi error/old input)
             let checkedRadio = document.querySelector('.bank-radio:checked');
+            let oldNamaBank = "{{ old('nama_bank') }}";
+            
             if(checkedRadio) {
-                document.getElementById('nama_bank').value = checkedRadio.value;
-                document.getElementById('logo_filename').value = checkedRadio.dataset.logo;
+                if(checkedRadio.value === 'manual') {
+                    toggleManualInput(true, oldNamaBank);
+                } else {
+                    toggleManualInput(false, checkedRadio.value, checkedRadio.dataset.logo);
+                }
             }
         });
 
-        // JS untuk handle klik logo bank
+        // Event listener pas radio button diklik
         document.querySelectorAll('.bank-radio').forEach(function(radio) {
             radio.addEventListener('change', function() {
-                // Update nama bank text input
-                document.getElementById('nama_bank').value = this.value;
-                // Update hidden input untuk nama file logo
-                document.getElementById('logo_filename').value = this.dataset.logo;
+                if(this.value === 'manual') {
+                    toggleManualInput(true);
+                } else {
+                    toggleManualInput(false, this.value, this.dataset.logo);
+                }
             });
         });
 

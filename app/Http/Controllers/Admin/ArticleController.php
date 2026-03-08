@@ -38,6 +38,8 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'category' => 'required|string|max:50',
+            'additional_images' => 'nullable|array|max:5',
+            'additional_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->only(['title', 'content', 'category']);
@@ -49,6 +51,17 @@ class ArticleController extends Controller
             $imageName = $data['slug'] . '-' . time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/articles', $imageName);
             $data['image'] = $imageName;
+        }
+
+        if ($request->hasFile('additional_images')) {
+            $additionalImagesArray = [];
+            foreach ($request->file('additional_images') as $index => $file) {
+                $addImgName = $data['slug'] . '-add-' . $index . '-' . time() . '.' . $file->getClientOriginalExtension();
+                // Simpan di folder terpisah biar rapi
+                $file->storeAs('public/articles/additional', $addImgName); 
+                $additionalImagesArray[] = $addImgName;
+            }
+            $data['additional_images'] = $additionalImagesArray; // Masukin array ke database
         }
 
         Article::create($data);
@@ -82,6 +95,9 @@ class ArticleController extends Controller
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'category' => 'required|string|max:50',
+            'new_additional_images' => 'nullable|array',
+            'new_additional_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'delete_images' => 'nullable|array',
         ]);
 
         $data = $request->only(['title', 'content', 'category']);
@@ -97,6 +113,32 @@ class ArticleController extends Controller
             $data['image'] = $imageName;
         }
 
+        $currentImages = $article->additional_images ?? []; // Tarik array gambar lama dari DB
+
+        // A. Kalau ada gambar lama yang dicentang buat dihapus
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imgToDelete) {
+                Storage::delete('public/articles/additional/' . $imgToDelete); // Hapus fisiknya
+                // Hapus namanya dari array
+                $currentImages = array_diff($currentImages, [$imgToDelete]);
+            }
+        }
+
+        // B. Kalau ada gambar tambahan baru yang diupload
+        if ($request->hasFile('new_additional_images')) {
+            foreach ($request->file('new_additional_images') as $index => $file) {
+                // Pastikan total gambar nggak lebih dari 5
+                if (count($currentImages) < 5) {
+                    $addImgName = $data['slug'] . '-newadd-' . $index . '-' . time() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/articles/additional', $addImgName);
+                    $currentImages[] = $addImgName; // Tambahin ke array
+                }
+            }
+        }
+
+        // array_values wajib biar index array ngulang dari 0, json nggak error jadi object
+        $data['additional_images'] = array_values($currentImages);
+
         $article->update($data);
 
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil diperbarui.');
@@ -107,9 +149,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        if ($article->image) {
-            Storage::delete('public/articles/' . $article->image);
-        }
+        // if ($article->image) {
+        //     Storage::delete('public/articles/' . $article->image);
+        // }
         $article->delete();
 
         return redirect()->route('articles.index')->with('success', 'Artikel berhasil dihapus.');
