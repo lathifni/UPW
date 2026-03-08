@@ -377,8 +377,7 @@
                         style="min-height: 250px; background: var(--c-pale);" data-aos="fade-left" data-aos-delay="200">
                         <div class="p-4 p-md-5 h-100 d-flex flex-column justify-content-center">
                             <div class="d-flex align-items-center gap-3 mb-3">
-                                <img src="http://upz.unand.ac.id/assets/img/logo-outline.png" alt="UPZ"
-                                    width="40">
+                                <img src="{{ asset('frontend/img/logo-outline-zakat.png') }}" alt="UPZ" width="40">
                                 <h4 class="fw-bolder m-0" style="color: var(--c-dark);">Zakat UPZ</h4>
                             </div>
                             <p class="text-muted small mb-4">Salurkan zakat, infaq, dan sedekah Anda melalui Unit
